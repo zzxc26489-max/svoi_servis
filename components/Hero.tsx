@@ -1,4 +1,5 @@
 import { BUSINESS } from "@/lib/business";
+import QuickLeadForm from "./QuickLeadForm";
 
 export default function Hero() {
   return (
@@ -29,14 +30,16 @@ export default function Hero() {
             мастерскими-партнёрами, чтобы вы не искали мастера сами.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a href="#order" className="btn-primary">
-              Оставить заявку
-            </a>
-            <a href="#services" className="btn-secondary !bg-white/10 !text-white !ring-white/20 hover:!bg-white/20">
-              Какую технику чиним
-            </a>
+          <div className="mt-8 max-w-md">
+            <QuickLeadForm variant="compact" />
           </div>
+
+          <a
+            href="#services"
+            className="mt-4 inline-block text-sm font-medium text-brand-100/80 underline decoration-white/30 underline-offset-4 hover:text-white"
+          >
+            Какую технику чиним →
+          </a>
 
           <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-white/10 pt-8 text-white">
             <div>

@@ -1,10 +1,11 @@
+export type LeadSource = "click" | "auto";
+
 export type OrderPayload = {
-  name: string;
   phone: string;
-  deviceType: string;
-  brand?: string;
-  problem: string;
-  address: string;
+  // "click" — клиент явно нажал кнопку «Жду звонка».
+  // "auto" — клиент ввёл номер полностью, но кнопку не нажал (тихий
+  // захват «брошенного» ввода — см. QuickLeadForm).
+  source: LeadSource;
 };
 
 function escapeHtml(value: string): string {
@@ -15,24 +16,17 @@ function escapeHtml(value: string): string {
 }
 
 export function buildOrderMessage(order: OrderPayload): string {
-  const lines = [
+  const sourceLine =
+    order.source === "click"
+      ? "✅ Нажал(а) кнопку «Жду звонка»"
+      : "🟡 Ввёл(а) номер и не нажал(а) кнопку — возможно, отвлёкся(лась). Перезвоните мягко, человек мог не успеть подтвердить";
+
+  return [
     "🛠 <b>Новая заявка с сайта</b>",
     "",
-    `👤 <b>Имя:</b> ${escapeHtml(order.name)}`,
     `📞 <b>Телефон:</b> ${escapeHtml(order.phone)}`,
-    `🔧 <b>Техника:</b> ${escapeHtml(order.deviceType)}`,
-  ];
-
-  if (order.brand) {
-    lines.push(`🏷 <b>Марка/модель:</b> ${escapeHtml(order.brand)}`);
-  }
-
-  lines.push(
-    `📝 <b>Проблема:</b> ${escapeHtml(order.problem)}`,
-    `📍 <b>Адрес/город:</b> ${escapeHtml(order.address)}`,
-  );
-
-  return lines.join("\n");
+    sourceLine,
+  ].join("\n");
 }
 
 export async function sendTelegramMessage(text: string): Promise<void> {

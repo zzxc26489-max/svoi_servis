@@ -1,16 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { buildOrderMessage, sendTelegramMessage } from "@/lib/telegram";
 
-const MAX_FIELD_LENGTH = 1000;
+// Простая защита от спама на один инстанс сервера: одна и та же пара
+// IP+номер не отправляется чаще, чем раз в это время. Короткое окно —
+// специально: при автозахвате пользователь может поправить последнюю
+// цифру и мы не хотим наказывать его слишком строгим лимитом.
+const RATE_LIMIT_MS = 15_000;
+const lastSentByKey = new Map<string, number>();
 
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0;
+function normalizePhone(raw: string): string | null {
+  let digits = raw.replace(/\D/g, "");
+  if (digits.length === 11 && digits.startsWith("8")) {
+    digits = "7" + digits.slice(1);
+  }
+  if (digits.length === 10) {
+    digits = "7" + digits;
+  }
+  if (digits.length !== 11 || !digits.startsWith("7")) {
+    return null;
+  }
+  return `+${digits}`;
 }
-
-// Очень простая защита от спама на один инстанс сервера: не более
-// одной заявки с одного IP раз в 20 секунд.
-const lastRequestByIp = new Map<string, number>();
-const RATE_LIMIT_MS = 20_000;
 
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>;
@@ -29,35 +39,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
-  const { name, phone, deviceType, brand, problem, address } = body;
+  const rawPhone = body.phone;
+  const source = body.source === "auto" ? "auto" : "click";
 
-  if (
-    !isNonEmptyString(name) ||
-    !isNonEmptyString(phone) ||
-    !isNonEmptyString(deviceType) ||
-    !isNonEmptyString(problem) ||
-    !isNonEmptyString(address)
-  ) {
+  if (typeof rawPhone !== "string") {
     return NextResponse.json(
-      { ok: false, error: "Заполните, пожалуйста, все обязательные поля" },
+      { ok: false, error: "Не указан номер телефона" },
       { status: 400 },
     );
   }
 
-  const fields = [name, phone, deviceType, brand, problem, address];
-  if (
-    fields.some(
-      (field) => typeof field === "string" && field.length > MAX_FIELD_LENGTH,
-    )
-  ) {
-    return NextResponse.json(
-      { ok: false, error: "Слишком длинное значение в одном из полей" },
-      { status: 400 },
-    );
-  }
-
-  const phonePattern = /^[+()\d\s-]{6,20}$/;
-  if (!phonePattern.test(phone.trim())) {
+  const phone = normalizePhone(rawPhone);
+  if (!phone) {
     return NextResponse.json(
       { ok: false, error: "Проверьте, пожалуйста, номер телефона" },
       { status: 400 },
@@ -67,27 +60,18 @@ export async function POST(request: NextRequest) {
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     "unknown";
+  const key = `${ip}:${phone}`;
   const now = Date.now();
-  const lastRequest = lastRequestByIp.get(ip);
-  if (lastRequest && now - lastRequest < RATE_LIMIT_MS) {
-    return NextResponse.json(
-      { ok: false, error: "Слишком много заявок. Попробуйте чуть позже." },
-      { status: 429 },
-    );
+  const lastSent = lastSentByKey.get(key);
+  if (lastSent && now - lastSent < RATE_LIMIT_MS) {
+    // Уже приняли этот номер только что — отвечаем успехом молча,
+    // чтобы не пугать пользователя ошибкой при повторном автозахвате.
+    return NextResponse.json({ ok: true });
   }
-  lastRequestByIp.set(ip, now);
-
-  const message = buildOrderMessage({
-    name: name.trim(),
-    phone: phone.trim(),
-    deviceType: deviceType.trim(),
-    brand: typeof brand === "string" ? brand.trim() : undefined,
-    problem: problem.trim(),
-    address: address.trim(),
-  });
+  lastSentByKey.set(key, now);
 
   try {
-    await sendTelegramMessage(message);
+    await sendTelegramMessage(buildOrderMessage({ phone, source }));
   } catch (error) {
     console.error("Ошибка отправки заявки в Telegram:", error);
     return NextResponse.json(
