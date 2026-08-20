@@ -1,7 +1,7 @@
 import OrderForm from "./OrderForm";
+import DirectContacts from "./DirectContacts";
+import { BUSINESS } from "@/lib/business";
 
-const contactPhone =
-  process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+7 (900) 000-00-00";
 const contactTelegram =
   process.env.NEXT_PUBLIC_CONTACT_TELEGRAM ?? "https://t.me/your_username";
 
@@ -17,16 +17,9 @@ export default function OrderSection() {
               согласуем удобное время визита мастера.
             </p>
 
-            <div className="mt-8 space-y-4 text-sm text-slate-600">
-              <p>
-                Или свяжитесь с нами напрямую:
-              </p>
-              <a
-                href={`tel:${contactPhone.replace(/[^+\d]/g, "")}`}
-                className="flex items-center gap-2 text-base font-semibold text-brand-900"
-              >
-                📞 {contactPhone}
-              </a>
+            <div className="mt-8 space-y-3 text-sm text-slate-600">
+              <p>📍 {BUSINESS.address.full}</p>
+              <p>🕐 {BUSINESS.hours}</p>
               <a
                 href={contactTelegram}
                 target="_blank"
@@ -35,6 +28,21 @@ export default function OrderSection() {
               >
                 ✈️ Написать в Telegram
               </a>
+              <a
+                href={BUSINESS.yandexMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-base font-semibold text-brand-900"
+              >
+                🗺 Мы на Яндекс.Картах — отзывы и фото
+              </a>
+            </div>
+
+            <div className="mt-8" id="contacts">
+              <p className="mb-3 text-sm font-semibold text-slate-500">
+                Или звоните напрямую нужному мастеру:
+              </p>
+              <DirectContacts />
             </div>
           </div>
 

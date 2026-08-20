@@ -1,3 +1,5 @@
+import { BUSINESS } from "@/lib/business";
+
 export default function Hero() {
   return (
     <section id="top" className="relative overflow-hidden bg-brand-950">
@@ -11,7 +13,7 @@ export default function Hero() {
       <div className="container-x relative py-20 sm:py-28">
         <div className="max-w-2xl">
           <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-brand-100">
-            Выезд мастера в день обращения
+            Выезд мастера в день обращения · {BUSINESS.address.locality}
           </span>
 
           <h1 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl">
@@ -21,10 +23,10 @@ export default function Hero() {
           </h1>
 
           <p className="mt-5 text-lg text-brand-100/90">
-            Чиним холодильники, стиральные и посудомоечные машины. Также
-            принимаем в ремонт любую другую бытовую технику — работаем с
-            проверенными мастерскими-партнёрами, чтобы вы не искали мастера
-            сами.
+            Чиним холодильники, стиральные и посудомоечные машины в
+            Андреевке, Зеленограде и рядом. Также принимаем в ремонт любую
+            другую бытовую технику — работаем с проверенными
+            мастерскими-партнёрами, чтобы вы не искали мастера сами.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">

@@ -1,5 +1,4 @@
-const contactPhone =
-  process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+7 (900) 000-00-00";
+import { BUSINESS } from "@/lib/business";
 
 export default function Header() {
   return (
@@ -31,10 +30,12 @@ export default function Header() {
 
         <div className="flex items-center gap-3">
           <a
-            href={`tel:${contactPhone.replace(/[^+\d]/g, "")}`}
-            className="hidden text-sm font-semibold text-brand-900 sm:block"
+            href={BUSINESS.yandexMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden text-sm font-semibold text-brand-900 hover:text-brand-700 lg:block"
           >
-            {contactPhone}
+            {BUSINESS.address.street}, {BUSINESS.address.locality}
           </a>
           <a href="#order" className="btn-primary !px-4 !py-2 text-sm">
             Оставить заявку
