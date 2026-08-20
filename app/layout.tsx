@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { buildLocalBusinessSchema } from "@/lib/structuredData";
+import PreviewBanner from "@/components/PreviewBanner";
+
+const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
 
 export const metadata: Metadata = {
   title: "Свой Сервис — ремонт бытовой техники в Андреевке и Зеленограде",
@@ -15,6 +18,9 @@ export const metadata: Metadata = {
     "ремонт бытовой техники Андреевка",
     "ремонт холодильников Зеленоград",
   ],
+  // Черновой предпросмотр на GitHub Pages не должен попадать в поиск —
+  // индексировать будем только боевой домен.
+  ...(isPreview ? { robots: { index: false, follow: false } } : {}),
 };
 
 export const viewport = {
@@ -36,6 +42,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
+        <PreviewBanner />
         {children}
       </body>
     </html>
