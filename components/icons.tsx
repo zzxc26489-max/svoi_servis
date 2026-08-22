@@ -147,6 +147,35 @@ export function CheckIcon({ className }: IconProps) {
   );
 }
 
+export function ChevronLeftIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <path d="m14.5 5-7 7 7 7" />
+    </Svg>
+  );
+}
+
+export function ChevronRightIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <path d="m9.5 5 7 7-7 7" />
+    </Svg>
+  );
+}
+
+export function QuoteIcon({ className }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className ?? base}
+      aria-hidden="true"
+    >
+      <path d="M9.4 5.5c-3.2 1.5-5.4 4.5-5.4 8.2 0 3 1.8 4.8 4 4.8 2 0 3.6-1.5 3.6-3.5s-1.4-3.4-3.2-3.4h-.5c.3-1.6 1.6-3.2 3.3-4.1zm9.6 0c-3.2 1.5-5.4 4.5-5.4 8.2 0 3 1.8 4.8 4 4.8 2 0 3.6-1.5 3.6-3.5s-1.4-3.4-3.2-3.4h-.5c.3-1.6 1.6-3.2 3.3-4.1z" />
+    </svg>
+  );
+}
+
 export function MapIcon({ className }: IconProps) {
   return (
     <Svg className={className}>

@@ -5,6 +5,7 @@ import { PhoneIcon } from "./icons";
 const navItems = [
   { href: "#services", label: "Услуги" },
   { href: "#prices", label: "Цены" },
+  { href: "#reviews", label: "Отзывы" },
   { href: "#how-it-works", label: "Как работаем" },
   { href: "#faq", label: "Вопросы" },
 ];
