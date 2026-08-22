@@ -1,6 +1,6 @@
 import { BUSINESS, MASTERS } from "@/lib/business";
 import Logo from "./Logo";
-import { TelegramIcon, MapIcon, PhoneIcon } from "./icons";
+import { TelegramIcon, WhatsAppIcon, MapIcon, PhoneIcon } from "./icons";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -78,6 +78,15 @@ export default function Footer() {
               >
                 <TelegramIcon className="h-4 w-4 opacity-60" />
                 Написать в Telegram
+              </a>
+              <a
+                href={BUSINESS.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 transition-colors hover:text-white"
+              >
+                <WhatsAppIcon className="h-4 w-4 opacity-60" />
+                WhatsApp
               </a>
               <a
                 href={BUSINESS.telegramGroupUrl}

@@ -23,6 +23,8 @@ export const BUSINESS = {
   telegramUrl: "https://t.me/Svoimas",
   // Открытая группа сервиса.
   telegramGroupUrl: "https://t.me/svoiserviz",
+  // WhatsApp Андрея (Михалыча), +7 901 743-37-96.
+  whatsappUrl: "https://wa.me/79017433796",
   // Основной фокус — Андреевка и Зеленоград, но выезжаем и дальше, если
   // это приносит заявки. Держим одним списком, чтобы гео-упоминания на
   // сайте (Hero, Footer, schema.org) не расходились.

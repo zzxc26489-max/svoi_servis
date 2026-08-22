@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { TelegramIcon, CheckIcon } from "./icons";
+import { TelegramIcon, WhatsAppIcon, CheckIcon } from "./icons";
 import { BUSINESS, MASTERS } from "@/lib/business";
 
 // Через сколько мс тишины после ввода считаем номер «брошенным» и тихо
@@ -205,15 +205,26 @@ export default function QuickLeadForm() {
         <span className="h-px flex-1 bg-line" />
       </div>
 
-      <a
-        href={BUSINESS.telegramUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="btn-secondary w-full"
-      >
-        <TelegramIcon className="h-5 w-5 text-[#2AABEE]" />
-        Написать в Telegram
-      </a>
+      <div className="grid gap-2.5 sm:grid-cols-2">
+        <a
+          href={BUSINESS.telegramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-secondary w-full !px-4"
+        >
+          <TelegramIcon className="h-5 w-5 shrink-0 text-[#2AABEE]" />
+          Telegram
+        </a>
+        <a
+          href={BUSINESS.whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-secondary w-full !px-4"
+        >
+          <WhatsAppIcon className="h-5 w-5 shrink-0 text-[#25D366]" />
+          WhatsApp
+        </a>
+      </div>
 
       <p className="text-xs leading-relaxed text-ink-400">
         Отправляя номер, вы соглашаетесь с обработкой персональных данных.
