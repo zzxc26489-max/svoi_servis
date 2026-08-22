@@ -2,44 +2,61 @@ const faqItems = [
   {
     question: "Сколько стоит диагностика?",
     answer:
-      "Стоимость диагностики уточняется при звонке и зависит от типа техники. Если вы соглашаетесь на ремонт у нас — диагностика часто входит в стоимость работ.",
+      "Диагностика — от 500 ₽ и зависит от типа техники. Точную стоимость мастер называет на месте, до начала ремонта.",
   },
   {
     question: "Вы работаете по выходным?",
     answer:
-      "Да, принимаем заявки и выполняем выезды 7 дней в неделю. Точное время визита согласовываем по телефону.",
+      "Да, принимаем заявки и выезжаем каждый день с 9:00 до 22:00. Точное время визита согласуем по телефону.",
+  },
+  {
+    question: "Куда вы выезжаете?",
+    answer:
+      "Основная зона — Андреевка и Зеленоград. По договорённости выезжаем в Солнечногорск, Красногорск, Химки, Лобню и соседние города.",
   },
   {
     question: "Что если моей техники нет в списке услуг?",
     answer:
-      "Оставьте заявку с описанием техники и проблемы — мы отремонтируем сами или передадим в партнёрскую мастерскую и проконтролируем весь процесс.",
+      "Оставьте заявку с описанием техники и поломки — отремонтируем сами или передадим проверенной партнёрской мастерской и проконтролируем процесс.",
   },
   {
     question: "Даёте ли вы гарантию?",
     answer:
-      "Да, на все выполненные работы и установленные запчасти предоставляется гарантия, срок которой зависит от вида ремонта.",
+      "Да, на все выполненные работы и установленные запчасти. Срок зависит от вида ремонта — мастер укажет его в документах.",
+  },
+  {
+    question: "Ремонт на дому или нужно везти технику?",
+    answer:
+      "Большинство поломок устраняем на дому. Если нужен стенд или сложная разборка — забираем в мастерскую на Жилинской и возвращаем после ремонта.",
   },
 ];
 
 export default function Faq() {
   return (
-    <section id="faq" className="bg-slate-50 py-20 sm:py-28">
+    <section id="faq" className="section bg-white">
       <div className="container-x">
-        <div className="max-w-2xl">
-          <h2 className="section-title">Частые вопросы</h2>
-        </div>
+        <p className="section-eyebrow">Вопросы</p>
+        <h2 className="section-title">Что обычно спрашивают</h2>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {faqItems.map((item) => (
-            <div
+            <details
               key={item.question}
-              className="rounded-2xl border border-slate-200 bg-white p-6"
+              className="card group p-5 open:border-brand-300 sm:p-6"
             >
-              <h3 className="text-base font-bold text-brand-950">
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-4 font-semibold text-ink-900 [&::-webkit-details-marker]:hidden">
                 {item.question}
-              </h3>
-              <p className="mt-2 text-sm text-slate-600">{item.answer}</p>
-            </div>
+                <span
+                  aria-hidden="true"
+                  className="mt-1 shrink-0 text-xl leading-none text-brand-600 transition-transform duration-200 group-open:rotate-45"
+                >
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-ink-500">
+                {item.answer}
+              </p>
+            </details>
           ))}
         </div>
       </div>

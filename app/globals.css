@@ -6,30 +6,79 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 body {
-  @apply bg-white text-slate-900 antialiased;
+  @apply bg-white text-ink-700 antialiased;
+  font-feature-settings: "cv02", "cv03", "cv04";
+}
+
+/* Заголовки — Manrope (геометричный, уверенный), текст — Inter. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  text-wrap: balance;
+  @apply text-ink-900;
 }
 
 .container-x {
-  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
 }
 
+/* ---------- Кнопки ---------- */
 .btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-base font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl px-6 text-base font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  /* 48px — комфортная сенсорная зона, с запасом к минимуму 44px */
+  min-height: 3rem;
 }
 
 .btn-primary {
-  @apply btn bg-accent text-white shadow-card hover:bg-accent-dark focus-visible:ring-accent;
+  @apply btn bg-accent text-white hover:bg-accent-600 focus-visible:ring-accent;
 }
 
 .btn-secondary {
-  @apply btn bg-white text-brand-900 ring-1 ring-inset ring-slate-200 hover:bg-slate-50 focus-visible:ring-brand-500;
+  @apply btn bg-white text-ink-900 ring-1 ring-inset ring-line hover:bg-mist-50 focus-visible:ring-brand-500;
+}
+
+.btn-ghost-light {
+  @apply btn bg-white/10 text-white ring-1 ring-inset ring-white/25 hover:bg-white/20 focus-visible:ring-white/60;
+}
+
+/* ---------- Секции ---------- */
+.section {
+  @apply py-16 sm:py-24;
+}
+
+.section-eyebrow {
+  @apply text-sm font-semibold uppercase tracking-[0.14em] text-brand-600;
 }
 
 .section-title {
-  @apply text-3xl font-bold tracking-tight text-brand-950 sm:text-4xl;
+  @apply mt-3 text-[1.75rem] font-extrabold leading-tight tracking-tight sm:text-4xl;
 }
 
 .section-subtitle {
-  @apply mt-3 text-lg text-slate-600;
+  @apply mt-4 max-w-2xl text-lg leading-relaxed text-ink-500;
+}
+
+/* ---------- Карточки ---------- */
+.card {
+  @apply rounded-2xl border border-line bg-white;
+}
+
+.card-hover {
+  @apply card transition-colors duration-200 hover:border-brand-300;
 }

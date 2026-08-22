@@ -1,56 +1,57 @@
 const steps = [
   {
-    number: "1",
     title: "Оставляете заявку",
     description:
-      "Заполняете форму на сайте или звоните — коротко описываете технику и проблему.",
+      "Номер телефона на сайте или прямой звонок мастеру — больше ничего заполнять не нужно.",
   },
   {
-    number: "2",
     title: "Мы перезваниваем",
     description:
-      "Уточняем детали, называем ориентировочную стоимость и согласовываем удобное время визита.",
+      "Уточняем поломку, называем ориентировочную стоимость и согласуем удобное время.",
   },
   {
-    number: "3",
     title: "Диагностика на месте",
     description:
-      "Мастер приезжает, определяет причину поломки и озвучивает окончательную стоимость ремонта.",
+      "Мастер находит причину и озвучивает окончательную цену — до начала ремонта.",
   },
   {
-    number: "4",
     title: "Ремонт и гарантия",
     description:
-      "Чиним технику на месте или забираем в мастерскую. На все работы и запчасти — гарантия.",
+      "Чиним на месте или забираем в мастерскую. На работы и запчасти — гарантия.",
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-slate-50 py-20 sm:py-28">
+    <section id="how-it-works" className="section bg-mist-50">
       <div className="container-x">
-        <div className="max-w-2xl">
-          <h2 className="section-title">Как это работает</h2>
-          <p className="section-subtitle">
-            От заявки до починенной техники — четыре простых шага.
-          </p>
-        </div>
+        <p className="section-eyebrow">Как это работает</p>
+        <h2 className="section-title">Четыре шага до рабочей техники</h2>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step) => (
-            <div key={step.number} className="relative">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-600 text-lg font-bold text-white">
-                {step.number}
-              </span>
-              <h3 className="mt-4 text-lg font-bold text-brand-950">
+        {/* Нумерация здесь несёт смысл — это реальная последовательность */}
+        <ol className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, index) => (
+            <li key={step.title} className="relative">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-600 font-display text-base font-bold text-white">
+                  {index + 1}
+                </span>
+                {index < steps.length - 1 && (
+                  <span
+                    aria-hidden="true"
+                    className="hidden h-px flex-1 bg-line lg:block"
+                  />
+                )}
+              </div>
+              <h3 className="mt-4 text-base font-bold text-ink-900">
                 {step.title}
               </h3>
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-sm leading-relaxed text-ink-500">
                 {step.description}
               </p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

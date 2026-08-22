@@ -116,41 +116,38 @@ const services: Service[] = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-20 sm:py-28">
+    <section id="services" className="section bg-white">
       <div className="container-x">
-        <div className="max-w-2xl">
-          <h2 className="section-title">Какую технику мы ремонтируем</h2>
-          <p className="section-subtitle">
-            Основная специализация — холодильники, стиральные и посудомоечные
-            машины. Остальную бытовую технику принимаем в ремонт и
-            передаём проверенным партнёрским мастерским под своим контролем.
-          </p>
-        </div>
+        <p className="section-eyebrow">Услуги</p>
+        <h2 className="section-title">Какую технику мы ремонтируем</h2>
+        <p className="section-subtitle">
+          Основная специализация — холодильники, стиральные и посудомоечные
+          машины. Остальную технику принимаем в ремонт и передаём проверенным
+          партнёрским мастерским под своим контролем.
+        </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
             <div
               key={service.title}
-              className={`rounded-2xl border p-6 transition-shadow hover:shadow-card ${
-                service.highlight
-                  ? "border-brand-200 bg-brand-50"
-                  : "border-slate-100 bg-white"
+              className={`card p-6 transition-colors duration-200 hover:border-brand-300 ${
+                service.highlight ? "border-brand-200 bg-brand-50" : ""
               }`}
             >
               <div className="text-brand-600">{service.icon}</div>
-              <h3 className="mt-4 text-lg font-bold text-brand-950">
+              <h3 className="mt-4 text-lg font-bold text-ink-900">
                 {service.title}
               </h3>
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-sm leading-relaxed text-ink-500">
                 {service.description}
               </p>
             </div>
           ))}
         </div>
 
-        <p className="mt-8 text-sm text-slate-500">
-          Не нашли свою технику в списке? Оставьте заявку — мы подскажем,
-          сможем ли помочь.
+        <p className="mt-6 text-sm text-ink-400">
+          Не нашли свою технику в списке? Оставьте заявку — подскажем, сможем
+          ли помочь.
         </p>
       </div>
     </section>

@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
+import Prices from "@/components/Prices";
 import HowItWorks from "@/components/HowItWorks";
 import Advantages from "@/components/Advantages";
 import OrderSection from "@/components/OrderSection";
@@ -14,6 +15,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <Services />
+        <Prices />
         <HowItWorks />
         <Advantages />
         <OrderSection />

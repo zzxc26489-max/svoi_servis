@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { TelegramIcon, CheckIcon } from "./icons";
 
 // Через сколько мс тишины после ввода считаем номер «брошенным» и тихо
 // отправляем его сами — даже если клиент не нажал кнопку.
@@ -31,11 +32,7 @@ function digitsOf(phone: string): string {
 const contactTelegram =
   process.env.NEXT_PUBLIC_CONTACT_TELEGRAM ?? "https://t.me/your_username";
 
-export default function QuickLeadForm({
-  variant = "card",
-}: {
-  variant?: "card" | "compact";
-}) {
+export default function QuickLeadForm() {
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [autoCaught, setAutoCaught] = useState(false);
@@ -46,8 +43,8 @@ export default function QuickLeadForm({
   // без уникального id вторая пара label/input указывала бы на id
   // первой, ломая связь для скринридера.
   const uid = useId();
-  const inputId = `quick-lead-phone-${uid}`;
-  const errorId = `quick-lead-phone-error-${uid}`;
+  const inputId = `lead-phone-${uid}`;
+  const errorId = `lead-phone-error-${uid}`;
 
   useEffect(() => {
     return () => {
@@ -112,24 +109,22 @@ export default function QuickLeadForm({
     void sendLead(digits, "click");
   }
 
-  const isDark = variant === "compact";
-
   if (status === "sent") {
     return (
-      <div
-        className={
-          isDark
-            ? "rounded-2xl border border-white/20 bg-white/10 p-5 text-white"
-            : "rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center"
-        }
-      >
-        <p className="font-semibold">✅ Приняли! Перезвоним в ближайшее время.</p>
+      <div className="flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+        <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+        <div>
+          <p className="font-semibold text-emerald-900">Заявка принята</p>
+          <p className="mt-1 text-sm text-emerald-800">
+            Перезвоним в ближайшее время и уточним детали.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {/* honeypot */}
       <input
         type="text"
@@ -143,11 +138,7 @@ export default function QuickLeadForm({
       <div>
         <label
           htmlFor={inputId}
-          className={
-            isDark
-              ? "mb-1.5 block text-sm font-medium text-white/80"
-              : "mb-1.5 block text-sm font-medium text-slate-700"
-          }
+          className="mb-1.5 block text-sm font-medium text-ink-700"
         >
           Ваш номер телефона
         </label>
@@ -155,64 +146,56 @@ export default function QuickLeadForm({
           id={inputId}
           type="tel"
           inputMode="tel"
+          autoComplete="tel"
           required
           value={phone}
           onChange={(event) => handleChange(event.target.value)}
           placeholder="+7 (___) ___-__-__"
           aria-invalid={status === "error"}
           aria-describedby={status === "error" ? errorId : undefined}
-          className={
-            isDark
-              ? "w-full rounded-xl border border-white/25 bg-white/10 px-4 py-3 text-white placeholder:text-white/50 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
-              : "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
-          }
+          className="h-12 w-full rounded-xl border border-line bg-mist-50 px-4 text-base text-ink-900 transition-colors placeholder:text-ink-400 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/12"
         />
         {autoCaught && (
           <p
             aria-live="polite"
-            className={
-              isDark
-                ? "mt-1.5 text-xs text-white/70"
-                : "mt-1.5 text-xs text-slate-500"
-            }
+            className="mt-2 flex items-center gap-1.5 text-xs font-medium text-emerald-700"
           >
-            ✓ Номер приняли, перезвоним
+            <CheckIcon className="h-4 w-4" />
+            Номер приняли — перезвоним
           </p>
         )}
         {status === "error" && (
-          <p id={errorId} role="alert" className="mt-1.5 text-xs text-red-500">
+          <p id={errorId} role="alert" className="mt-2 text-xs text-red-600">
             Проверьте номер телефона
           </p>
         )}
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <button
-          type="submit"
-          disabled={status === "sending"}
-          className="btn-primary flex-1 whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-60 sm:flex-none"
-        >
-          {status === "sending" ? "Отправляем..." : "Жду звонка"}
-        </button>
-        <a
-          href={contactTelegram}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={
-            isDark
-              ? "btn-secondary flex-1 whitespace-nowrap !bg-white/10 !text-white !ring-white/20 hover:!bg-white/20 sm:flex-none"
-              : "btn-secondary flex-1 whitespace-nowrap sm:flex-none"
-          }
-        >
-          ✈️ Telegram
-        </a>
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        className="btn-primary w-full shadow-cta disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {status === "sending" ? "Отправляем…" : "Жду звонка"}
+      </button>
+
+      <div className="flex items-center gap-3 text-xs text-ink-400">
+        <span className="h-px flex-1 bg-line" />
+        или
+        <span className="h-px flex-1 bg-line" />
       </div>
 
-      <p
-        className={
-          isDark ? "text-xs text-white/60" : "text-xs text-slate-500"
-        }
+      <a
+        href={contactTelegram}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn-secondary w-full"
       >
+        <TelegramIcon className="h-5 w-5 text-[#2AABEE]" />
+        Написать в Telegram
+      </a>
+
+      <p className="text-xs leading-relaxed text-ink-400">
         Отправляя номер, вы соглашаетесь с обработкой персональных данных.
       </p>
     </form>

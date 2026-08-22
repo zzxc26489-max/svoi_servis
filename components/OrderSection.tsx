@@ -1,42 +1,76 @@
 import QuickLeadForm from "./QuickLeadForm";
 import DirectContacts from "./DirectContacts";
+import { RatingCard } from "./RatingBadge";
 import { BUSINESS } from "@/lib/business";
+import { ClockIcon, MapPinIcon, MapIcon } from "./icons";
 
 export default function OrderSection() {
   return (
-    <section id="order" className="py-20 sm:py-28">
+    <section id="order" className="section bg-white">
       <div className="container-x">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-5">
-          <div className="lg:col-span-2">
-            <h2 className="section-title">Оставьте номер</h2>
+        <div className="grid gap-10 lg:grid-cols-[1fr_26rem] lg:gap-14">
+          {/* Контакты и доверие */}
+          <div>
+            <p className="section-eyebrow">Контакты</p>
+            <h2 className="section-title">Как с нами связаться</h2>
             <p className="section-subtitle">
-              Один номер телефона — больше ничего заполнять не нужно.
-              Перезвоним в течение рабочего дня и уточним детали устно.
+              Уже знаете, что сломалось? Звоните мастеру по вашей технике
+              напрямую — он и приедет.
             </p>
 
-            <div className="mt-6 space-y-3 text-sm text-slate-600">
-              <p>📍 {BUSINESS.address.full}</p>
-              <p>🕐 {BUSINESS.hours}</p>
-              <a
-                href={BUSINESS.yandexMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-base font-semibold text-brand-900"
-              >
-                🗺 Мы на Яндекс.Картах — отзывы и фото
-              </a>
+            <div className="mt-8">
+              <DirectContacts />
             </div>
 
-            <div className="mt-8" id="contacts">
-              <p className="mb-3 text-sm font-semibold text-slate-500">
-                Уже знаете, что сломалось? Звоните напрямую нужному мастеру:
-              </p>
-              <DirectContacts />
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              <RatingCard />
+
+              <div className="card space-y-3 p-5 text-sm">
+                <div className="flex gap-2.5">
+                  <ClockIcon className="h-5 w-5 shrink-0 text-brand-600" />
+                  <div>
+                    <div className="font-semibold text-ink-900">
+                      Режим работы
+                    </div>
+                    <div className="mt-0.5 text-ink-500">{BUSINESS.hours}</div>
+                  </div>
+                </div>
+                <div className="flex gap-2.5">
+                  <MapPinIcon className="h-5 w-5 shrink-0 text-brand-600" />
+                  <div>
+                    <div className="font-semibold text-ink-900">Мастерская</div>
+                    <div className="mt-0.5 leading-snug text-ink-500">
+                      {BUSINESS.address.street}, {BUSINESS.address.locality}
+                    </div>
+                    <a
+                      href={BUSINESS.yandexMapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1.5 inline-flex items-center gap-1.5 font-medium text-brand-600 hover:text-brand-700"
+                    >
+                      <MapIcon className="h-4 w-4" />
+                      Показать на карте
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-8 lg:col-span-3 lg:flex lg:flex-col lg:justify-center">
-            <QuickLeadForm />
+          {/* Форма заявки — плотная карточка без пустот */}
+          <div className="lg:sticky lg:top-24 lg:self-start">
+            <div className="card p-6 shadow-lift sm:p-7">
+              <h3 className="font-display text-xl font-bold text-ink-900">
+                Не знаете, в чём причина?
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-500">
+                Оставьте номер — перезвоним, расспросим о поломке и подберём
+                нужного мастера.
+              </p>
+              <div className="mt-5">
+                <QuickLeadForm />
+              </div>
+            </div>
           </div>
         </div>
       </div>
