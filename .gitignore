@@ -11,3 +11,4 @@ yarn-error.log*
 .env*.local
 next-env.d.ts
 *.tsbuildinfo
+__pycache__/
