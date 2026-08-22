@@ -1,13 +1,12 @@
 import { BUSINESS } from "@/lib/business";
+import Logo from "./Logo";
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/90 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between">
         <a href="#top" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-lg font-bold text-white">
-            С
-          </span>
+          <Logo size={36} />
           <span className="text-lg font-bold text-brand-950">
             Свой Сервис
           </span>

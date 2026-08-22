@@ -1,0 +1,55 @@
+// Знак бренда: гаечный ключ по диагонали в «иллюминаторе» техники + искра.
+// viewBox 0 0 200 200, самодостаточный SVG (без внешних <use>/<symbol>),
+// чтобы компонент работал где угодно без общих definitions.
+export default function Logo({
+  size = 40,
+  className,
+}: {
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 200 200"
+      role="img"
+      aria-label="Много Техники"
+      className={className}
+    >
+      <rect x="4" y="4" width="192" height="192" rx="50" fill="#1C60F5" />
+      <circle cx="100" cy="106" r="58" fill="#FFFFFF" />
+      <circle
+        cx="100"
+        cy="106"
+        r="58"
+        fill="none"
+        stroke="#12379C"
+        strokeWidth="5"
+      />
+      <g transform="rotate(45 100 106)">
+        <rect x="70" y="98" width="60" height="16" rx="8" fill="#FF7A30" />
+        <circle
+          cx="70"
+          cy="106"
+          r="15"
+          fill="none"
+          stroke="#FF7A30"
+          strokeWidth="9"
+        />
+        <circle
+          cx="130"
+          cy="106"
+          r="15"
+          fill="none"
+          stroke="#FF7A30"
+          strokeWidth="9"
+        />
+      </g>
+      <path
+        d="M 158 38 L 164 52 L 178 56 L 164 60 L 158 74 L 152 60 L 138 56 L 152 52 Z"
+        fill="#FF7A30"
+      />
+    </svg>
+  );
+}
