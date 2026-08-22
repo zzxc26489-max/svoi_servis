@@ -141,14 +141,28 @@ export default function QuickLeadForm({
       />
 
       <div className="flex-1">
+        <label
+          htmlFor="quick-lead-phone"
+          className={
+            isDark
+              ? "mb-1.5 block text-sm font-medium text-white/80"
+              : "mb-1.5 block text-sm font-medium text-slate-700"
+          }
+        >
+          Ваш номер телефона
+        </label>
         <input
+          id="quick-lead-phone"
           type="tel"
           inputMode="tel"
           required
           value={phone}
           onChange={(event) => handleChange(event.target.value)}
           placeholder="+7 (___) ___-__-__"
-          aria-label="Номер телефона"
+          aria-invalid={status === "error"}
+          aria-describedby={
+            status === "error" ? "quick-lead-phone-error" : undefined
+          }
           className={
             isDark
               ? "w-full rounded-xl border border-white/25 bg-white/10 px-4 py-3 text-white placeholder:text-white/50 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
@@ -157,6 +171,7 @@ export default function QuickLeadForm({
         />
         {autoCaught && (
           <p
+            aria-live="polite"
             className={
               isDark
                 ? "mt-1.5 text-xs text-white/70"
@@ -167,7 +182,11 @@ export default function QuickLeadForm({
           </p>
         )}
         {status === "error" && (
-          <p className="mt-1.5 text-xs text-red-500">
+          <p
+            id="quick-lead-phone-error"
+            role="alert"
+            className="mt-1.5 text-xs text-red-500"
+          >
             Проверьте номер телефона
           </p>
         )}
