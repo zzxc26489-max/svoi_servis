@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Prices from "@/components/Prices";
 import HowItWorks from "@/components/HowItWorks";
+import Works from "@/components/Works";
 import Reviews from "@/components/Reviews";
 import Advantages from "@/components/Advantages";
 import OrderSection from "@/components/OrderSection";
@@ -18,6 +19,7 @@ export default function HomePage() {
         <Services />
         <Prices />
         <HowItWorks />
+        <Works />
         <Reviews />
         <Advantages />
         <OrderSection />

@@ -41,7 +41,18 @@ export function buildLocalBusinessSchema() {
       description: `${master.specialty} — ${master.name}`,
     })),
     priceRange: "500 ₽ – 5000 ₽",
-    sameAs: [BUSINESS.yandexMapsUrl],
+    sameAs: [
+      BUSINESS.yandexMapsUrl,
+      BUSINESS.telegramUrl,
+      BUSINESS.telegramGroupUrl,
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: BUSINESS.rating.value,
+      reviewCount: BUSINESS.rating.reviewsCount,
+      ratingCount: BUSINESS.rating.ratingsCount,
+      bestRating: 5,
+    },
     areaServed: [...BUSINESS.primaryAreas, ...BUSINESS.extendedAreas],
   };
 }

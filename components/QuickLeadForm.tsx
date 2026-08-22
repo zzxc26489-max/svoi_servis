@@ -2,12 +2,17 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { TelegramIcon, CheckIcon } from "./icons";
+import { BUSINESS, MASTERS } from "@/lib/business";
 
 // Через сколько мс тишины после ввода считаем номер «брошенным» и тихо
 // отправляем его сами — даже если клиент не нажал кнопку.
 const AUTO_SEND_DELAY_MS = 1500;
 
-type Status = "idle" | "sending" | "sent" | "error";
+// "invalid" — номер введён не полностью, виноват ввод.
+// "failed"  — номер в порядке, но заявка не ушла (нет сети, сервер
+//             недоступен, превью без бэкенда). Винить клиента нельзя —
+//             показываем прямой телефон, чтобы заявка не потерялась.
+type Status = "idle" | "sending" | "sent" | "invalid" | "failed";
 
 function formatRuPhone(raw: string): string {
   let digits = raw.replace(/\D/g, "");
@@ -28,9 +33,6 @@ function formatRuPhone(raw: string): string {
 function digitsOf(phone: string): string {
   return phone.replace(/\D/g, "");
 }
-
-const contactTelegram =
-  process.env.NEXT_PUBLIC_CONTACT_TELEGRAM ?? "https://t.me/your_username";
 
 export default function QuickLeadForm() {
   const [phone, setPhone] = useState("");
@@ -66,7 +68,7 @@ export default function QuickLeadForm() {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok || !data.ok) {
-        if (source === "click") setStatus("error");
+        if (source === "click") setStatus("failed");
         return;
       }
 
@@ -77,7 +79,7 @@ export default function QuickLeadForm() {
         setAutoCaught(true);
       }
     } catch {
-      if (source === "click") setStatus("error");
+      if (source === "click") setStatus("failed");
     }
   }
 
@@ -103,7 +105,7 @@ export default function QuickLeadForm() {
 
     const digits = digitsOf(phone);
     if (digits.length !== 11) {
-      setStatus("error");
+      setStatus("invalid");
       return;
     }
     void sendLead(digits, "click");
@@ -151,8 +153,8 @@ export default function QuickLeadForm() {
           value={phone}
           onChange={(event) => handleChange(event.target.value)}
           placeholder="+7 (___) ___-__-__"
-          aria-invalid={status === "error"}
-          aria-describedby={status === "error" ? errorId : undefined}
+          aria-invalid={status === "invalid"}
+          aria-describedby={status === "invalid" ? errorId : undefined}
           className="h-12 w-full rounded-xl border border-line bg-mist-50 px-4 text-base text-ink-900 transition-colors placeholder:text-ink-400 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/12"
         />
         {autoCaught && (
@@ -164,12 +166,30 @@ export default function QuickLeadForm() {
             Номер приняли — перезвоним
           </p>
         )}
-        {status === "error" && (
+        {status === "invalid" && (
           <p id={errorId} role="alert" className="mt-2 text-xs text-red-600">
-            Проверьте номер телефона
+            Введите номер полностью — 10 цифр после +7
           </p>
         )}
       </div>
+
+      {status === "failed" && (
+        <div role="alert" className="rounded-xl bg-amber-50 p-4 text-sm">
+          <p className="font-semibold text-amber-900">
+            Заявка не отправилась
+          </p>
+          <p className="mt-1 leading-relaxed text-amber-800">
+            С номером всё в порядке — не сработала отправка. Позвоните или
+            напишите нам напрямую, примем заявку сразу.
+          </p>
+          <a
+            href={`tel:${MASTERS[0].phoneHref}`}
+            className="mt-2 inline-block font-semibold tabular-nums text-amber-900 underline underline-offset-4"
+          >
+            {MASTERS[0].phoneDisplay}
+          </a>
+        </div>
+      )}
 
       <button
         type="submit"
@@ -186,7 +206,7 @@ export default function QuickLeadForm() {
       </div>
 
       <a
-        href={contactTelegram}
+        href={BUSINESS.telegramUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="btn-secondary w-full"

@@ -2,9 +2,6 @@ import { BUSINESS, MASTERS } from "@/lib/business";
 import Logo from "./Logo";
 import { TelegramIcon, MapIcon, PhoneIcon } from "./icons";
 
-const contactTelegram =
-  process.env.NEXT_PUBLIC_CONTACT_TELEGRAM ?? "https://t.me/your_username";
-
 export default function Footer() {
   const year = new Date().getFullYear();
 
@@ -74,13 +71,22 @@ export default function Footer() {
                 Яндекс.Карты
               </a>
               <a
-                href={contactTelegram}
+                href={BUSINESS.telegramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 transition-colors hover:text-white"
               >
                 <TelegramIcon className="h-4 w-4 opacity-60" />
-                Telegram
+                Написать в Telegram
+              </a>
+              <a
+                href={BUSINESS.telegramGroupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 transition-colors hover:text-white"
+              >
+                <TelegramIcon className="h-4 w-4 opacity-60" />
+                Группа в Telegram
               </a>
             </div>
           </div>

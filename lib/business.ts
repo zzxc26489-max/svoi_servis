@@ -19,6 +19,10 @@ export const BUSINESS = {
   },
   hours: "Ежедневно 9:00–22:00",
   yandexMapsUrl: "https://yandex.ru/maps/org/mnogo_tekhniki/136163852709/",
+  // Личный рабочий аккаунт — сюда пишут клиенты по заявкам.
+  telegramUrl: "https://t.me/Svoimas",
+  // Открытая группа сервиса.
+  telegramGroupUrl: "https://t.me/svoiserviz",
   // Основной фокус — Андреевка и Зеленоград, но выезжаем и дальше, если
   // это приносит заявки. Держим одним списком, чтобы гео-упоминания на
   // сайте (Hero, Footer, schema.org) не расходились.
@@ -32,6 +36,18 @@ export const BUSINESS = {
     reviewsCount: 11,
   },
 } as const;
+
+export type WorkPhoto = {
+  /** Путь от корня public, например /works/fridge-01.jpg */
+  src: string;
+  /** Что на фото — обязателен: и для доступности, и для SEO. */
+  alt: string;
+  caption?: string;
+};
+
+// Фото реальных работ. Пока массив пуст — секция на сайте не
+// рендерится, чтобы не висела пустая заглушка.
+export const WORKS: WorkPhoto[] = [];
 
 export type Review = {
   author: string;
