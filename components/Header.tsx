@@ -1,4 +1,3 @@
-import { BUSINESS } from "@/lib/business";
 import Logo from "./Logo";
 
 export default function Header() {
@@ -27,19 +26,9 @@ export default function Header() {
           </a>
         </nav>
 
-        <div className="flex items-center gap-3">
-          <a
-            href={BUSINESS.yandexMapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden text-sm font-semibold text-brand-900 hover:text-brand-700 lg:block"
-          >
-            {BUSINESS.address.street}, {BUSINESS.address.locality}
-          </a>
-          <a href="#order" className="btn-primary !px-4 !py-2 text-sm">
-            Оставить заявку
-          </a>
-        </div>
+        <a href="#order" className="btn-primary !px-4 !py-2 text-sm">
+          Оставить заявку
+        </a>
       </div>
     </header>
   );

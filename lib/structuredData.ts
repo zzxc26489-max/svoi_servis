@@ -42,10 +42,6 @@ export function buildLocalBusinessSchema() {
     })),
     priceRange: "500 ₽ – 5000 ₽",
     sameAs: [BUSINESS.yandexMapsUrl],
-    areaServed: [
-      "рп. Андреевка",
-      "Зеленоград",
-      "городской округ Солнечногорск",
-    ],
+    areaServed: [...BUSINESS.primaryAreas, ...BUSINESS.extendedAreas],
   };
 }

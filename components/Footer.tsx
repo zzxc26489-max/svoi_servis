@@ -18,6 +18,10 @@ export default function Footer() {
             Ремонт бытовой техники на дому и в мастерской: холодильники,
             стиральные и посудомоечные машины, а также другая техника.
           </p>
+          <p className="mt-2 max-w-sm text-xs text-brand-100/60">
+            Зона выезда: {BUSINESS.primaryAreas.join(", ")} — и по
+            договорённости {BUSINESS.extendedAreas.join(", ")}.
+          </p>
         </div>
 
         <div className="flex flex-col gap-2 text-sm sm:items-end">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 // Через сколько мс тишины после ввода считаем номер «брошенным» и тихо
 // отправляем его сами — даже если клиент не нажал кнопку.
@@ -41,6 +41,13 @@ export default function QuickLeadForm({
   const [autoCaught, setAutoCaught] = useState(false);
   const sentDigitsRef = useRef<string>("");
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Компонент рендерится на странице дважды (Hero + секция заявки) —
+  // без уникального id вторая пара label/input указывала бы на id
+  // первой, ломая связь для скринридера.
+  const uid = useId();
+  const inputId = `quick-lead-phone-${uid}`;
+  const errorId = `quick-lead-phone-error-${uid}`;
 
   useEffect(() => {
     return () => {
@@ -122,14 +129,7 @@ export default function QuickLeadForm({
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={
-        isDark
-          ? "flex flex-col gap-3 sm:flex-row"
-          : "flex flex-col gap-3 sm:flex-row"
-      }
-    >
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       {/* honeypot */}
       <input
         type="text"
@@ -140,9 +140,9 @@ export default function QuickLeadForm({
         aria-hidden="true"
       />
 
-      <div className="flex-1">
+      <div>
         <label
-          htmlFor="quick-lead-phone"
+          htmlFor={inputId}
           className={
             isDark
               ? "mb-1.5 block text-sm font-medium text-white/80"
@@ -152,7 +152,7 @@ export default function QuickLeadForm({
           Ваш номер телефона
         </label>
         <input
-          id="quick-lead-phone"
+          id={inputId}
           type="tel"
           inputMode="tel"
           required
@@ -160,9 +160,7 @@ export default function QuickLeadForm({
           onChange={(event) => handleChange(event.target.value)}
           placeholder="+7 (___) ___-__-__"
           aria-invalid={status === "error"}
-          aria-describedby={
-            status === "error" ? "quick-lead-phone-error" : undefined
-          }
+          aria-describedby={status === "error" ? errorId : undefined}
           className={
             isDark
               ? "w-full rounded-xl border border-white/25 bg-white/10 px-4 py-3 text-white placeholder:text-white/50 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
@@ -182,21 +180,17 @@ export default function QuickLeadForm({
           </p>
         )}
         {status === "error" && (
-          <p
-            id="quick-lead-phone-error"
-            role="alert"
-            className="mt-1.5 text-xs text-red-500"
-          >
+          <p id={errorId} role="alert" className="mt-1.5 text-xs text-red-500">
             Проверьте номер телефона
           </p>
         )}
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <button
           type="submit"
           disabled={status === "sending"}
-          className="btn-primary whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-60"
+          className="btn-primary flex-1 whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-60 sm:flex-none"
         >
           {status === "sending" ? "Отправляем..." : "Жду звонка"}
         </button>
@@ -206,8 +200,8 @@ export default function QuickLeadForm({
           rel="noopener noreferrer"
           className={
             isDark
-              ? "btn-secondary whitespace-nowrap !bg-white/10 !text-white !ring-white/20 hover:!bg-white/20"
-              : "btn-secondary whitespace-nowrap"
+              ? "btn-secondary flex-1 whitespace-nowrap !bg-white/10 !text-white !ring-white/20 hover:!bg-white/20 sm:flex-none"
+              : "btn-secondary flex-1 whitespace-nowrap sm:flex-none"
           }
         >
           ✈️ Telegram
@@ -216,9 +210,7 @@ export default function QuickLeadForm({
 
       <p
         className={
-          isDark
-            ? "basis-full text-xs text-white/60"
-            : "basis-full text-xs text-slate-500"
+          isDark ? "text-xs text-white/60" : "text-xs text-slate-500"
         }
       >
         Отправляя номер, вы соглашаетесь с обработкой персональных данных.

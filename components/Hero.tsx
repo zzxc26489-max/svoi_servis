@@ -30,6 +30,11 @@ export default function Hero() {
             мастерскими-партнёрами, чтобы вы не искали мастера сами.
           </p>
 
+          <p className="mt-2 text-sm text-brand-100/70">
+            При необходимости выезжаем и дальше — в Солнечногорск,
+            Красногорск, Химки, Лобню и соседние города.
+          </p>
+
           <div className="mt-8 max-w-md">
             <QuickLeadForm variant="compact" />
           </div>

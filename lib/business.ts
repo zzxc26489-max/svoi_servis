@@ -19,6 +19,11 @@ export const BUSINESS = {
   },
   hours: "Ежедневно 9:00–22:00",
   yandexMapsUrl: "https://yandex.ru/maps/org/mnogo_tekhniki/136163852709/",
+  // Основной фокус — Андреевка и Зеленоград, но выезжаем и дальше, если
+  // это приносит заявки. Держим одним списком, чтобы гео-упоминания на
+  // сайте (Hero, Footer, schema.org) не расходились.
+  primaryAreas: ["Андреевка", "Зеленоград"],
+  extendedAreas: ["Солнечногорск", "Красногорск", "Химки", "Лобня"],
 } as const;
 
 export const MASTERS: Master[] = [
