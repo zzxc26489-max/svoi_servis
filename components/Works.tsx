@@ -8,11 +8,11 @@ export default function Works() {
   return (
     <section id="works" className="section bg-white">
       <div className="container-x">
-        <p className="section-eyebrow">Наши работы</p>
-        <h2 className="section-title">Как это выглядит на деле</h2>
+        <p className="section-eyebrow">Как проходит ремонт</p>
+        <h2 className="section-title">С чем мы работаем</h2>
         <p className="section-subtitle">
-          Реальные ремонты из мастерской и с выездов — без стоковых
-          картинок.
+          Диагностика и ремонт — на месте, с профессиональным
+          оборудованием.
         </p>
 
         <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
