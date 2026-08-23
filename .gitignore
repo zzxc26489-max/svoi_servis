@@ -12,3 +12,10 @@ yarn-error.log*
 next-env.d.ts
 *.tsbuildinfo
 __pycache__/
+
+# Служебные файлы Stitch Loop (staging-макеты и ID проекта) — не
+# коммитим, это генерируемые артефакты. SITE.md/DESIGN.md — коммитим,
+# это наш собственный бриф, не сгенерированы.
+.stitch/designs/
+.stitch/metadata.json
+.stitch/next-prompt.md
