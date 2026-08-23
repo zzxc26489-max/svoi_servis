@@ -30,9 +30,14 @@ const advantages = [
     icon: ToolboxIcon,
     title: "Любая техника",
     description:
-      "Если сами не чиним — передаём в проверенную партнёрскую мастерскую под контролем.",
+      "Возьмёмся за ремонт любой бытовой техники — уточним детали и сроки после заявки.",
   },
 ];
+
+// Реальных мастеров двое — Дмитрий и Андрей. У Андрея два разных
+// номера (по стиральным и посудомоечным машинам), поэтому просто
+// MASTERS.length здесь считал бы его за двоих.
+const mastersCount = new Set(MASTERS.map((master) => master.name)).size;
 
 // Минимальная цена диагностики по прайсу — берём из первой позиции
 // каждой группы, а не вписываем цифру руками.
@@ -46,7 +51,7 @@ export default function Advantages() {
   const hasHalfStar = value - fullStars >= 0.25;
 
   return (
-    <section id="advantages" className="section bg-ink-950">
+    <section id="advantages" className="dark-texture section bg-ink-950">
       <div className="container-x">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           <div>
@@ -102,9 +107,9 @@ export default function Advantages() {
 
             <dl className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded-xl bg-white/5 p-4">
-                <dt className="text-xs text-brand-100/55">Мастеров по направлениям</dt>
+                <dt className="text-xs text-brand-100/55">Мастеров в команде</dt>
                 <dd className="mt-1 font-display text-2xl font-extrabold text-white">
-                  {MASTERS.length}
+                  {mastersCount}
                 </dd>
               </div>
               <div className="rounded-xl bg-white/5 p-4">

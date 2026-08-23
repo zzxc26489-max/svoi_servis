@@ -5,7 +5,7 @@ import { PhoneIcon, TelegramIcon, WhatsAppIcon } from "./icons";
 // тем, кто долистал страницу, но ещё не позвонил и не написал.
 export default function CtaStrip() {
   return (
-    <section className="bg-ink-950">
+    <section className="dark-texture bg-ink-950">
       <div className="container-x flex flex-col items-start gap-5 border-t border-white/10 py-10 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="font-display text-xl font-bold text-white">

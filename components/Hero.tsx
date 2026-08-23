@@ -24,7 +24,7 @@ const trustPoints = [
 
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden bg-ink-950">
+    <section id="top" className="dark-texture relative overflow-hidden bg-ink-950">
       {/* Мягкая подсветка фона — задаёт глубину, не отвлекая от текста */}
       <div
         aria-hidden="true"

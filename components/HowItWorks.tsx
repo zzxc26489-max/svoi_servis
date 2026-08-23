@@ -33,7 +33,7 @@ export default function HowItWorks() {
           {steps.map((step, index) => (
             <li key={step.title} className="relative">
               <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-600 font-display text-base font-bold text-white">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 font-display text-base font-bold text-white">
                   {index + 1}
                 </span>
                 {index < steps.length - 1 && (

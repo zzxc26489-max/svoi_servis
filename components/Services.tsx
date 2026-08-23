@@ -122,19 +122,20 @@ export default function Services() {
         <h2 className="section-title">Какую технику мы ремонтируем</h2>
         <p className="section-subtitle">
           Основная специализация — холодильники, стиральные и посудомоечные
-          машины. Остальную технику принимаем в ремонт и передаём проверенным
-          партнёрским мастерским под своим контролем.
+          машины. Диагностика на месте, ремонт на дому или в мастерской.
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
             <div
               key={service.title}
-              className={`card p-6 transition-colors duration-200 hover:border-brand-300 ${
+              className={`card-hover p-6 ${
                 service.highlight ? "border-brand-200 bg-brand-50" : ""
               }`}
             >
-              <div className="text-brand-600">{service.icon}</div>
+              <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-100 to-brand-200 text-brand-700">
+                {service.icon}
+              </span>
               <h3 className="mt-4 text-lg font-bold text-ink-900">
                 {service.title}
               </h3>

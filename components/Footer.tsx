@@ -6,7 +6,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-ink-950 py-14 text-brand-100/70">
+    <footer className="dark-texture bg-ink-950 py-14 text-brand-100/70">
       <div className="container-x">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
@@ -18,13 +18,13 @@ export default function Footer() {
             </div>
             <p className="mt-3 max-w-sm text-sm leading-relaxed">
               Ремонт холодильников, стиральных и посудомоечных машин на дому
-              и в мастерской. Другую бытовую технику принимаем в ремонт
-              через проверенных партнёров.
+              и в мастерской.
             </p>
             <p className="mt-4 text-sm">
               <span className="text-white/90">Зона выезда:</span>{" "}
               {BUSINESS.primaryAreas.join(", ")} — и по договорённости{" "}
-              {BUSINESS.extendedAreas.join(", ")}.
+              {BUSINESS.extendedAreas.join(", ")}, а также другие города
+              Подмосковья — уточняйте по заявке.
             </p>
           </div>
 
