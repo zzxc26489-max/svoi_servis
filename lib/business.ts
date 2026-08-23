@@ -33,10 +33,12 @@ export const BUSINESS = {
   telegramGroupUrl: "https://t.me/svoiserviz",
   // WhatsApp Андрея (Михалыча), +7 901 743-37-96.
   whatsappUrl: "https://wa.me/79017433796",
-  // Основной фокус — Зеленоград и Андреевка, но выезжаем и дальше, если
-  // это приносит заявки. Держим одним списком, чтобы гео-упоминания на
+  // Основной фокус — Зеленоград (и Ржавки рядом с ним) и Андреевка, но
+  // выезжаем и дальше, если это приносит заявки. Ржавки — отдельным
+  // пунктом: человек ищет по названию своего района, а не только по
+  // «Зеленоград» целиком. Держим одним списком, чтобы гео-упоминания на
   // сайте (Hero, Footer, schema.org) не расходились.
-  primaryAreas: ["Зеленоград", "Андреевка"],
+  primaryAreas: ["Зеленоград", "Ржавки", "Андреевка"],
   extendedAreas: ["Солнечногорск", "Красногорск", "Химки", "Лобня"],
   // Данные карточки на Яндекс.Картах. Обновлять вручную вместе с
   // карточкой — цифры показываются на сайте как есть.
@@ -71,6 +73,102 @@ export type WorkPhoto = {
 // JPEG при том же качестве). Категория (category) совпадает с группами
 // в PRICES — фильтр в /works и прайс не расходятся.
 export const WORKS: WorkPhoto[] = [
+  {
+    src: "/works/dishwasher-real-open.webp",
+    category: "Посудомоечные машины",
+    alt: "Открытая посудомоечная машина с разбрызгивателями при диагностике",
+    caption: "Диагностика и ремонт посудомоечных машин",
+    blurDataURL:
+      "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAwAgCdASoQABAAA4BaJZwAD5PwL8zcJw6BgAD+qyZEzQWx/CzXLHZ1s+9vImif2lK9JDDE4CZyP1gAP0zSeRjuq9NN/VKc8mBuBxYCm8SFKN1HhLYK6cl7bzmM4ymXkQ9z14+PwAA=",
+  },
+  {
+    src: "/works/fridge-real-finished-samsung.webp",
+    category: "Холодильники",
+    alt: "Холодильник Samsung после ремонта",
+    caption: "Диагностика и ремонт холодильников",
+    blurDataURL:
+      "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADwAQCdASoQABAAA4BaJZACsACgx7/zyAAA/q3dqh1LginUBoLmUMXNi963lqW8gxW40sSph7Uvwp6D1batRvUwahvP51NVijHh8cPXdzmabpVzHOLuVYM3aJYAAA==",
+  },
+  {
+    src: "/works/fridge-real-tester.webp",
+    category: "Холодильники",
+    alt: "Диагностика холодильного контура многофункциональным тестером",
+    caption: "Заправка и ремонт холодильного контура",
+    blurDataURL:
+      "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAACQAQCdASoQABAAA4BaJbACdABAZAAA/rx6fCzXuhmgBwUMkku0Yllr0DGXF9cD0OztvRpUtZyCKoHbZQFUrA5pWN7gqckYCD5fCSD4MztK4nSQL9i/JgY6CpveYc6oykYV4go7vOx7dsytOus5R5bP7MAAAA==",
+  },
+  {
+    src: "/works/fridge-real-frost-1.webp",
+    category: "Холодильники",
+    alt: "Иней на испарителе холодильника",
+    caption: "Ремонт холодильника No Frost",
+    blurDataURL:
+      "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAwAgCdASoQABAAA4BaJagCdADbrdaluQ57gAD9m2HjhgisLLLFa6NrbjRWrKfoz01bu9wes8/UKzaoisWUg6z5Nexeh6fzByuGbW8HwXPLo51VpWt1wJn0GAAAAA==",
+  },
+  {
+    src: "/works/fridge-real-interior-open.webp",
+    category: "Холодильники",
+    alt: "Диагностика многокамерного холодильника изнутри",
+    caption: "Диагностика и ремонт холодильников",
+    blurDataURL:
+      "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAABwAgCdASoQABAAA4BaJYgC7AYwnlM+MrWcb/9AAN5XMGiOcVUIjTNOGRfeXoAx49nBhsGkiiv12GiLh7eliw+ps5anLCwY/45kvTXzPafb6ucYlHrByn2v0uVl/X54JgAAAA==",
+  },
+  {
+    src: "/works/fridge-real-board-removed.webp",
+    category: "Холодильники",
+    alt: "Демонтированный компрессор холодильника перед заменой",
+    caption: "Замена компрессора",
+    blurDataURL:
+      "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAADwAQCdASoQABAAA4BaJZQCsAD6QaSXFcAA/uos6HO1Eacj1gf1swZo9aGBmfivkXLVyM1lMEM11Q++H9hb/RGBKtnYNeODSh85Pwrn45P9xIw0SbyP/vym90X/v1BuLvxAAA==",
+  },
+  {
+    src: "/works/fridge-real-finished-eigen-2.webp",
+    category: "Холодильники",
+    alt: "Диагностика платы управления холодильника",
+    caption: "Диагностика и ремонт холодильников",
+    blurDataURL:
+      "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAwAgCdASoQABAAA4BaJZACdAYu52uts63eEAD+7Sgp/+5g29IbXhoqcRPsL84TXRLnvHczzKPfLh3crGD4BTSAXd7TepzyZUBmMzWYDdSPJdYqzmJYxqonHMmVy06tI+YOpiHgHe+fdcEUGEGQkWIADoim7JjcAAA=",
+  },
+  {
+    src: "/works/fridge-real-compressor-5.webp",
+    category: "Холодильники",
+    alt: "Обледеневший вентилятор в морозильной камере",
+    caption: "Ремонт холодильника No Frost",
+    blurDataURL:
+      "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADwAQCdASoQABAAA4BaJZQCdAC2OcVOswAA+p6DyXRh0Cgvkhwz9oVgU8d1tvL+z4q0R7rDFrNm1xfvIXbu2E4bcu+gAA==",
+  },
+  {
+    src: "/works/fridge-real-frost-2.webp",
+    category: "Стиральные машины",
+    alt: "Блокировка люка стиральной машины, снятая для замены",
+    caption: "Диагностика и ремонт стиральных машин",
+    blurDataURL:
+      "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAABQAgCdASoQABAAA4BaJQBdgMXN1N0Lsb5/GgAA/vGDrxDrjggYLuURCfthUrbu/tUE97tE9dEAo5teFE143O4kj436/G7e59+5N/bcRiMGDs4RniPUUVyIeLHRI8AA",
+  },
+  {
+    src: "/works/fridge-real-frost-fan.webp",
+    category: "Холодильники",
+    alt: "Компрессор холодильника, установленный при ремонте",
+    caption: "Замена компрессора",
+    blurDataURL:
+      "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAACQAgCdASoQABAAA4BaJaACdGuADz3vu0XY+r7bQAD+SJ4EHmwqqpoxp36bVQ0+KXBsSU9klGS4uQc9NVSRT4Lt8b/LoeaDx26MOo6LnuEByIWRbyeZ5z7q655mlQKrO4uzYH6ipJAAAA==",
+  },
+  {
+    src: "/works/fridge-real-finished-liebherr.webp",
+    category: "Холодильники",
+    alt: "Холодильники Liebherr после ремонта",
+    caption: "Диагностика и ремонт холодильников",
+    blurDataURL:
+      "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAQAgCdASoQABAAA4BaJaQAApIHKJf7dTAAAMrxg1TlWcr6jUFz00+ztqFGSW/D7a+EO1ft1y18utQJLeptaaqLWwpKNNS99QISvtXLtK+Km3oAAAA=",
+  },
+  {
+    src: "/works/washer-real-finished-samsung.webp",
+    category: "Стиральные машины",
+    alt: "Стиральная машина Samsung после ремонта",
+    caption: "Диагностика и ремонт стиральных машин",
+    blurDataURL:
+      "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAABQAgCdASoQABAAA4BaJYwC7AYvDwLNWtv6x2AA/ut3iIcbhQC9sdYDgoB1CCyjDQmSO1pSRHawwwRFI4fNxiqBBhH6iRxZqk38fiEOzaYzPJQOZ4f/nAdtuuGMErhw/LahKP5JzYcO4fjt0AA=",
+  },
   {
     src: "/works/fridge-real-diagnostics.webp",
     category: "Холодильники",
@@ -168,6 +266,31 @@ export const WORKS: WorkPhoto[] = [
       "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAABQAgCdASoQABAAA4BaJYgCw7YozK3vquncNEAA9kbiQh19YxP4yoL0jNmkculBNd7p4+k/O+bGe8FFiuEYKk10fi/rWerGOB0Q/IqdaG2+GEP3QbpVKS70P+XltHULrmEDbU1wUfuBmEQWtAUru5R+bDRU+dcBQAs10hfZMAAAAA==",
   },
 ];
+
+// Для карусели на главной берём по несколько фото на каждое
+// направление, а не весь массив — иначе с ростом архива карусель
+// раздувается и один перекос (сейчас — холодильники) съедает всю
+// ленту. Полный список без ограничений — в архиве /works.
+const FEATURED_WORKS_PER_CATEGORY = 3;
+
+// Список через запятую, последний пункт — через «и»: «А, Б и В».
+// join(" и ") на 3+ пунктах даёт «А и Б и В» — так по-русски не говорят.
+export function joinRu(items: readonly string[]): string {
+  if (items.length <= 1) return items.join("");
+  return `${items.slice(0, -1).join(", ")} и ${items[items.length - 1]}`;
+}
+
+export function getFeaturedWorks(): WorkPhoto[] {
+  const perCategory = new Map<WorkCategory, number>();
+  const featured: WorkPhoto[] = [];
+  for (const work of WORKS) {
+    const count = perCategory.get(work.category) ?? 0;
+    if (count >= FEATURED_WORKS_PER_CATEGORY) continue;
+    featured.push(work);
+    perCategory.set(work.category, count + 1);
+  }
+  return featured;
+}
 
 export type Review = {
   author: string;

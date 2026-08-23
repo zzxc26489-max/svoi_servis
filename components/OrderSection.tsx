@@ -15,8 +15,8 @@ export default function OrderSection() {
             <p className="section-eyebrow">Контакты</p>
             <h2 className="section-title">Как с нами связаться</h2>
             <p className="section-subtitle">
-              Уже знаете, что сломалось? Звоните мастеру по вашей технике
-              напрямую — он и приедет.
+              Опытные мастера по каждому направлению. Уже знаете, что
+              сломалось? Звоните напрямую — приедет тот, кто нужен.
             </p>
 
             <div className="mt-8">

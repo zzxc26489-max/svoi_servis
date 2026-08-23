@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { WORKS } from "@/lib/business";
+import { WORKS, getFeaturedWorks } from "@/lib/business";
 import { withBasePath } from "@/lib/basePath";
 import Carousel from "./Carousel";
 import { ArrowRightIcon } from "./icons";
@@ -9,7 +9,9 @@ export default function Works() {
   // Пока фото не добавлены — секции на странице нет.
   if (WORKS.length === 0) return null;
 
-  const items = WORKS.map((work) => (
+  // На главной — по паре фото на направление, не весь архив; всё
+  // целиком смотрят на /works.
+  const items = getFeaturedWorks().map((work) => (
     <li
       key={work.src}
       className="w-[15rem] shrink-0 snap-start card overflow-hidden sm:w-[18rem]"

@@ -1,4 +1,4 @@
-import { BUSINESS } from "@/lib/business";
+import { BUSINESS, joinRu } from "@/lib/business";
 
 const faqItems = [
   {
@@ -13,7 +13,7 @@ const faqItems = [
   },
   {
     question: "Куда вы выезжаете?",
-    answer: `Основная зона — ${BUSINESS.primaryAreas.join(" и ")}. По договорённости выезжаем в ${BUSINESS.extendedAreas.join(", ")} и другие города Подмосковья. Не уверены, доедем ли до вас — оставьте заявку с адресом, обсудим по телефону.`,
+    answer: `Основная зона — ${joinRu(BUSINESS.primaryAreas)}. По договорённости выезжаем в ${BUSINESS.extendedAreas.join(", ")} и другие города Подмосковья. Не уверены, доедем ли до вас — оставьте заявку с адресом, обсудим по телефону.`,
   },
   {
     question: "Что если моей техники нет в списке услуг?",
