@@ -47,12 +47,20 @@ export const BUSINESS = {
   },
 } as const;
 
+/** Направления совпадают с категориями в PRICES — чтобы фильтр в
+    архиве и прайс не разошлись по названиям. */
+export type WorkCategory =
+  | "Холодильники"
+  | "Стиральные машины"
+  | "Посудомоечные машины";
+
 export type WorkPhoto = {
   /** Путь от корня public, например /works/fridge-01.webp */
   src: string;
   /** Что на фото — обязателен: и для доступности, и для SEO. */
   alt: string;
   caption?: string;
+  category: WorkCategory;
   /** Крошечная блюр-версия (base64) — показывается, пока грузится
       полный файл, чтобы вместо пустого прямоугольника было размытое
       превью. Генерируется вместе с самим файлом. */
@@ -66,6 +74,7 @@ export type WorkPhoto = {
 export const WORKS: WorkPhoto[] = [
   {
     src: "/works/fridge-diagnostics.webp",
+    category: "Холодильники",
     alt: "Диагностика холодильника тепловизором и мультиметром",
     caption: "Диагностика и ремонт холодильников",
     blurDataURL:
@@ -73,6 +82,7 @@ export const WORKS: WorkPhoto[] = [
   },
   {
     src: "/works/fridge-no-frost.webp",
+    category: "Холодильники",
     alt: "Ремонт холодильника с системой No Frost",
     caption: "Ремонт холодильника No Frost",
     blurDataURL:
@@ -80,6 +90,7 @@ export const WORKS: WorkPhoto[] = [
   },
   {
     src: "/works/fridge-refrigerant.webp",
+    category: "Холодильники",
     alt: "Заправка холодильного контура манометрами",
     caption: "Заправка и ремонт холодильного контура",
     blurDataURL:
@@ -87,6 +98,7 @@ export const WORKS: WorkPhoto[] = [
   },
   {
     src: "/works/washer-bearings.webp",
+    category: "Стиральные машины",
     alt: "Замена подшипников барабана стиральной машины",
     caption: "Замена подшипников стиральной машины",
     blurDataURL:
@@ -94,6 +106,7 @@ export const WORKS: WorkPhoto[] = [
   },
   {
     src: "/works/washer-drain.webp",
+    category: "Стиральные машины",
     alt: "Чистка сливного фильтра стиральной машины",
     caption: "Стиральная машина не сливает воду",
     blurDataURL:
@@ -101,6 +114,7 @@ export const WORKS: WorkPhoto[] = [
   },
   {
     src: "/works/washer-diagnostics.webp",
+    category: "Стиральные машины",
     alt: "Диагностика стиральной машины мультиметром",
     caption: "Диагностика и ремонт стиральных машин",
     blurDataURL:
@@ -108,6 +122,7 @@ export const WORKS: WorkPhoto[] = [
   },
   {
     src: "/works/dishwasher-pump.webp",
+    category: "Посудомоечные машины",
     alt: "Ремонт сливного насоса посудомоечной машины",
     caption: "Посудомоечная машина не сливает воду",
     blurDataURL:
@@ -115,6 +130,7 @@ export const WORKS: WorkPhoto[] = [
   },
   {
     src: "/works/dishwasher-drain.webp",
+    category: "Посудомоечные машины",
     alt: "Устранение протечки посудомоечной машины",
     caption: "Диагностика и ремонт посудомоечных машин",
     blurDataURL:
@@ -122,6 +138,7 @@ export const WORKS: WorkPhoto[] = [
   },
   {
     src: "/works/dishwasher-diagnostics.webp",
+    category: "Посудомоечные машины",
     alt: "Диагностика электроники посудомоечной машины",
     caption: "Посудомоечная машина не греет воду",
     blurDataURL:

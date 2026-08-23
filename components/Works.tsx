@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { WORKS } from "@/lib/business";
 import { withBasePath } from "@/lib/basePath";
 import Carousel from "./Carousel";
+import { ArrowRightIcon } from "./icons";
 
 export default function Works() {
   // Пока фото не добавлены — секции на странице нет.
@@ -44,6 +46,14 @@ export default function Works() {
         <div className="mt-10">
           <Carousel ariaLabel="Примеры ремонта техники" items={items} />
         </div>
+
+        <Link
+          href="/works"
+          className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
+        >
+          Смотреть все работы
+          <ArrowRightIcon className="h-4 w-4" />
+        </Link>
       </div>
     </section>
   );
