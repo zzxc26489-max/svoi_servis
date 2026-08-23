@@ -1,5 +1,6 @@
 import QuickLeadForm from "./QuickLeadForm";
 import DirectContacts from "./DirectContacts";
+import WorkStatus from "./WorkStatus";
 import { RatingCard } from "./RatingBadge";
 import { BUSINESS } from "@/lib/business";
 import { ClockIcon, MapPinIcon, MapIcon } from "./icons";
@@ -60,6 +61,9 @@ export default function OrderSection() {
           {/* Форма заявки — плотная карточка без пустот */}
           <div className="lg:sticky lg:top-24 lg:self-start">
             <div className="card p-6 shadow-lift sm:p-7">
+              <div className="mb-4">
+                <WorkStatus tone="light" />
+              </div>
               <h3 className="font-display text-xl font-bold text-ink-900">
                 Не знаете, в чём причина?
               </h3>

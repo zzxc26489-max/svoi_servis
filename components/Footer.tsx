@@ -101,7 +101,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/10 pt-6 text-xs text-brand-100/45">
+        {/* pb на мобильном — под липкую полосу звонка, иначе она
+            перекрывает последнюю строку подвала. */}
+        <div className="mt-10 border-t border-white/10 pb-16 pt-6 text-xs text-brand-100/45 sm:pb-0">
           © {year} Свой Сервис · сервисный центр «{BUSINESS.name}»
         </div>
       </div>

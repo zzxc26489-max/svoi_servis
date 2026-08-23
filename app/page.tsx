@@ -10,6 +10,7 @@ import OrderSection from "@/components/OrderSection";
 import Faq from "@/components/Faq";
 import CtaStrip from "@/components/CtaStrip";
 import Footer from "@/components/Footer";
+import StickyCallBar from "@/components/StickyCallBar";
 
 export default function HomePage() {
   return (
@@ -28,6 +29,7 @@ export default function HomePage() {
       </main>
       <CtaStrip />
       <Footer />
+      <StickyCallBar />
     </>
   );
 }

@@ -29,8 +29,10 @@ export function buildLocalBusinessSchema() {
         "Saturday",
         "Sunday",
       ],
-      opens: "09:00",
-      closes: "22:00",
+      // Берём из BUSINESS, чтобы часы в разметке не разошлись с теми,
+      // что показаны на сайте.
+      opens: `${String(BUSINESS.hoursRange.opens).padStart(2, "0")}:00`,
+      closes: `${String(BUSINESS.hoursRange.closes).padStart(2, "0")}:00`,
     },
     contactPoint: MASTERS.map((master) => ({
       "@type": "ContactPoint",

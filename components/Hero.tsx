@@ -1,5 +1,6 @@
 import { BUSINESS } from "@/lib/business";
 import QuickLeadForm from "./QuickLeadForm";
+import WorkStatus from "./WorkStatus";
 import { RatingPill } from "./RatingBadge";
 import { BoltIcon, ShieldCheckIcon, WalletIcon } from "./icons";
 
@@ -39,7 +40,10 @@ export default function Hero() {
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* Левая колонка — оффер и доверие */}
           <div>
-            <RatingPill />
+            <div className="flex flex-wrap items-center gap-2.5">
+              <RatingPill />
+              <WorkStatus />
+            </div>
 
             <h1 className="mt-6 text-[2.15rem] font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]">
               Ремонт холодильников и стиральных машин{" "}
