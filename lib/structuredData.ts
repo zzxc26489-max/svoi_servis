@@ -58,3 +58,40 @@ export function buildLocalBusinessSchema() {
     areaServed: [...BUSINESS.primaryAreas, ...BUSINESS.extendedAreas],
   };
 }
+
+// FAQPage — из тех же вопросов-ответов, что показаны в Faq.tsx,
+// дословно (передаются параметром, а не дублируются здесь) — даёт
+// право на расширенный сниппет с раскрывающимися вопросами в выдаче.
+export function buildFaqSchema(
+  items: { question: string; answer: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+// BreadcrumbList — для страниц глубже главной (сейчас только /works).
+// items — от корня к текущей странице, name/url для каждого уровня.
+export function buildBreadcrumbSchema(
+  items: { name: string; url?: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      ...(item.url ? { item: item.url } : {}),
+    })),
+  };
+}

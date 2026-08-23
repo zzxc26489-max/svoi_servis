@@ -1,4 +1,5 @@
 import { BUSINESS, joinRu } from "@/lib/business";
+import { buildFaqSchema } from "@/lib/structuredData";
 
 const faqItems = [
   {
@@ -33,8 +34,14 @@ const faqItems = [
 ];
 
 export default function Faq() {
+  const schema = buildFaqSchema(faqItems);
+
   return (
     <section id="faq" className="section bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <div className="container-x">
         <p className="section-eyebrow">Вопросы</p>
         <h2 className="section-title">Что обычно спрашивают</h2>

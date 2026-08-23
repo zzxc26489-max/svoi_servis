@@ -10,8 +10,10 @@ import WorkStatus from "@/components/WorkStatus";
 import { RatingPill } from "@/components/RatingBadge";
 import { BUSINESS } from "@/lib/business";
 import { ArrowRightIcon } from "@/components/icons";
+import { buildBreadcrumbSchema } from "@/lib/structuredData";
 
 const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
 export const metadata: Metadata = {
   title: "Наши работы — ремонт холодильников, стиральных и посудомоечных машин",
@@ -21,8 +23,17 @@ export const metadata: Metadata = {
 };
 
 export default function WorksPage() {
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Главная", url: `${siteUrl}/` },
+    { name: "Работы", url: `${siteUrl}/works` },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Header />
       <main>
         {/* Шапка страницы — тёмная, как первый экран главной, чтобы

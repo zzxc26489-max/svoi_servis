@@ -177,7 +177,13 @@
   (`blurDataURL` в `WORKS`), чтобы при открытии страницы не было
   пустых прямоугольников — сразу видно размытый эскиз, затем чёткое
   фото
-- Микроразметка schema.org с рейтингом: `lib/structuredData.ts`
+- Микроразметка schema.org: `lib/structuredData.ts` — LocalBusiness с
+  рейтингом (везде), FAQPage (в `Faq.tsx`), BreadcrumbList (на `/works`)
+- `/sitemap.xml`, `/robots.txt`, `/llms.txt` — `app/sitemap.ts`,
+  `app/robots.ts`, `app/llms.txt/route.ts`. Все три требуют `export
+  const dynamic = "force-static"`, иначе статический экспорт для
+  GitHub Pages падает на сборке. `robots.txt` уважает
+  `NEXT_PUBLIC_PREVIEW` — превью на GitHub Pages не индексируется
 - Заявки уходят в Telegram: `app/api/order/route.ts` + `lib/telegram.ts`
 - Иконки: свои SVG в `components/icons.tsx`, эмодзи не используем
 
