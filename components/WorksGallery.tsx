@@ -71,17 +71,15 @@ export default function WorksGallery() {
                 placeholder="blur"
                 blurDataURL={work.blurDataURL}
               />
-            </div>
-            <div className="px-5 py-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-brand-600">
+              <span className="absolute left-3 top-3 rounded-full bg-ink-950/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
                 {work.category}
-              </p>
-              {work.caption && (
-                <p className="mt-1.5 text-sm leading-relaxed text-ink-700">
-                  {work.caption}
-                </p>
-              )}
+              </span>
             </div>
+            {work.caption && (
+              <p className="px-5 py-4 text-sm leading-relaxed text-ink-700">
+                {work.caption}
+              </p>
+            )}
           </li>
         ))}
       </ul>

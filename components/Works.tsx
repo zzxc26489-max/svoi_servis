@@ -24,6 +24,9 @@ export default function Works() {
           placeholder="blur"
           blurDataURL={work.blurDataURL}
         />
+        <span className="absolute left-3 top-3 rounded-full bg-ink-950/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
+          {work.category}
+        </span>
       </div>
       {work.caption && (
         <p className="px-5 py-4 text-sm leading-relaxed text-ink-500">
@@ -36,11 +39,11 @@ export default function Works() {
   return (
     <section id="works" className="section bg-white">
       <div className="container-x">
-        <p className="section-eyebrow">Как проходит ремонт</p>
-        <h2 className="section-title">С чем мы работаем</h2>
+        <p className="section-eyebrow">Наши работы</p>
+        <h2 className="section-title">Как это выглядит на деле</h2>
         <p className="section-subtitle">
-          Диагностика и ремонт — на месте, с профессиональным
-          оборудованием.
+          Реальные ремонты — диагностика, заправка контура, замена деталей.
+          Без стоковых картинок.
         </p>
 
         <div className="mt-10">

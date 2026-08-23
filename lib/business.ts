@@ -67,82 +67,105 @@ export type WorkPhoto = {
   blurDataURL: string;
 };
 
-// Временные иллюстративные фото (сгенерированы, не с реальных объектов) —
-// чтобы секция не пустовала, пока не пришлют настоящие снимки работ.
-// Заменить на реальные по мере поступления, см. PROJECT.md. Формат —
-// WebP (легче JPEG при том же качестве).
+// Реальные фото с объектов — присланы владельцем. Формат WebP (легче
+// JPEG при том же качестве). Категория (category) совпадает с группами
+// в PRICES — фильтр в /works и прайс не расходятся.
 export const WORKS: WorkPhoto[] = [
   {
-    src: "/works/fridge-diagnostics.webp",
+    src: "/works/fridge-real-diagnostics.webp",
     category: "Холодильники",
-    alt: "Диагностика холодильника тепловизором и мультиметром",
+    alt: "Диагностика платы управления и компрессора холодильника мультиметром и манометрами",
     caption: "Диагностика и ремонт холодильников",
     blurDataURL:
-      "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAQAgCdASoQABAAA4BaJZwAAjxAiOdN3ggAAP4K/069can6wIN9YhpOqB0QZKw1NfFqJ9NEqrjhUdumHlI2+ZKqZd2XSiNoXzF4P5O/8nW2Tbxh7QPq0lOy/YRTRs/GqZ9BjZHlCX1mAhIDgAA=",
+      "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAABQAgCdASoQABAAA4BaJaACdAEXyO6gj2Aa/AAA/uz+z6hXVGgp1bm70IM3y4VQxK4CjjHM2imNyCE7AVKa4cowJlityPfm8kpEcikqRwu6tHtRbvL0Pv/JGo2eChMEQ918d+VEj6AAAA==",
   },
   {
-    src: "/works/fridge-no-frost.webp",
+    src: "/works/fridge-real-nofrost.webp",
     category: "Холодильники",
-    alt: "Ремонт холодильника с системой No Frost",
+    alt: "Наледь на испарителе холодильника — типичная неисправность системы No Frost",
     caption: "Ремонт холодильника No Frost",
     blurDataURL:
-      "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAABwAgCdASoQABAAA4BaJZQCw7YvryZerqxWz/MAAP7rwZ3d6z6UWqCWBQujsp3f06f1st8aJ6B/h6hi4ewsO/wVzy7r9g+KxIN1aODXgR0NIKyohvWak3eyr/ZiG44timJl1K6St+uP1Ad6XKtHuwAA",
+      "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAQAgCdASoQABAAA4BaJZQCdAD0sfBg0TAAAPx4zVRBfUZxdjm8fi1T4IvIXL+BGdPRcUrcFioDm3tXmB+EoAAA",
   },
   {
-    src: "/works/fridge-refrigerant.webp",
+    src: "/works/fridge-real-refrigerant-1.webp",
     category: "Холодильники",
-    alt: "Заправка холодильного контура манометрами",
+    alt: "Заправка холодильного контура — манометры показывают давление фреона",
     caption: "Заправка и ремонт холодильного контура",
     blurDataURL:
-      "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAAAwAgCdASoQABAAA4BaJYwCw7DPJ9QJG3MAAAD8dhqXU/eSZLmwU6YB4OcRYaue4pzVUWdy8aOH7z+Dtv8VheH3qkPm6H29bHNGj7K6MEqpjSrGNaUZG5I7fK0vbc4uhDjh5n6ev0vwAA==",
+      "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAACQAgCdASoQABAAA4BaJbACdAYv1vQ00VSFEnOwAAD+vJCW1nTsXzfMPfP8/2otjyvc+KohKtIAJlxqMD5HGJM3SHA6CjxoMQIiQGLTMJ3mBJyyPdL6CrOBqEP7SpIceefG0iAA",
   },
   {
-    src: "/works/washer-bearings.webp",
-    category: "Стиральные машины",
-    alt: "Замена подшипников барабана стиральной машины",
-    caption: "Замена подшипников стиральной машины",
+    src: "/works/fridge-real-refrigerant-2.webp",
+    category: "Холодильники",
+    alt: "Проверка давления в контуре холодильника манометрической станцией",
+    caption: "Заправка и ремонт холодильного контура",
     blurDataURL:
-      "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAABwAgCdASoQABAAA4BaJZwCdAYtfq6Ph8wv2AAAAP6jb2HGrSkWg22r5vGgKXIo2vqd1Avt/gzeom5JVplDZ6B2y0Nm0Oe0iLlKdPdSdOjK9MEWuVBgvcgYmeVyyq4ZudGBZLX2SsrlTei2cpuT03OoAAA=",
+      "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADQAQCdASoQABAAA4BaJQBOgBxc51HwoAD+iTKZZfVN1UCIJLQ1VD2AhjjNy+h9hsJrBzVVXx8XQcDMVXhcCN4QmzuGJQ2jktJ9RA/6GB4ZyG0vLsr41k3gqiKSyUxc9Tm8lDQmyZJwXJ0OhAA=",
   },
   {
-    src: "/works/washer-drain.webp",
-    category: "Стиральные машины",
-    alt: "Чистка сливного фильтра стиральной машины",
-    caption: "Стиральная машина не сливает воду",
+    src: "/works/fridge-real-compressor-1.webp",
+    category: "Холодильники",
+    alt: "Замена компрессора холодильника",
+    caption: "Замена компрессора",
     blurDataURL:
-      "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAAAwAgCdASoQABAAA4BaJYgCdAYuHuPEwBbAAAD9AwAEuCLR2OGb70SksayWC3fFXucZoh36kvz6+a0ZzYvFLFmy5Ng4Ye/5ZXT/7G9xSc8bSBZZ6eedqNMfiTFQyXNwfcB9f/FdjeYq4aC8zUPMr1iCJkQun/sApKAAAA==",
+      "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAACQAgCdASoQABAAA4BaJQBOgMYJz+FMkofY3UBEAAD+0i7h7G+gzutMHr5i5PVcQqfCx014B27hZ06yLR2WRUuQn4cq40d6RC34Lg+e/NilSJPAvZUNiuWl36+6sa9OKzvuY/1C+SDyAA==",
   },
   {
-    src: "/works/washer-diagnostics.webp",
+    src: "/works/fridge-real-compressor-2.webp",
+    category: "Холодильники",
+    alt: "Демонтированный компрессор холодильника перед заменой",
+    caption: "Замена компрессора",
+    blurDataURL:
+      "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAABQAgCdASoQABAAA4BaJZwAD43uL56POs6tqAAA/q2v0pwIwlx3v+dAYLKVDOC1JTA8ndIAa5etKtiHNapa5Yd5eXY6SHSJiy1N7+v/7x4QN9fCOlHKqmb6ykVHik2et0+ICUqLKiAAAA==",
+  },
+  {
+    src: "/works/washer-real-drum-1.webp",
     category: "Стиральные машины",
-    alt: "Диагностика стиральной машины мультиметром",
+    alt: "Разобранная стиральная машина — доступ к баку и подшипникам",
     caption: "Диагностика и ремонт стиральных машин",
     blurDataURL:
-      "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAACQAgCdASoQABAAA4BaJZQCdAYv12Xqp37r+gMGAAD+2B9w5be/6Y1A5nRbwkUGX6siZ0PX4Iw7A0eV7bEFa77IqgWpcL768DUuBgNaCB2sywXzGdxRNFj4/vj5ftL9fMUmck0DfCTBoStKpAA=",
+      "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAABwAgCdASoQABAAA4BaJZwC7AaebnD1GtwgosKAAP5mv+iCb/1RnLk+97MlJO7Y8pDRXLL3SRNXwvny1+2qP3t5KhlrelyzwxXcin/0BqPb2Jq8ANVAHiuU3lRdgtlNhwZwROYRnbNIVyt5IA278QuUpgxEE/j60HSsSL5DbCczj1XY5RrGpoKIAAA=",
   },
   {
-    src: "/works/dishwasher-pump.webp",
+    src: "/works/washer-real-drum-2.webp",
+    category: "Стиральные машины",
+    alt: "Барабан стиральной машины снят с корпуса для замены подшипников",
+    caption: "Замена подшипников стиральной машины",
+    blurDataURL:
+      "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAAAQAgCdASoQABAAA4BaJQBOgMW0xW9g1OBQAM4wo5yx7fitqItR9j50yJ2cEWKP9EClhZx+zRRrTjHSbwE5jiHAr93nKI9MsGrcL7z4W6b5vJg2LOPVfB4Xx2zBcuePd2v0CpGXMxKbIv22U1hcAYKaZ8AAAA==",
+  },
+  {
+    src: "/works/washer-real-heating-element.webp",
+    category: "Стиральные машины",
+    alt: "Нагревательный элемент стиральной машины, снятый из-за накипи",
+    caption: "Стиральная машина не греет воду",
+    blurDataURL:
+      "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAABwAgCdASoQABAAA4BaJYwCsAYtVwTBFHj5h5cAAP7Q5pUfzhe+jTOGHdLF2wVm4ymrY5EbQE3L3TMS+fQVypuWQPlZP5xfKZMly3KZNUU4QQlPZ9PjKsN5niLHczndtifnkCEFSkNhfP3gAAA=",
+  },
+  {
+    src: "/works/washer-real-finished-bosch.webp",
+    category: "Стиральные машины",
+    alt: "Стиральная машина Bosch после ремонта",
+    caption: "Диагностика и ремонт стиральных машин",
+    blurDataURL:
+      "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAAAQAgCdASoQABAAA4BaJZQAAtipEeNSli+AAPH70amE4SA1dXKX0luYSG+4CmjSsXlEDdaeVPvAjlmK7g7RXdf5vapIFUpUNIM0EjF8/fZf5F8+Xa94EkqxpEpLJEW8bmB4AA==",
+  },
+  {
+    src: "/works/washer-real-finished-siemens.webp",
+    category: "Стиральные машины",
+    alt: "Стиральная машина Siemens после ремонта",
+    caption: "Диагностика и ремонт стиральных машин",
+    blurDataURL:
+      "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAABQAgCdASoQABAAA4BaJZQCdAYwTvIZsgCGUAAA/t9HUEaPUb71VfWjXBowaZ8aQOVAA737r2lUq/e+CUVz/YHH5TxEmNGgL7mGrTT/zQmgTU67QRH+6eOhUESKov1R4OhiDi5AAAA=",
+  },
+  {
+    src: "/works/dishwasher-real-pump.webp",
     category: "Посудомоечные машины",
-    alt: "Ремонт сливного насоса посудомоечной машины",
+    alt: "Сливной насос посудомоечной машины при ремонте",
     caption: "Посудомоечная машина не сливает воду",
     blurDataURL:
-      "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAABwAgCdASoQABAAA4BaJYwCdAdwBuilrk4VXaQAAP7XmpFFQJNJNoSniSIoLIYihg4s4ExrZa1iJ/iGZ4lQYX7z7r03j2/y5Dk2bAjZmVXhC3CWSh82lvORTE1ZspzgyWqu7+B3L6UDY324AAA=",
-  },
-  {
-    src: "/works/dishwasher-drain.webp",
-    category: "Посудомоечные машины",
-    alt: "Устранение протечки посудомоечной машины",
-    caption: "Диагностика и ремонт посудомоечных машин",
-    blurDataURL:
-      "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAAAwAgCdASoQABAAA4BaJQBOgMXD5NbntHqnYAD7I8SDvnIRwDjVuKfezdmaG5T7XNkp+5wGGR4enAAh5Dnv01OS430SfsDfB0JeoDkblzN290WyMgVmuh3buJCWJwt3W50VS6Y31aA3lXHu+oAAAA==",
-  },
-  {
-    src: "/works/dishwasher-diagnostics.webp",
-    category: "Посудомоечные машины",
-    alt: "Диагностика электроники посудомоечной машины",
-    caption: "Посудомоечная машина не греет воду",
-    blurDataURL:
-      "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAQCdASoQABAAA4BaJYwCsACzpNm3nQAA/uKVO+P8OOPlzh2QDqNzVXVQr4AZL7ZInx93EmuAeBHkYbgn9NmBxN7cA9gBhsrAoxdUfHWj74xBjsN9QWHg937Svt8qj7OdWPdr/U9w0DG8a0LCwAAA",
+      "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAABQAgCdASoQABAAA4BaJYgCw7YozK3vquncNEAA9kbiQh19YxP4yoL0jNmkculBNd7p4+k/O+bGe8FFiuEYKk10fi/rWerGOB0Q/IqdaG2+GEP3QbpVKS70P+XltHULrmEDbU1wUfuBmEQWtAUru5R+bDRU+dcBQAs10hfZMAAAAA==",
   },
 ];
 
