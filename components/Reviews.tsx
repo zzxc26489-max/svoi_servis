@@ -8,7 +8,16 @@ export default function Reviews() {
       key={review.author}
       className="flex w-[19rem] shrink-0 snap-start flex-col rounded-2xl border border-line bg-white p-6 sm:w-[22rem]"
     >
-      <QuoteIcon className="h-7 w-7 shrink-0 text-brand-200" />
+      <div className="flex items-start justify-between gap-3">
+        <QuoteIcon className="h-7 w-7 shrink-0 text-brand-200" />
+        {review.rating && (
+          <span className="mt-1 flex shrink-0 items-center gap-0.5 text-amber-500">
+            {Array.from({ length: review.rating }).map((_, i) => (
+              <StarIcon key={i} className="h-3.5 w-3.5" />
+            ))}
+          </span>
+        )}
+      </div>
 
       <p className="mt-4 flex-1 text-[0.94rem] leading-relaxed text-ink-700">
         {review.text}
