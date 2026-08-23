@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { WORKS } from "@/lib/business";
+import { withBasePath } from "@/lib/basePath";
 
 export default function Works() {
   // Пока фото не добавлены — секции на странице нет.
@@ -20,7 +21,7 @@ export default function Works() {
             <li key={work.src} className="card overflow-hidden">
               <div className="relative aspect-[4/3] bg-mist-100">
                 <Image
-                  src={work.src}
+                  src={withBasePath(work.src)}
                   alt={work.alt}
                   fill
                   sizes="(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"
