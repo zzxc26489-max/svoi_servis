@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Carousel from "./Carousel";
 
 // Простые line-иконки вместо эмодзи (эмодзи рендерятся по-разному на
 // разных ОС и не читаются скринридерами осмысленно — см. чек-лист
@@ -115,6 +116,25 @@ const services: Service[] = [
 ];
 
 export default function Services() {
+  const items = services.map((service) => (
+    <li
+      key={service.title}
+      className={`w-[16rem] shrink-0 snap-start card-hover p-6 sm:w-[18rem] ${
+        service.highlight ? "border-brand-200 bg-brand-50" : ""
+      }`}
+    >
+      <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-100 to-brand-200 text-brand-700">
+        {service.icon}
+      </span>
+      <h3 className="mt-4 text-lg font-bold text-ink-900">
+        {service.title}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-ink-500">
+        {service.description}
+      </p>
+    </li>
+  ));
+
   return (
     <section id="services" className="section bg-white">
       <div className="container-x">
@@ -125,25 +145,8 @@ export default function Services() {
           машины. Диагностика на месте, ремонт на дому или в мастерской.
         </p>
 
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => (
-            <div
-              key={service.title}
-              className={`card-hover p-6 ${
-                service.highlight ? "border-brand-200 bg-brand-50" : ""
-              }`}
-            >
-              <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-100 to-brand-200 text-brand-700">
-                {service.icon}
-              </span>
-              <h3 className="mt-4 text-lg font-bold text-ink-900">
-                {service.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-500">
-                {service.description}
-              </p>
-            </div>
-          ))}
+        <div className="mt-10">
+          <Carousel ariaLabel="Виды ремонтируемой техники" items={items} />
         </div>
 
         <p className="mt-6 text-sm text-ink-400">
