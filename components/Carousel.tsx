@@ -25,8 +25,10 @@ export default function Carousel({
   fadeFrom = "from-white",
 }: CarouselProps) {
   const trackRef = useRef<HTMLUListElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const pausedRef = useRef(false);
 
   const syncArrows = useCallback(() => {
@@ -52,8 +54,24 @@ export default function Carousel({
     track.scrollBy({ left: step * direction, behavior: "smooth" });
   }, []);
 
+  // Автопрокрутка должна идти, только пока карусель реально видна —
+  // иначе она уезжает вперёд, пока человек ещё листает страницу выше,
+  // и к моменту, когда до неё доскроллят, там уже не первая карточка
+  // (для «Какую технику мы ремонтируем» это особенно важно — там
+  // сначала должны быть видны холодильники/стиралки/посудомойки).
   useEffect(() => {
-    if (!autoPlayMs || items.length < 2) return;
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.4 },
+    );
+    observer.observe(wrap);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!autoPlayMs || items.length < 2 || !isVisible) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const id = setInterval(() => {
@@ -61,6 +79,7 @@ export default function Carousel({
       if (!track || pausedRef.current) return;
       const { scrollLeft, scrollWidth, clientWidth } = track;
       if (scrollLeft + clientWidth >= scrollWidth - 8) {
+        // Долистали до конца — начинаем заново (бесконечная лента).
         track.scrollTo({ left: 0, behavior: "smooth" });
       } else {
         scrollByCard(1);
@@ -68,7 +87,7 @@ export default function Carousel({
     }, autoPlayMs);
 
     return () => clearInterval(id);
-  }, [autoPlayMs, items.length, scrollByCard]);
+  }, [autoPlayMs, items.length, scrollByCard, isVisible]);
 
   const pause = () => {
     pausedRef.current = true;
@@ -78,7 +97,7 @@ export default function Carousel({
   };
 
   return (
-    <div className="relative">
+    <div ref={wrapRef} className="relative">
       <ul
         ref={trackRef}
         onScroll={syncArrows}
