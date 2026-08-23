@@ -8,6 +8,7 @@ import Reviews from "@/components/Reviews";
 import Advantages from "@/components/Advantages";
 import OrderSection from "@/components/OrderSection";
 import Faq from "@/components/Faq";
+import CtaStrip from "@/components/CtaStrip";
 import Footer from "@/components/Footer";
 
 export default function HomePage() {
@@ -25,6 +26,7 @@ export default function HomePage() {
         <OrderSection />
         <Faq />
       </main>
+      <CtaStrip />
       <Footer />
     </>
   );
