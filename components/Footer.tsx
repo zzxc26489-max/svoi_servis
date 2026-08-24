@@ -1,4 +1,4 @@
-import { BUSINESS, MASTERS } from "@/lib/business";
+import { BUSINESS, MASTERS, joinRu } from "@/lib/business";
 import Logo from "./Logo";
 import { TelegramIcon, WhatsAppIcon, MapIcon, PhoneIcon } from "./icons";
 
@@ -23,8 +23,8 @@ export default function Footer() {
             <p className="mt-4 text-sm">
               <span className="text-white/90">Зона выезда:</span>{" "}
               {BUSINESS.primaryAreas.join(", ")} — и по договорённости{" "}
-              {BUSINESS.extendedAreas.join(", ")}, а также другие города
-              Подмосковья — уточняйте по заявке.
+              {joinRu(BUSINESS.extendedAreas.slice(0, 5))}, а также другие
+              города Подмосковья — уточняйте по заявке.
             </p>
           </div>
 
