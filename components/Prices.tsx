@@ -8,8 +8,8 @@ export default function Prices() {
         <p className="section-eyebrow">Цены</p>
         <h2 className="section-title">Стоимость известна до начала работ</h2>
         <p className="section-subtitle">
-          Мастер называет итоговую цену после диагностики — и только потом
-          берётся за ремонт. Никаких доплат «по ходу дела».
+          Выезд и диагностика — бесплатно при ремонте. Итоговую цену
+          называем до начала работ — никаких доплат «по ходу дела».
         </p>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
@@ -22,15 +22,10 @@ export default function Prices() {
                 {group.items.map((item) => (
                   <div
                     key={item.title}
-                    className="flex items-start justify-between gap-4 px-6 py-3.5"
+                    className="flex items-baseline justify-between gap-4 px-6 py-3.5"
                   >
                     <dt className="text-sm leading-snug text-ink-700">
                       {item.title}
-                      {item.note && (
-                        <span className="mt-0.5 block text-xs text-brand-600">
-                          {item.note}
-                        </span>
-                      )}
                     </dt>
                     {/*   — неразрывные пробелы, чтобы «от», сумма и
                         «₽» никогда не разъезжались по разным строкам */}
