@@ -22,10 +22,15 @@ export default function Prices() {
                 {group.items.map((item) => (
                   <div
                     key={item.title}
-                    className="flex items-baseline justify-between gap-4 px-6 py-3.5"
+                    className="flex items-start justify-between gap-4 px-6 py-3.5"
                   >
                     <dt className="text-sm leading-snug text-ink-700">
                       {item.title}
+                      {item.note && (
+                        <span className="mt-0.5 block text-xs text-brand-600">
+                          {item.note}
+                        </span>
+                      )}
                     </dt>
                     {/*   — неразрывные пробелы, чтобы «от», сумма и
                         «₽» никогда не разъезжались по разным строкам */}
