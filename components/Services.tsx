@@ -39,17 +39,6 @@ function DishwasherIcon() {
   );
 }
 
-function StoveIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
-      <rect x="3" y="3" width="18" height="18" rx="2.5" stroke="currentColor" strokeWidth="1.75" />
-      <circle cx="8" cy="8.5" r="1.6" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="16" cy="8.5" r="1.6" stroke="currentColor" strokeWidth="1.5" />
-      <rect x="6.5" y="13" width="11" height="5.5" rx="1.2" stroke="currentColor" strokeWidth="1.75" />
-    </svg>
-  );
-}
-
 function AcUnitIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
@@ -97,11 +86,6 @@ const services: Service[] = [
     description:
       "Не моет, не сушит, протекает, не набирает воду. Чистка, замена насосов и нагревательных элементов.",
     highlight: true,
-  },
-  {
-    icon: <StoveIcon />,
-    title: "Плиты и духовые шкафы",
-    description: "Газовые и электрические плиты, варочные панели, духовки.",
   },
   {
     icon: <AcUnitIcon />,

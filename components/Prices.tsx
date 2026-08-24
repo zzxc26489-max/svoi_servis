@@ -42,7 +42,7 @@ export default function Prices() {
         <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-brand-200 bg-brand-50 p-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-ink-700">
             <span className="font-semibold text-ink-900">
-              Другая техника — плиты, кондиционеры, кофемашины?
+              Другая техника — кондиционеры, кофемашины?
             </span>{" "}
             Примем в ремонт и подберём мастера. Цену назовём после диагностики.
           </p>
