@@ -1,4 +1,12 @@
-import { BUSINESS, PRICES, MASTERS, joinRu } from "@/lib/business";
+import {
+  BUSINESS,
+  PRICES,
+  MASTERS,
+  joinRu,
+  pluralRu,
+  RATING_FORMS,
+  REVIEW_FORMS,
+} from "@/lib/business";
 
 // Без этого сборка со статическим экспортом (GITHUB_PAGES=true) падает —
 // см. тот же комментарий в app/robots.ts.
@@ -23,7 +31,7 @@ export async function GET() {
 
   const body = `# Свой Сервис
 
-> Ремонт холодильников, стиральных и посудомоечных машин на дому и в мастерской в ${areas}. Диагностика от 500 ₽, рейтинг ${BUSINESS.rating.value.toString().replace(".", ",")} на Яндекс.Картах (${BUSINESS.rating.ratingsCount} оценок, ${BUSINESS.rating.reviewsCount} отзывов).
+> Ремонт холодильников, стиральных и посудомоечных машин на дому и в мастерской в ${areas}. Диагностика от 500 ₽, рейтинг ${BUSINESS.rating.value.toString().replace(".", ",")} на Яндекс.Картах (${BUSINESS.rating.ratingsCount} ${pluralRu(BUSINESS.rating.ratingsCount, RATING_FORMS)}, ${BUSINESS.rating.reviewsCount} ${pluralRu(BUSINESS.rating.reviewsCount, REVIEW_FORMS)}).
 
 ## Услуги и цены
 

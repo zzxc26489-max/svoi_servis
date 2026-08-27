@@ -1,4 +1,9 @@
-import { BUSINESS } from "@/lib/business";
+import {
+  BUSINESS,
+  pluralRu,
+  RATING_FORMS,
+  REVIEW_FORMS,
+} from "@/lib/business";
 import { StarIcon, StarHalfIcon } from "./icons";
 
 const { value, ratingsCount, reviewsCount } = BUSINESS.rating;
@@ -31,7 +36,8 @@ export function RatingPill() {
         {value.toString().replace(".", ",")}
       </span>
       <span className="text-brand-100/70">
-        {ratingsCount} оценок на Яндекс.Картах
+        {ratingsCount} {pluralRu(ratingsCount, RATING_FORMS)} на
+        Яндекс.Картах
       </span>
     </a>
   );
@@ -53,7 +59,8 @@ export function RatingCard() {
         <div>
           <Stars className="text-amber-500" />
           <div className="mt-1 text-xs text-ink-500">
-            {ratingsCount} оценок · {reviewsCount} отзывов
+            {ratingsCount} {pluralRu(ratingsCount, RATING_FORMS)} ·{" "}
+            {reviewsCount} {pluralRu(reviewsCount, REVIEW_FORMS)}
           </div>
         </div>
       </div>

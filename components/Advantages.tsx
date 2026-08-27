@@ -1,4 +1,11 @@
-import { BUSINESS, MASTERS, PRICES } from "@/lib/business";
+import {
+  BUSINESS,
+  MASTERS,
+  PRICES,
+  pluralRu,
+  RATING_FORMS,
+  REVIEW_FORMS,
+} from "@/lib/business";
 import {
   StarIcon,
   StarHalfIcon,
@@ -99,7 +106,8 @@ export default function Advantages() {
                   {hasHalfStar && <StarHalfIcon className="h-4 w-4" />}
                 </span>
                 <div className="mt-1 text-xs text-brand-100/60">
-                  {ratingsCount} оценок · {reviewsCount} отзывов на
+                  {ratingsCount} {pluralRu(ratingsCount, RATING_FORMS)} ·{" "}
+                  {reviewsCount} {pluralRu(reviewsCount, REVIEW_FORMS)} на
                   Яндекс.Картах
                 </div>
               </div>

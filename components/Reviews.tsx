@@ -1,4 +1,9 @@
-import { BUSINESS, REVIEWS } from "@/lib/business";
+import {
+  BUSINESS,
+  REVIEWS,
+  pluralRu,
+  RATING_FORMS,
+} from "@/lib/business";
 import { QuoteIcon, StarIcon, ArrowRightIcon } from "./icons";
 import Carousel from "./Carousel";
 
@@ -51,7 +56,9 @@ export default function Reviews() {
               {BUSINESS.rating.value.toString().replace(".", ",")}
             </span>
             <span>
-              · {BUSINESS.rating.ratingsCount} оценок на Яндекс.Картах
+              · {BUSINESS.rating.ratingsCount}{" "}
+              {pluralRu(BUSINESS.rating.ratingsCount, RATING_FORMS)} на
+              Яндекс.Картах
             </span>
           </p>
         </div>
