@@ -35,7 +35,7 @@ jobs:
       # GitHub Pages отдаёт только статику — серверный /api/order (шлёт
       # заявки в Telegram) на статическом экспорте собраться не может.
       # Убираем его только из этой сборки превью; в репозитории он остаётся
-      # нетронутым для боевого хостинга (Vercel и т.п.).
+      # нетронутым для боевого хостинга (Beget с Node.js).
       - name: Remove server-only API route for static export
         run: rm -rf app/api
 
