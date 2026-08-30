@@ -1,13 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { TelegramIcon, WhatsAppIcon, CheckIcon } from "./icons";
 import { BUSINESS, MASTERS } from "@/lib/business";
-
-// Через сколько мс тишины после ввода считаем номер «брошенным» и тихо
-// отправляем его сами — даже если клиент не нажал кнопку.
-const AUTO_SEND_DELAY_MS = 1500;
 
 // "invalid" — номер введён не полностью, виноват ввод.
 // "failed"  — номер в порядке, но заявка не ушла (нет сети, сервер
@@ -44,17 +40,14 @@ function digitsOf(phone: string): string {
 
 export default function QuickLeadForm() {
   const [phone, setPhone] = useState("");
-  // Согласие на обработку номера. Не отмечено по умолчанию — Роскомнадзор
-  // не считает согласием ни предзаполненную галочку, ни фразу «нажимая
-  // кнопку, вы соглашаетесь»: нужно активное действие человека.
-  // Галочка стоит ВЫШЕ поля телефона намеренно: тихий захват брошенного
-  // номера работает только при отмеченном согласии, а значит человек
-  // должен успеть его отметить до того, как впишет номер.
-  const [consent, setConsent] = useState(false);
+  // Согласие на обработку номера. Отмечено по умолчанию — решение
+  // владельца. Само по себе предзаполненное согласие Роскомнадзор
+  // надлежащим не признаёт, но номер здесь уходит только после того,
+  // как человек сам вписал его и нажал кнопку: тихой отправки нет.
+  // Галочку можно снять — тогда заявка не отправится.
+  const [consent, setConsent] = useState(true);
   const [status, setStatus] = useState<Status>("idle");
-  const [autoCaught, setAutoCaught] = useState(false);
   const sentDigitsRef = useRef<string>("");
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Компонент рендерится на странице дважды (Hero + секция заявки) —
   // без уникального id вторая пара label/input указывала бы на id
@@ -65,70 +58,42 @@ export default function QuickLeadForm() {
   const consentId = `lead-consent-${uid}`;
   const consentErrorId = `lead-consent-error-${uid}`;
 
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, []);
-
-  async function sendLead(digits: string, source: "click" | "auto") {
+  async function sendLead(digits: string) {
     if (sentDigitsRef.current === digits) return;
-
-    if (source === "click") setStatus("sending");
+    setStatus("sending");
 
     try {
       const response = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: digits, source, website: "" }),
+        body: JSON.stringify({ phone: digits, source: "click", website: "" }),
       });
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok || !data.ok) {
-        if (source === "click") setStatus("failed");
+        setStatus("failed");
         return;
       }
 
       sentDigitsRef.current = digits;
-      if (source === "click") {
-        setStatus("sent");
-      } else {
-        setAutoCaught(true);
-      }
+      setStatus("sent");
     } catch {
-      if (source === "click") setStatus("failed");
+      setStatus("failed");
     }
-  }
-
-  // Тихая отправка «брошенного» номера — тоже отправка персональных
-  // данных, поэтому она допустима только когда согласие уже отмечено.
-  function scheduleAutoSend(formatted: string, allowed: boolean) {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    if (!allowed) return;
-    const digits = digitsOf(formatted);
-    if (digits.length !== 11) return;
-    timerRef.current = setTimeout(() => {
-      void sendLead(digits, "auto");
-    }, AUTO_SEND_DELAY_MS);
   }
 
   function handleConsentChange(checked: boolean) {
     setConsent(checked);
     if (status === "consent") setStatus("idle");
-    scheduleAutoSend(phone, checked);
   }
 
   function handleChange(value: string) {
     setStatus("idle");
-    setAutoCaught(false);
-    const formatted = formatRuPhone(value);
-    setPhone(formatted);
-    scheduleAutoSend(formatted, consent);
+    setPhone(formatRuPhone(value));
   }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    if (timerRef.current) clearTimeout(timerRef.current);
 
     const digits = digitsOf(phone);
     if (digits.length !== 11) {
@@ -139,7 +104,7 @@ export default function QuickLeadForm() {
       setStatus("consent");
       return;
     }
-    void sendLead(digits, "click");
+    void sendLead(digits);
   }
 
   if (status === "sent") {
@@ -222,15 +187,6 @@ export default function QuickLeadForm() {
           aria-describedby={status === "invalid" ? errorId : undefined}
           className="h-12 w-full rounded-xl border border-line bg-mist-50 px-4 text-base text-ink-900 transition-colors placeholder:text-ink-400 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/12"
         />
-        {autoCaught && (
-          <p
-            aria-live="polite"
-            className="mt-2 flex items-center gap-1.5 text-xs font-medium text-emerald-700"
-          >
-            <CheckIcon className="h-4 w-4" />
-            Номер приняли — перезвоним
-          </p>
-        )}
         {status === "invalid" && (
           <p id={errorId} role="alert" className="mt-2 text-xs text-red-600">
             Введите номер полностью — 10 цифр после +7
