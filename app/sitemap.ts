@@ -21,5 +21,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
+    // Политика в карте есть (страница обязана быть доступной), но в
+    // выдаче не нужна — на самой странице стоит noindex.
+    {
+      url: `${siteUrl}/privacy`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.1,
+    },
   ];
 }

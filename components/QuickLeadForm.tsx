@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { TelegramIcon, WhatsAppIcon, CheckIcon } from "./icons";
 import { BUSINESS, MASTERS } from "@/lib/business";
@@ -12,7 +13,14 @@ const AUTO_SEND_DELAY_MS = 1500;
 // "failed"  — номер в порядке, но заявка не ушла (нет сети, сервер
 //             недоступен, превью без бэкенда). Винить клиента нельзя —
 //             показываем прямой телефон, чтобы заявка не потерялась.
-type Status = "idle" | "sending" | "sent" | "invalid" | "failed";
+type Status =
+  | "idle"
+  | "sending"
+  | "sent"
+  | "invalid"
+  | "failed"
+  // Номер введён, но галочка согласия не отмечена.
+  | "consent";
 
 function formatRuPhone(raw: string): string {
   let digits = raw.replace(/\D/g, "");
@@ -36,6 +44,10 @@ function digitsOf(phone: string): string {
 
 export default function QuickLeadForm() {
   const [phone, setPhone] = useState("");
+  // Согласие на обработку номера. Не отмечено по умолчанию — Роскомнадзор
+  // не считает согласием ни предзаполненную галочку, ни фразу «нажимая
+  // кнопку, вы соглашаетесь»: нужно активное действие человека.
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [autoCaught, setAutoCaught] = useState(false);
   const sentDigitsRef = useRef<string>("");
@@ -47,6 +59,8 @@ export default function QuickLeadForm() {
   const uid = useId();
   const inputId = `lead-phone-${uid}`;
   const errorId = `lead-phone-error-${uid}`;
+  const consentId = `lead-consent-${uid}`;
+  const consentErrorId = `lead-consent-error-${uid}`;
 
   useEffect(() => {
     return () => {
@@ -83,20 +97,30 @@ export default function QuickLeadForm() {
     }
   }
 
+  // Тихая отправка «брошенного» номера — тоже отправка персональных
+  // данных, поэтому она допустима только когда согласие уже отмечено.
+  function scheduleAutoSend(formatted: string, allowed: boolean) {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (!allowed) return;
+    const digits = digitsOf(formatted);
+    if (digits.length !== 11) return;
+    timerRef.current = setTimeout(() => {
+      void sendLead(digits, "auto");
+    }, AUTO_SEND_DELAY_MS);
+  }
+
+  function handleConsentChange(checked: boolean) {
+    setConsent(checked);
+    if (status === "consent") setStatus("idle");
+    scheduleAutoSend(phone, checked);
+  }
+
   function handleChange(value: string) {
     setStatus("idle");
     setAutoCaught(false);
     const formatted = formatRuPhone(value);
     setPhone(formatted);
-
-    if (timerRef.current) clearTimeout(timerRef.current);
-
-    const digits = digitsOf(formatted);
-    if (digits.length === 11) {
-      timerRef.current = setTimeout(() => {
-        void sendLead(digits, "auto");
-      }, AUTO_SEND_DELAY_MS);
-    }
+    scheduleAutoSend(formatted, consent);
   }
 
   function handleSubmit(event: React.FormEvent) {
@@ -106,6 +130,10 @@ export default function QuickLeadForm() {
     const digits = digitsOf(phone);
     if (digits.length !== 11) {
       setStatus("invalid");
+      return;
+    }
+    if (!consent) {
+      setStatus("consent");
       return;
     }
     void sendLead(digits, "click");
@@ -191,6 +219,40 @@ export default function QuickLeadForm() {
         </div>
       )}
 
+      <div>
+        <label
+          htmlFor={consentId}
+          className="flex cursor-pointer items-start gap-2.5 text-xs leading-relaxed text-ink-500"
+        >
+          <input
+            id={consentId}
+            type="checkbox"
+            checked={consent}
+            onChange={(event) => handleConsentChange(event.target.checked)}
+            aria-describedby={status === "consent" ? consentErrorId : undefined}
+            className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-line text-brand-600 accent-brand-600 focus:ring-2 focus:ring-brand-500/40"
+          />
+          <span>
+            Согласен на обработку номера, чтобы мне перезвонили —{" "}
+            <Link
+              href="/privacy"
+              className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700"
+            >
+              как мы храним данные
+            </Link>
+          </span>
+        </label>
+        {status === "consent" && (
+          <p
+            id={consentErrorId}
+            role="alert"
+            className="mt-2 text-xs text-red-600"
+          >
+            Отметьте согласие — без него мы не имеем права принять номер
+          </p>
+        )}
+      </div>
+
       <button
         type="submit"
         disabled={status === "sending"}
@@ -226,9 +288,6 @@ export default function QuickLeadForm() {
         </a>
       </div>
 
-      <p className="text-xs leading-relaxed text-ink-400">
-        Отправляя номер, вы соглашаетесь с обработкой персональных данных.
-      </p>
     </form>
   );
 }

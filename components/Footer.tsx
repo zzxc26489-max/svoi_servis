@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BUSINESS, MASTERS, joinRu } from "@/lib/business";
 import Logo from "./Logo";
 import { TelegramIcon, WhatsAppIcon, MapIcon, PhoneIcon } from "./icons";
@@ -103,8 +104,14 @@ export default function Footer() {
 
         {/* pb на мобильном — под липкую полосу звонка, иначе она
             перекрывает последнюю строку подвала. */}
-        <div className="mt-10 border-t border-white/10 pb-16 pt-6 text-xs text-brand-100/45 sm:pb-0">
-          © {year} Свой Сервис · сервисный центр «{BUSINESS.name}»
+        <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pb-16 pt-6 text-xs text-brand-100/45 sm:flex-row sm:items-center sm:justify-between sm:pb-0">
+          <p>© {year} Свой Сервис · сервисный центр «{BUSINESS.name}»</p>
+          <Link
+            href="/privacy"
+            className="transition-colors hover:text-white"
+          >
+            Обработка персональных данных
+          </Link>
         </div>
       </div>
     </footer>
