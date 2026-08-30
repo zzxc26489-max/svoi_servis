@@ -1,0 +1,64 @@
+name: Деплой на VPS
+
+# Собираем на раннере GitHub, а не на сервере: у VPS 1 ГБ памяти, и
+# сборка Next.js там вполне может упасть по нехватке памяти. На сервер
+# уезжает готовый standalone-бандл (~50 МБ) — его остаётся только
+# запустить.
+on:
+  push:
+    branches:
+      - claude/new-chat-repo-belqxp
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Пока секреты не заведены, шаг просто пропускается — красных
+    # крестов в истории не будет.
+    if: ${{ vars.VPS_ENABLED == 'true' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://zel-servis.ru
+        run: npm run build
+
+      # Next кладёт в standalone только сервер и нужные ему зависимости.
+      # Статику и public он туда НЕ копирует — это делаем сами, иначе на
+      # сайте не будет ни стилей, ни фотографий работ.
+      - name: Собрать бандл для отправки
+        run: |
+          cp -r public .next/standalone/public
+          cp -r .next/static .next/standalone/.next/static
+
+      - name: Настроить SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Залить на сервер
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/id_ed25519" \
+            .next/standalone/ \
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}/"
+
+      - name: Перезапустить приложение
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
+            "sudo systemctl restart svoi-servis"

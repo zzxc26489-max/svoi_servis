@@ -22,7 +22,14 @@ const nextConfig = {
         trailingSlash: true,
         images: { unoptimized: true },
       }
-    : {}),
+    : {
+        // Боевая сборка — self-contained: Next кладёт в .next/standalone
+        // сервер вместе с теми зависимостями, которые ему реально нужны.
+        // На сервер уезжает ~100 МБ вместо 464 МБ node_modules, и на VPS
+        // не нужно ни ставить зависимости, ни собирать проект — а на 1 ГБ
+        // памяти сборка Next вполне может упасть по нехватке памяти.
+        output: "standalone",
+      }),
 };
 
 export default nextConfig;
