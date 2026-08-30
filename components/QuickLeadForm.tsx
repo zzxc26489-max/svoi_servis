@@ -47,6 +47,9 @@ export default function QuickLeadForm() {
   // Согласие на обработку номера. Не отмечено по умолчанию — Роскомнадзор
   // не считает согласием ни предзаполненную галочку, ни фразу «нажимая
   // кнопку, вы соглашаетесь»: нужно активное действие человека.
+  // Галочка стоит ВЫШЕ поля телефона намеренно: тихий захват брошенного
+  // номера работает только при отмеченном согласии, а значит человек
+  // должен успеть его отметить до того, как впишет номер.
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [autoCaught, setAutoCaught] = useState(false);
@@ -167,6 +170,40 @@ export default function QuickLeadForm() {
 
       <div>
         <label
+          htmlFor={consentId}
+          className="flex cursor-pointer items-start gap-2.5 text-xs leading-relaxed text-ink-500"
+        >
+          <input
+            id={consentId}
+            type="checkbox"
+            checked={consent}
+            onChange={(event) => handleConsentChange(event.target.checked)}
+            aria-describedby={status === "consent" ? consentErrorId : undefined}
+            className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-line text-brand-600 accent-brand-600 focus:ring-2 focus:ring-brand-500/40"
+          />
+          <span>
+            Согласен, чтобы мне перезвонили по этому номеру —{" "}
+            <Link
+              href="/privacy"
+              className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700"
+            >
+              как мы храним данные
+            </Link>
+          </span>
+        </label>
+        {status === "consent" && (
+          <p
+            id={consentErrorId}
+            role="alert"
+            className="mt-2 text-xs text-red-600"
+          >
+            Отметьте согласие — без него мы не имеем права принять номер
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label
           htmlFor={inputId}
           className="mb-1.5 block text-sm font-medium text-ink-700"
         >
@@ -218,40 +255,6 @@ export default function QuickLeadForm() {
           </a>
         </div>
       )}
-
-      <div>
-        <label
-          htmlFor={consentId}
-          className="flex cursor-pointer items-start gap-2.5 text-xs leading-relaxed text-ink-500"
-        >
-          <input
-            id={consentId}
-            type="checkbox"
-            checked={consent}
-            onChange={(event) => handleConsentChange(event.target.checked)}
-            aria-describedby={status === "consent" ? consentErrorId : undefined}
-            className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-line text-brand-600 accent-brand-600 focus:ring-2 focus:ring-brand-500/40"
-          />
-          <span>
-            Согласен на обработку номера, чтобы мне перезвонили —{" "}
-            <Link
-              href="/privacy"
-              className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700"
-            >
-              как мы храним данные
-            </Link>
-          </span>
-        </label>
-        {status === "consent" && (
-          <p
-            id={consentErrorId}
-            role="alert"
-            className="mt-2 text-xs text-red-600"
-          >
-            Отметьте согласие — без него мы не имеем права принять номер
-          </p>
-        )}
-      </div>
 
       <button
         type="submit"
