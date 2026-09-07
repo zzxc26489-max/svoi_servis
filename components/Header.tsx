@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { MASTERS } from "@/lib/business";
 import { PhoneIcon } from "./icons";
@@ -19,11 +22,26 @@ const navItems = [
 const primaryPhone = MASTERS[0];
 
 export default function Header() {
+  const pathname = usePathname();
+
+  // На главной клик по логотипу никуда не ведёт (та же страница) —
+  // Next.js в этом случае не скроллит, поэтому поднимаем наверх сами.
+  // На остальных страницах переход на «/» и так открывает её сверху.
+  function handleLogoClick(event: React.MouseEvent) {
+    if (pathname !== "/") return;
+    event.preventDefault();
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  }
+
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white/85 backdrop-blur-md">
       <div className="container-x flex h-16 items-center justify-between gap-6">
         <Link
           href="/"
+          onClick={handleLogoClick}
           className="flex shrink-0 items-center gap-2.5 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
         >
           <Logo size={34} />

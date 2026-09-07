@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { buildLocalBusinessSchema } from "@/lib/structuredData";
 import PreviewBanner from "@/components/PreviewBanner";
+import BackToTopButton from "@/components/BackToTopButton";
 
 // next/font самостоятельно хостит шрифты — нет внешних запросов
 // к Google при загрузке страницы, нет скачка шрифта при рендере.
@@ -65,6 +66,7 @@ export default function RootLayout({
         />
         <PreviewBanner />
         {children}
+        <BackToTopButton />
       </body>
     </html>
   );

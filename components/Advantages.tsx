@@ -8,7 +8,6 @@ import {
 } from "@/lib/business";
 import {
   StarIcon,
-  StarHalfIcon,
   ShieldCheckIcon,
   BoltIcon,
   WalletIcon,
@@ -54,8 +53,9 @@ const diagnosticsFrom = Math.min(
 
 export default function Advantages() {
   const { value, ratingsCount, reviewsCount } = BUSINESS.rating;
-  const fullStars = Math.floor(value);
-  const hasHalfStar = value - fullStars >= 0.25;
+  // Округляем до целой звезды — при 4,9 показываем 5 полных, а не 4 и
+  // половину.
+  const fullStars = Math.round(value);
 
   return (
     <section id="advantages" className="dark-texture section bg-ink-950">
@@ -103,7 +103,6 @@ export default function Advantages() {
                   {Array.from({ length: fullStars }).map((_, index) => (
                     <StarIcon key={index} className="h-4 w-4" />
                   ))}
-                  {hasHalfStar && <StarHalfIcon className="h-4 w-4" />}
                 </span>
                 <div className="mt-1 text-xs text-brand-100/60">
                   {ratingsCount} {pluralRu(ratingsCount, RATING_FORMS)} ·{" "}
