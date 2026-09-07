@@ -152,6 +152,14 @@ export function ArrowRightIcon({ className }: IconProps) {
   );
 }
 
+export function ArrowUpIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <path d="M12 19V5M6 11l6-6 6 6" />
+    </Svg>
+  );
+}
+
 export function CheckIcon({ className }: IconProps) {
   return (
     <Svg className={className}>

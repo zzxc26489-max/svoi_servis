@@ -4,20 +4,20 @@ import {
   RATING_FORMS,
   REVIEW_FORMS,
 } from "@/lib/business";
-import { StarIcon, StarHalfIcon } from "./icons";
+import { StarIcon } from "./icons";
 
 const { value, ratingsCount, reviewsCount } = BUSINESS.rating;
 
 function Stars({ className }: { className?: string }) {
-  const full = Math.floor(value);
-  const hasHalf = value - full >= 0.25;
+  // Округляем до целой звезды — при 4,9 показываем 5 полных, а не
+  // 4 полных + половину: так рейтинг читается сильнее с одного взгляда.
+  const full = Math.round(value);
 
   return (
     <span className={`inline-flex items-center gap-0.5 ${className ?? ""}`}>
       {Array.from({ length: full }).map((_, index) => (
         <StarIcon key={index} className="h-4 w-4" />
       ))}
-      {hasHalf && <StarHalfIcon className="h-4 w-4" />}
     </span>
   );
 }
