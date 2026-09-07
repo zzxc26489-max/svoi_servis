@@ -70,7 +70,7 @@ export const BUSINESS = {
   // по факту с самой карточки. Оценок меньше, чем отзывов, — так на
   // карточке и есть, не опечатка.
   rating: {
-    value: 4.8,
+    value: 4.9,
     ratingsCount: 28,
     reviewsCount: 22,
   },
