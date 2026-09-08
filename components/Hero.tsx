@@ -38,22 +38,33 @@ export default function Hero() {
   return (
     <section id="top" className="dark-texture relative overflow-hidden bg-ink-950">
       {/* Фото Дмитрия за работой — только от sm и шире: на мобильном
-          и так тесно тексту с формой, лишний слой только мешает. */}
-      <div aria-hidden="true" className="absolute inset-0 hidden sm:block">
+          и так тесно тексту с формой, лишний слой только мешает.
+          Полотно уже, чем секция целиком, и обрывается ДО карточки
+          формы — иначе при широких экранах фото растягивается почти
+          1:1 по ширине (мало горизонтального запаса на кадрирование) и
+          лицо мастера гарантированно уезжает под карточку. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 hidden w-full sm:block sm:w-[62%] lg:w-[52%] xl:w-[48%]"
+        style={{
+          maskImage: "linear-gradient(to right, black 78%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, black 78%, transparent 100%)",
+        }}
+      >
         <Image
           src={withBasePath(HERO_PHOTO.src)}
           alt=""
           fill
           priority
-          sizes="100vw"
-          className="object-cover object-[70%_35%]"
+          sizes="62vw"
+          className="object-cover object-[45%_10%]"
           placeholder="blur"
           blurDataURL={HERO_PHOTO.blurDataURL}
         />
         {/* Тёмная плашка слева держит текст читаемым при любой ширине —
             своя, не завязанная на композицию исходного кадра. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/75 to-ink-950/25" />
-        <div className="absolute inset-0 bg-ink-950/35" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/60 to-transparent" />
       </div>
 
       {/* Мягкая подсветка фона — задаёт глубину, не отвлекая от текста */}
