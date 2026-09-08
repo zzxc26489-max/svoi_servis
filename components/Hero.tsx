@@ -96,12 +96,22 @@ export default function Hero() {
             ))}
           </dl>
 
-          {/* На мобильном фото нет (см. выше) и место есть — оставляем
-              полную форму, как было. От sm и шире рядом уже фото и
-              трасты в строку — там компактная, без Telegram/WhatsApp
-              (они остаются в секции заявки). */}
-          <div className="mt-9 sm:hidden">
-            <QuickLeadForm />
+          {/* На мобильном фото нет (см. выше) — оставляем форму в той же
+              белой карточке с заголовком, что была раньше, целиком: без
+              обёртки поля выглядели голыми на тёмном фоне. От sm и шире
+              рядом уже фото и трасты в строку — там компактная версия
+              без карточки, без Telegram/WhatsApp (они в секции заявки). */}
+          <div className="mt-9 rounded-2xl bg-white p-6 shadow-lift sm:hidden">
+            <h2 className="text-xl font-bold text-ink-900">
+              Вызвать мастера
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-ink-500">
+              Оставьте номер — перезвоним, уточним поломку и назовём
+              стоимость до выезда.
+            </p>
+            <div className="mt-5">
+              <QuickLeadForm />
+            </div>
           </div>
           <div className="mt-9 hidden max-w-md sm:block">
             <QuickLeadForm compact />
