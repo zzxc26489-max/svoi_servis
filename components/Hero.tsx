@@ -6,9 +6,10 @@ import WorkStatus from "./WorkStatus";
 import { RatingPill } from "./RatingBadge";
 import { BoltIcon, ShieldCheckIcon, WalletIcon } from "./icons";
 
-// Реальное фото Дмитрия — не студийная постановка, но кадр анфас,
-// поэтому здесь он не фон, а отдельная карточка-портрет по центру.
-const HERO_PORTRAIT = {
+// Реальное фото Дмитрия за работой — не студийная постановка.
+// Крошечный blur-превью, чтобы не было пустого прямоугольника, пока
+// грузится файл (тот же приём, что и в галерее «Работы»).
+const HERO_PHOTO = {
   src: "/hero/dmitry-portrait.webp",
   blurDataURL:
     "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAADQAQCdASoQAAkAA4BaJYgCdACqLPP7AAD+CXaSc5Lm8ilQGRA/8Ac/CVhwA9ShGmfhOYrqRkORvyR5+3pMxl0fo963we2I7Od8qckJhweP7YXba1SwA/IDTcsjrr0hhFQAAA==",
@@ -36,6 +37,36 @@ const trustPoints = [
 export default function Hero() {
   return (
     <section id="top" className="dark-texture relative overflow-hidden bg-ink-950">
+      {/* Фото Дмитрия за работой — только от sm и шире: на мобильном
+          и так тесно тексту с формой, лишний слой только мешает.
+          Полотно уже, чем секция целиком, и обрывается ДО карточки
+          формы — иначе при широких экранах фото растягивается почти
+          1:1 по ширине (мало горизонтального запаса на кадрирование) и
+          лицо мастера гарантированно уезжает под карточку. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 hidden w-full sm:block sm:w-[62%] lg:w-[55%] xl:w-1/2"
+        style={{
+          maskImage: "linear-gradient(to right, black 78%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, black 78%, transparent 100%)",
+        }}
+      >
+        <Image
+          src={withBasePath(HERO_PHOTO.src)}
+          alt=""
+          fill
+          priority
+          sizes="62vw"
+          className="object-cover object-[35%_0%]"
+          placeholder="blur"
+          blurDataURL={HERO_PHOTO.blurDataURL}
+        />
+        {/* Тёмная плашка слева держит текст читаемым при любой ширине —
+            своя, не завязанная на композицию исходного кадра. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/60 to-transparent" />
+      </div>
+
       {/* Мягкая подсветка фона — задаёт глубину, не отвлекая от текста */}
       <div
         aria-hidden="true"
@@ -47,24 +78,7 @@ export default function Hero() {
       />
 
       <div className="container-x relative py-14 sm:py-20 lg:py-24">
-        {/* Портрет мастера, сверху на мобильном; на широком экране —
-            между текстом и формой, ничего не перекрывает. */}
-        <div className="mx-auto mb-10 w-48 sm:w-56 lg:hidden">
-          <div className="relative aspect-[3/4] overflow-hidden rounded-3xl shadow-lift ring-1 ring-white/10">
-            <Image
-              src={withBasePath(HERO_PORTRAIT.src)}
-              alt="Дмитрий — мастер по ремонту холодильников и стиральных машин"
-              fill
-              priority
-              sizes="12rem"
-              className="object-cover object-top"
-              placeholder="blur"
-              blurDataURL={HERO_PORTRAIT.blurDataURL}
-            />
-          </div>
-        </div>
-
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_auto_1fr] lg:gap-8 xl:gap-12">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* Левая колонка — оффер и доверие */}
           <div>
             <div className="flex flex-wrap items-center gap-2.5">
@@ -72,7 +86,7 @@ export default function Hero() {
               <WorkStatus />
             </div>
 
-            <h1 className="mt-6 text-[2.15rem] font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-[2.6rem] xl:text-[3rem]">
+            <h1 className="mt-6 text-[2.15rem] font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]">
               Ремонт холодильников и стиральных машин{" "}
               <span className="text-accent-500">на дому</span>
             </h1>
@@ -83,10 +97,10 @@ export default function Hero() {
               колл-центра и ожидания на линии.
             </p>
 
-            <dl className="mt-8 grid gap-5 sm:grid-cols-3 lg:grid-cols-1 sm:gap-6 lg:gap-4">
+            <dl className="mt-8 grid gap-5 sm:grid-cols-3 sm:gap-6">
               {trustPoints.map(({ icon: Icon, title, text }) => (
-                <div key={title} className="flex items-start gap-3">
-                  <Icon className="h-6 w-6 shrink-0 text-accent-500" />
+                <div key={title} className="flex items-start gap-3 sm:block">
+                  <Icon className="h-6 w-6 shrink-0 text-accent-500 sm:mb-2.5" />
                   <div className="min-w-0">
                     <dt className="text-[0.95rem] font-semibold leading-snug text-white">
                       {title}
@@ -98,26 +112,6 @@ export default function Hero() {
                 </div>
               ))}
             </dl>
-          </div>
-
-          {/* Портрет мастера — только от lg, тут он в центре между
-              оффером и формой */}
-          <div className="hidden lg:block lg:w-56 xl:w-64">
-            <div className="relative aspect-[3/4] overflow-hidden rounded-3xl shadow-lift ring-1 ring-white/10">
-              <Image
-                src={withBasePath(HERO_PORTRAIT.src)}
-                alt="Дмитрий — мастер по ремонту холодильников и стиральных машин"
-                fill
-                priority
-                sizes="16rem"
-                className="object-cover object-top"
-                placeholder="blur"
-                blurDataURL={HERO_PORTRAIT.blurDataURL}
-              />
-            </div>
-            <p className="mt-3 text-center text-sm font-medium text-brand-100/70">
-              Дмитрий, мастер по холодильникам
-            </p>
           </div>
 
           {/* Правая колонка — форма заявки, главное действие страницы */}
