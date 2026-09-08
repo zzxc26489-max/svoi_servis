@@ -21,11 +21,16 @@ const manrope = Manrope({
 });
 
 const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://zel-servis.ru";
+
+const title = "Свой Сервис — ремонт бытовой техники в Зеленограде и Андреевке";
+const description =
+  "Ремонт холодильников, стиральных и посудомоечных машин в Зеленограде, Андреевке и рядом. Диагностика от 500 ₽, выезд в день обращения, гарантия на все работы. Рейтинг 4,9 на Яндекс.Картах.";
 
 export const metadata: Metadata = {
-  title: "Свой Сервис — ремонт бытовой техники в Зеленограде и Андреевке",
-  description:
-    "Ремонт холодильников, стиральных и посудомоечных машин в Зеленограде, Андреевке и рядом. Диагностика от 500 ₽, выезд в день обращения, гарантия на все работы. Рейтинг 4,9 на Яндекс.Картах.",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
   keywords: [
     "ремонт холодильников",
     "ремонт стиральных машин",
@@ -39,6 +44,22 @@ export const metadata: Metadata = {
     "ремонт холодильников Красногорск",
     "ремонт бытовой техники Лобня",
   ],
+  // Без явных og:title/og:description мессенджеры и соцсети берут
+  // превью откуда попало (и потом подолгу кэшируют устаревшее) —
+  // задаём их тем же текстом, что title/description.
+  openGraph: {
+    title,
+    description,
+    url: siteUrl,
+    siteName: "Свой Сервис",
+    locale: "ru_RU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title,
+    description,
+  },
   // Черновой предпросмотр на GitHub Pages не должен попадать в поиск —
   // индексировать будем только боевой домен.
   ...(isPreview ? { robots: { index: false, follow: false } } : {}),
