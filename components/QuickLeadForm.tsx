@@ -42,7 +42,15 @@ function digitsOf(phone: string): string {
   return phone.replace(/\D/g, "");
 }
 
-export default function QuickLeadForm() {
+export default function QuickLeadForm({
+  compact = false,
+}: {
+  // Сжатая версия для Hero: телефон и кнопка в один ряд, подпись поля
+  // и блок Telegram/WhatsApp скрыты — там своя кнопка на секцию с
+  // полной формой. Галочка согласия остаётся (без неё нельзя принять
+  // номер) и по-прежнему выше поля, просто мельче.
+  compact?: boolean;
+} = {}) {
   const [phone, setPhone] = useState("");
   // Согласие на обработку номера. Отмечено по умолчанию — решение
   // владельца, принято осознанно повторно: формально предзаполненную
@@ -177,7 +185,11 @@ export default function QuickLeadForm() {
       <div>
         <label
           htmlFor={consentId}
-          className="flex cursor-pointer items-start gap-2.5 text-xs leading-relaxed text-ink-500"
+          className={
+            compact
+              ? "flex cursor-pointer items-start gap-2 text-xs leading-relaxed text-white/75"
+              : "flex cursor-pointer items-start gap-2.5 text-xs leading-relaxed text-ink-500"
+          }
         >
           <input
             id={consentId}
@@ -185,13 +197,21 @@ export default function QuickLeadForm() {
             checked={consent}
             onChange={(event) => handleConsentChange(event.target.checked)}
             aria-describedby={status === "consent" ? consentErrorId : undefined}
-            className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-line text-brand-600 accent-brand-600 focus:ring-2 focus:ring-brand-500/40"
+            className={
+              compact
+                ? "mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-white/40 bg-white/10 text-brand-500 accent-brand-500 focus:ring-2 focus:ring-white/40"
+                : "mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-line text-brand-600 accent-brand-600 focus:ring-2 focus:ring-brand-500/40"
+            }
           />
           <span>
             Согласен, чтобы мне перезвонили по этому номеру —{" "}
             <Link
               href="/privacy"
-              className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700"
+              className={
+                compact
+                  ? "font-medium text-white underline underline-offset-2 hover:text-white/80"
+                  : "font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700"
+              }
             >
               как мы храним данные
             </Link>
@@ -201,44 +221,78 @@ export default function QuickLeadForm() {
           <p
             id={consentErrorId}
             role="alert"
-            className="mt-2 text-xs text-red-600"
+            className={
+              compact
+                ? "mt-2 text-xs text-amber-300"
+                : "mt-2 text-xs text-red-600"
+            }
           >
             Отметьте согласие — без него мы не имеем права принять номер
           </p>
         )}
       </div>
 
-      <div>
-        <label
-          htmlFor={inputId}
-          className="mb-1.5 block text-sm font-medium text-ink-700"
+      <div className={compact ? "flex flex-col gap-3 sm:flex-row" : undefined}>
+        <div className={compact ? "flex-1" : undefined}>
+          {!compact && (
+            <label
+              htmlFor={inputId}
+              className="mb-1.5 block text-sm font-medium text-ink-700"
+            >
+              Ваш номер телефона
+            </label>
+          )}
+          <input
+            id={inputId}
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            required
+            aria-label={compact ? "Ваш номер телефона" : undefined}
+            value={phone}
+            onChange={(event) => handleChange(event.target.value)}
+            placeholder="+7 (___) ___-__-__"
+            aria-invalid={status === "invalid"}
+            aria-describedby={status === "invalid" ? errorId : undefined}
+            className={
+              compact
+                ? "h-12 w-full rounded-xl border border-white/25 bg-white px-4 text-base text-ink-900 transition-colors placeholder:text-ink-400 focus:outline-none focus:ring-4 focus:ring-white/30"
+                : "h-12 w-full rounded-xl border border-line bg-mist-50 px-4 text-base text-ink-900 transition-colors placeholder:text-ink-400 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/12"
+            }
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={status === "sending"}
+          className={
+            compact
+              ? "btn-primary shadow-cta shrink-0 disabled:cursor-not-allowed disabled:opacity-60"
+              : "btn-primary w-full shadow-cta disabled:cursor-not-allowed disabled:opacity-60"
+          }
         >
-          Ваш номер телефона
-        </label>
-        <input
-          id={inputId}
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel"
-          required
-          value={phone}
-          onChange={(event) => handleChange(event.target.value)}
-          placeholder="+7 (___) ___-__-__"
-          aria-invalid={status === "invalid"}
-          aria-describedby={status === "invalid" ? errorId : undefined}
-          className="h-12 w-full rounded-xl border border-line bg-mist-50 px-4 text-base text-ink-900 transition-colors placeholder:text-ink-400 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/12"
-        />
-        {status === "invalid" && (
-          <p id={errorId} role="alert" className="mt-2 text-xs text-red-600">
-            Введите номер полностью — 10 цифр после +7
-          </p>
-        )}
-        {autoCaught && status !== "invalid" && (
-          <p className="mt-2 text-xs text-emerald-700">
-            ✓ Номер приняли, перезвоним
-          </p>
-        )}
+          {status === "sending" ? "Отправляем…" : "Жду звонка"}
+        </button>
       </div>
+
+      {status === "invalid" && (
+        <p
+          id={errorId}
+          role="alert"
+          className={compact ? "-mt-2 text-xs text-amber-300" : "-mt-2 text-xs text-red-600"}
+        >
+          Введите номер полностью — 10 цифр после +7
+        </p>
+      )}
+      {autoCaught && status !== "invalid" && (
+        <p
+          className={
+            compact ? "-mt-2 text-xs text-emerald-300" : "-mt-2 text-xs text-emerald-700"
+          }
+        >
+          ✓ Номер приняли, перезвоним
+        </p>
+      )}
 
       {status === "failed" && (
         <div role="alert" className="rounded-xl bg-amber-50 p-4 text-sm">
@@ -258,41 +312,36 @@ export default function QuickLeadForm() {
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="btn-primary w-full shadow-cta disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {status === "sending" ? "Отправляем…" : "Жду звонка"}
-      </button>
+      {!compact && (
+        <>
+          <div className="flex items-center gap-3 text-xs text-ink-400">
+            <span className="h-px flex-1 bg-line" />
+            или
+            <span className="h-px flex-1 bg-line" />
+          </div>
 
-      <div className="flex items-center gap-3 text-xs text-ink-400">
-        <span className="h-px flex-1 bg-line" />
-        или
-        <span className="h-px flex-1 bg-line" />
-      </div>
-
-      <div className="grid gap-2.5 sm:grid-cols-2">
-        <a
-          href={BUSINESS.telegramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-secondary w-full !px-4"
-        >
-          <TelegramIcon className="h-5 w-5 shrink-0 text-[#2AABEE]" />
-          Telegram
-        </a>
-        <a
-          href={BUSINESS.whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-secondary w-full !px-4"
-        >
-          <WhatsAppIcon className="h-5 w-5 shrink-0 text-[#25D366]" />
-          WhatsApp
-        </a>
-      </div>
-
+          <div className="grid gap-2.5 sm:grid-cols-2">
+            <a
+              href={BUSINESS.telegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary w-full !px-4"
+            >
+              <TelegramIcon className="h-5 w-5 shrink-0 text-[#2AABEE]" />
+              Telegram
+            </a>
+            <a
+              href={BUSINESS.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary w-full !px-4"
+            >
+              <WhatsAppIcon className="h-5 w-5 shrink-0 text-[#25D366]" />
+              WhatsApp
+            </a>
+          </div>
+        </>
+      )}
     </form>
   );
 }

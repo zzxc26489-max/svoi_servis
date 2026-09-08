@@ -1,15 +1,10 @@
-import Link from "next/link";
 import Image from "next/image";
 import { BUSINESS } from "@/lib/business";
 import { withBasePath } from "@/lib/basePath";
 import WorkStatus from "./WorkStatus";
 import { RatingPill } from "./RatingBadge";
-import {
-  BoltIcon,
-  ShieldCheckIcon,
-  WalletIcon,
-  ArrowRightIcon,
-} from "./icons";
+import QuickLeadForm from "./QuickLeadForm";
+import { BoltIcon, ShieldCheckIcon, WalletIcon } from "./icons";
 
 // Реальное фото Дмитрия за работой — не студийная постановка.
 // Крошечный blur-превью, чтобы не было пустого прямоугольника, пока
@@ -83,10 +78,12 @@ export default function Hero() {
             ожидания на линии.
           </p>
 
-          <dl className="mt-9 space-y-5">
+          {/* Одной строкой — экономит высоту под форму ниже. На узких
+              экранах всё равно переносится по одному в строке. */}
+          <dl className="mt-8 grid gap-5 sm:grid-cols-3 sm:gap-6">
             {trustPoints.map(({ icon: Icon, title, text }) => (
-              <div key={text} className="flex items-start gap-3">
-                <Icon className="h-6 w-6 shrink-0 text-accent-500" />
+              <div key={text} className="flex items-start gap-3 sm:block">
+                <Icon className="h-6 w-6 shrink-0 text-accent-500 sm:mb-2.5" />
                 <div className="min-w-0">
                   <dt className="text-base font-semibold leading-snug text-white">
                     {title}
@@ -99,13 +96,9 @@ export default function Hero() {
             ))}
           </dl>
 
-          <Link
-            href="/#order"
-            className="btn-primary mt-10 w-full shadow-cta sm:w-auto"
-          >
-            Вызвать мастера
-            <ArrowRightIcon className="h-5 w-5" />
-          </Link>
+          <div className="mt-9 max-w-md">
+            <QuickLeadForm compact />
+          </div>
         </div>
       </div>
     </section>
