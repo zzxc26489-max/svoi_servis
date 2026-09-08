@@ -29,6 +29,16 @@ export function buildOrderMessage(order: OrderPayload): string {
   ].join("\n");
 }
 
+export function buildQuestionMessage(question: string): string {
+  return [
+    "❓ <b>Новый вопрос с сайта</b>",
+    "",
+    escapeHtml(question),
+    "",
+    "Если ответ пригодится другим — добавьте его на страницу «Вопрос мастеру».",
+  ].join("\n");
+}
+
 export async function sendTelegramMessage(text: string): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;

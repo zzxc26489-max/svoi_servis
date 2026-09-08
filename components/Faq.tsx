@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { BUSINESS, joinRu } from "@/lib/business";
 import { buildFaqSchema } from "@/lib/structuredData";
+import { ArrowRightIcon } from "./icons";
 
 const faqItems = [
   {
@@ -67,6 +69,14 @@ export default function Faq() {
             </details>
           ))}
         </div>
+
+        <Link
+          href="/vopros-otvet"
+          className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
+        >
+          Не нашли ответ — задайте свой вопрос мастеру
+          <ArrowRightIcon className="h-4 w-4" />
+        </Link>
       </div>
     </section>
   );

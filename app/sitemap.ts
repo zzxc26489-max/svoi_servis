@@ -21,6 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
+    {
+      url: `${siteUrl}/vopros-otvet`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
     // Политика в карте есть (страница обязана быть доступной), но в
     // выдаче не нужна — на самой странице стоит noindex.
     {

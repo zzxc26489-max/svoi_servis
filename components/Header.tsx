@@ -15,6 +15,7 @@ const navItems = [
   { href: "/works", label: "Работы" },
   { href: "/#reviews", label: "Отзывы" },
   { href: "/#faq", label: "Вопросы" },
+  { href: "/vopros-otvet", label: "Вопрос мастеру" },
 ];
 
 // В шапке показываем один номер — мастера по холодильникам как самому
