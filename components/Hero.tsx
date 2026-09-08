@@ -36,46 +36,26 @@ const trustPoints = [
 
 export default function Hero() {
   return (
-    <section id="top" className="dark-texture relative overflow-hidden bg-ink-950">
-      {/* Фото Дмитрия за работой — только от sm и шире: на мобильном
-          и так тесно тексту с формой, лишний слой только мешает.
-          Полотно уже, чем секция целиком, и обрывается ДО карточки
-          формы — иначе при широких экранах фото растягивается почти
-          1:1 по ширине (мало горизонтального запаса на кадрирование) и
-          лицо мастера гарантированно уезжает под карточку. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-y-0 left-0 hidden w-full sm:block sm:w-[62%] lg:w-[55%] xl:w-1/2"
-        style={{
-          maskImage: "linear-gradient(to right, black 78%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to right, black 78%, transparent 100%)",
-        }}
-      >
+    <section id="top" className="relative overflow-hidden bg-ink-950">
+      {/* Фото на весь экран, без обрезанного полотна и затемнённых
+          «полей» по бокам — только от sm: на мобильном тесно тексту с
+          формой, лишний слой мешает. */}
+      <div aria-hidden="true" className="absolute inset-0 hidden sm:block">
         <Image
           src={withBasePath(HERO_PHOTO.src)}
           alt=""
           fill
           priority
-          sizes="62vw"
-          className="object-cover object-[35%_0%]"
+          sizes="100vw"
+          className="object-cover object-[50%_0%]"
           placeholder="blur"
           blurDataURL={HERO_PHOTO.blurDataURL}
         />
-        {/* Тёмная плашка слева держит текст читаемым при любой ширине —
-            своя, не завязанная на композицию исходного кадра. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/60 to-transparent" />
+        {/* Один ровный тёмный слой поверх всего фото — держит текст и
+            карточку формы читаемыми, без отдельных «пятен» по зонам. */}
+        <div className="absolute inset-0 bg-ink-950/55" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-950/70 via-transparent to-ink-950/20" />
       </div>
-
-      {/* Мягкая подсветка фона — задаёт глубину, не отвлекая от текста */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(70rem 40rem at 15% -10%, rgba(52,102,246,0.45) 0%, transparent 60%), radial-gradient(50rem 30rem at 90% 0%, rgba(234,88,12,0.22) 0%, transparent 55%)",
-        }}
-      />
 
       <div className="container-x relative py-14 sm:py-20 lg:py-24">
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
@@ -91,7 +71,7 @@ export default function Hero() {
               <span className="text-accent-500">на дому</span>
             </h1>
 
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-brand-100/85">
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
               {BUSINESS.primaryAreas.join(", ")} и соседние районы. Свой
               мастер по каждому направлению — звоните напрямую, без
               колл-центра и ожидания на линии.
@@ -105,7 +85,7 @@ export default function Hero() {
                     <dt className="text-[0.95rem] font-semibold leading-snug text-white">
                       {title}
                     </dt>
-                    <dd className="mt-1 text-sm leading-snug text-brand-100/60">
+                    <dd className="mt-1 text-sm leading-snug text-white/60">
                       {text}
                     </dd>
                   </div>
