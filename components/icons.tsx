@@ -160,6 +160,22 @@ export function ArrowUpIcon({ className }: IconProps) {
   );
 }
 
+export function MenuIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </Svg>
+  );
+}
+
+export function CloseIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </Svg>
+  );
+}
+
 export function CheckIcon({ className }: IconProps) {
   return (
     <Svg className={className}>
