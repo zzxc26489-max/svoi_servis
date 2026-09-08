@@ -96,7 +96,14 @@ export default function Hero() {
             ))}
           </dl>
 
-          <div className="mt-9 max-w-md">
+          {/* На мобильном фото нет (см. выше) и место есть — оставляем
+              полную форму, как было. От sm и шире рядом уже фото и
+              трасты в строку — там компактная, без Telegram/WhatsApp
+              (они остаются в секции заявки). */}
+          <div className="mt-9 sm:hidden">
+            <QuickLeadForm />
+          </div>
+          <div className="mt-9 hidden max-w-md sm:block">
             <QuickLeadForm compact />
           </div>
         </div>
