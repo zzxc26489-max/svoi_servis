@@ -56,9 +56,10 @@ export default function QuickLeadForm() {
   const sentDigitsRef = useRef<string>("");
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Компонент рендерится на странице дважды (Hero + секция заявки) —
-  // без уникального id вторая пара label/input указывала бы на id
-  // первой, ломая связь для скринридера.
+  // Компонент используется на нескольких страницах (секция заявки,
+  // архив работ) — без уникального id несколько экземпляров на одной
+  // странице указывали бы на один и тот же id, ломая связь label/input
+  // для скринридера.
   const uid = useId();
   const inputId = `lead-phone-${uid}`;
   const errorId = `lead-phone-error-${uid}`;
