@@ -1,8 +1,19 @@
+import Image from "next/image";
 import { BUSINESS } from "@/lib/business";
+import { withBasePath } from "@/lib/basePath";
 import QuickLeadForm from "./QuickLeadForm";
 import WorkStatus from "./WorkStatus";
 import { RatingPill } from "./RatingBadge";
 import { BoltIcon, ShieldCheckIcon, WalletIcon } from "./icons";
+
+// Реальное фото Дмитрия за работой — не студийная постановка.
+// Крошечный blur-превью, чтобы не было пустого прямоугольника, пока
+// грузится файл (тот же приём, что и в галерее «Работы»).
+const HERO_PHOTO = {
+  src: "/hero/dmitry-washer.webp",
+  blurDataURL:
+    "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAQAgCdASoQAAkAA4BaJYwCdAEWpx8Am4MwAP7vTC9VUtIUljwVCH+hz6T7F0SoFCCEF6yIhQ7PflPdmUG8LVjN1bmdIwAo4JxfbOAA",
+};
 
 const trustPoints = [
   {
@@ -26,6 +37,25 @@ const trustPoints = [
 export default function Hero() {
   return (
     <section id="top" className="dark-texture relative overflow-hidden bg-ink-950">
+      {/* Фото Дмитрия за работой — только от sm и шире: на мобильном
+          и так тесно тексту с формой, лишний слой только мешает. */}
+      <div aria-hidden="true" className="absolute inset-0 hidden sm:block">
+        <Image
+          src={withBasePath(HERO_PHOTO.src)}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[70%_35%]"
+          placeholder="blur"
+          blurDataURL={HERO_PHOTO.blurDataURL}
+        />
+        {/* Тёмная плашка слева держит текст читаемым при любой ширине —
+            своя, не завязанная на композицию исходного кадра. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/75 to-ink-950/25" />
+        <div className="absolute inset-0 bg-ink-950/35" />
+      </div>
+
       {/* Мягкая подсветка фона — задаёт глубину, не отвлекая от текста */}
       <div
         aria-hidden="true"
