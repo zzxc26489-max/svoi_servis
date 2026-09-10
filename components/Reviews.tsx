@@ -4,8 +4,9 @@ import {
   pluralRu,
   RATING_FORMS,
 } from "@/lib/business";
-import { QuoteIcon, StarIcon, ArrowRightIcon } from "./icons";
+import { StarIcon, ArrowRightIcon } from "./icons";
 import Carousel from "./Carousel";
+import ReviewCard from "./ReviewCard";
 
 // Звёзды считаем от реального рейтинга, а не рисуем руками: при
 // изменении оценки на карточке картинка иначе разъезжается с числом.
@@ -15,34 +16,7 @@ const fullStars = Math.round(BUSINESS.rating.value);
 
 export default function Reviews() {
   const items = REVIEWS.map((review) => (
-    <li
-      key={review.author}
-      className="flex w-[19rem] shrink-0 snap-start flex-col rounded-2xl border border-line bg-white p-6 sm:w-[22rem]"
-    >
-      <div className="flex items-start justify-between gap-3">
-        <QuoteIcon className="h-7 w-7 shrink-0 text-brand-200" />
-        {review.rating && (
-          <span className="mt-1 flex shrink-0 items-center gap-0.5 text-amber-500">
-            {Array.from({ length: review.rating }).map((_, i) => (
-              <StarIcon key={i} className="h-3.5 w-3.5" />
-            ))}
-          </span>
-        )}
-      </div>
-
-      <p className="mt-4 flex-1 text-[0.94rem] leading-relaxed text-ink-700">
-        {review.text}
-      </p>
-
-      <div className="mt-5 border-t border-line pt-4">
-        <p className="font-semibold text-ink-900">{review.author}</p>
-        {review.tag && (
-          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-brand-600">
-            {review.tag}
-          </p>
-        )}
-      </div>
-    </li>
+    <ReviewCard key={review.author} review={review} />
   ));
 
   return (
