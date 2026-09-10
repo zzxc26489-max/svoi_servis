@@ -18,9 +18,8 @@ import {
 const advantages = [
   {
     icon: ShieldCheckIcon,
-    title: "Гарантия на работы",
-    description:
-      "Даём гарантию на выполненный ремонт и установленные запчасти.",
+    title: BUSINESS.warranty.short,
+    description: BUSINESS.warranty.full,
   },
   {
     icon: BoltIcon,

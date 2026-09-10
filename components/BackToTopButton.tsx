@@ -8,16 +8,45 @@ import { ArrowUpIcon } from "./icons";
 const SHOW_AFTER_PX = 600;
 
 export default function BackToTopButton() {
-  const [visible, setVisible] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  // Секции с формой заявки: пока одна из них на экране, кнопку
+  // убираем — она круглая и висит поверх, а перекрывала собой кнопки
+  // «Telegram»/«WhatsApp» прямо в форме. Тот же приём и по тем же
+  // секциям, что и в StickyCallBar.
+  const [overForm, setOverForm] = useState(false);
 
   useEffect(() => {
     function onScroll() {
-      setVisible(window.scrollY > SHOW_AFTER_PX);
+      setScrolled(window.scrollY > SHOW_AFTER_PX);
     }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const targets = ["top", "order"]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (targets.length === 0) return;
+
+    const blocking = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) blocking.add(entry.target);
+          else blocking.delete(entry.target);
+        }
+        setOverForm(blocking.size > 0);
+      },
+      { rootMargin: "0px 0px -25% 0px" },
+    );
+
+    for (const target of targets) observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  const visible = scrolled && !overForm;
 
   function scrollToTop() {
     const reduceMotion = window.matchMedia(

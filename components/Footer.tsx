@@ -31,12 +31,12 @@ export default function Footer() {
 
           <div>
             <h2 className="text-sm font-semibold text-white">Телефоны мастеров</h2>
-            <ul className="mt-3 space-y-2.5 text-sm">
+            <ul className="mt-2 space-y-1 text-sm">
               {MASTERS.map((master) => (
                 <li key={`${master.name}-${master.specialty}`}>
                   <a
                     href={`tel:${master.phoneHref}`}
-                    className="group flex items-center gap-2 transition-colors hover:text-white"
+                    className="group flex min-h-[2.75rem] items-center gap-2 transition-colors hover:text-white"
                   >
                     <PhoneIcon className="h-4 w-4 shrink-0 opacity-60" />
                     <span className="whitespace-nowrap tabular-nums">
@@ -61,12 +61,12 @@ export default function Footer() {
               </p>
               <p>{BUSINESS.hours}</p>
             </address>
-            <div className="mt-4 space-y-2.5 text-sm">
+            <div className="mt-2 space-y-0.5 text-sm">
               <a
                 href={BUSINESS.yandexMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 transition-colors hover:text-white"
+                className="flex min-h-[2.75rem] items-center gap-2 transition-colors hover:text-white"
               >
                 <MapIcon className="h-4 w-4 opacity-60" />
                 Яндекс.Карты
@@ -75,7 +75,7 @@ export default function Footer() {
                 href={BUSINESS.telegramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 transition-colors hover:text-white"
+                className="flex min-h-[2.75rem] items-center gap-2 transition-colors hover:text-white"
               >
                 <TelegramIcon className="h-4 w-4 opacity-60" />
                 Написать в Telegram
@@ -84,7 +84,7 @@ export default function Footer() {
                 href={BUSINESS.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 transition-colors hover:text-white"
+                className="flex min-h-[2.75rem] items-center gap-2 transition-colors hover:text-white"
               >
                 <WhatsAppIcon className="h-4 w-4 opacity-60" />
                 WhatsApp
@@ -93,7 +93,7 @@ export default function Footer() {
                 href={BUSINESS.telegramGroupUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 transition-colors hover:text-white"
+                className="flex min-h-[2.75rem] items-center gap-2 transition-colors hover:text-white"
               >
                 <TelegramIcon className="h-4 w-4 opacity-60" />
                 Группа в Telegram
@@ -108,7 +108,7 @@ export default function Footer() {
           <p>© {year} Свой Сервис · сервисный центр «{BUSINESS.name}»</p>
           <Link
             href="/privacy"
-            className="transition-colors hover:text-white"
+            className="inline-flex min-h-[2.75rem] items-center transition-colors hover:text-white"
           >
             Обработка персональных данных
           </Link>

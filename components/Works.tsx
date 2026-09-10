@@ -54,7 +54,7 @@ export default function Works() {
 
         <Link
           href="/works"
-          className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
+          className="mt-1 inline-flex min-h-[2.75rem] items-center gap-1.5 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
         >
           Смотреть все работы
           <ArrowRightIcon className="h-4 w-4" />

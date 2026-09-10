@@ -91,7 +91,7 @@ export default function WorksPage() {
                 </p>
                 <Link
                   href="/#prices"
-                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
+                  className="mt-5 inline-flex min-h-[2.75rem] items-center gap-1.5 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
                 >
                   Посмотреть цены на ремонт
                   <ArrowRightIcon className="h-4 w-4" />

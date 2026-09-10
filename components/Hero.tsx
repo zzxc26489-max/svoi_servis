@@ -6,9 +6,9 @@ import { RatingPill } from "./RatingBadge";
 import QuickLeadForm from "./QuickLeadForm";
 import { BoltIcon, ShieldCheckIcon, WalletIcon } from "./icons";
 
-// Реальное фото Дмитрия за работой — не студийная постановка.
-// Крошечный blur-превью, чтобы не было пустого прямоугольника, пока
-// грузится файл (тот же приём, что и в галерее «Работы»).
+// Фото мастера за работой. Крошечный blur-превью, чтобы не было
+// пустого прямоугольника, пока грузится файл (тот же приём, что и в
+// галерее «Работы»).
 const HERO_PHOTO = {
   src: "/hero/dmitry-portrait.webp",
   blurDataURL:
@@ -32,7 +32,7 @@ const trustPoints = [
   },
   {
     icon: ShieldCheckIcon,
-    title: "Гарантия на работы",
+    title: BUSINESS.warranty.short,
     text: "И на установленные запчасти",
   },
 ];
@@ -40,42 +40,53 @@ const trustPoints = [
 export default function Hero() {
   return (
     <section id="top" className="relative overflow-hidden bg-ink-950">
-      {/* Фото на весь экран — только от sm: на мобильном тесно тексту,
-          лишний слой мешает. */}
-      <div aria-hidden="true" className="absolute inset-0 hidden sm:block">
+      {/* Одно фото на оба брейкпоинта — раньше мобильный прятал его
+          через hidden, но priority всё равно клал в <head> preload:
+          телефон качал картинку, которую не показывал.
+          Мобильный: блок сверху фиксированной высоты — фото 16:9 в
+          вертикальный экран целиком не влезает, кроп «на весь экран»
+          оставлял бы от мастера узкую полосу.
+          От sm: то же фото на всю секцию фоном, как было. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-[19rem] sm:inset-0 sm:h-auto"
+      >
         <Image
           src={withBasePath(HERO_PHOTO.src)}
           alt=""
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[50%_0%]"
+          className="object-cover object-[58%_28%] sm:object-[50%_0%]"
           placeholder="blur"
           blurDataURL={HERO_PHOTO.blurDataURL}
         />
-        {/* Асимметричный градиент: тёмный слева под текстом, почти
-            прозрачный по центру и справа — там мастер и техника, их не
-            прячем. Второй слой — лёгкий, снизу, под нижние трасты. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/55 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink-950/50 via-transparent to-transparent" />
+        {/* Мобильный: фото уходит в фон секции снизу, стыка не видно. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/25 to-ink-950/15 sm:hidden" />
+        {/* От sm — асимметричный градиент: тёмный слева под текстом,
+            почти прозрачный по центру и справа, там мастер и техника. */}
+        <div className="absolute inset-0 hidden bg-gradient-to-r from-ink-950 via-ink-950/55 to-transparent sm:block" />
+        <div className="absolute inset-0 hidden bg-gradient-to-t from-ink-950/50 via-transparent to-transparent sm:block" />
       </div>
 
-      <div className="container-x relative py-16 sm:py-24 lg:py-32">
+      {/* pt на мобильном — под фото-блок выше. */}
+      <div className="container-x relative pb-16 pt-[16.5rem] sm:py-24 sm:pt-24 lg:py-32">
         <div className="max-w-xl">
           <div className="flex flex-wrap items-center gap-2.5">
             <RatingPill />
             <WorkStatus />
           </div>
 
-          <h1 className="mt-6 text-[2.15rem] font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]">
+          <h1 className="mt-5 text-balance text-[2rem] font-extrabold leading-[1.06] tracking-tight text-white sm:mt-6 sm:text-5xl lg:text-[3.25rem]">
             Ремонт холодильников и стиральных машин{" "}
             <span className="text-accent-500">на дому</span>
           </h1>
 
-          <p className="mt-5 text-lg leading-relaxed text-white/85">
+          {/* Короче, чем было: на мобильном каждая лишняя строка здесь
+              отодвигает форму ещё дальше за сгиб. */}
+          <p className="mt-4 text-lg leading-relaxed text-white/85 sm:mt-5">
             {BUSINESS.primaryAreas.join(", ")} и соседние районы. Свой мастер
-            по каждому направлению — звоните напрямую, без колл-центра и
-            ожидания на линии.
+            по каждому направлению — без колл-центра и ожидания на линии.
           </p>
 
           {/* Одной строкой — экономит высоту под форму ниже. На узких
@@ -96,11 +107,11 @@ export default function Hero() {
             ))}
           </dl>
 
-          {/* На мобильном фото нет (см. выше) — оставляем форму в той же
-              белой карточке с заголовком, что была раньше, целиком: без
-              обёртки поля выглядели голыми на тёмном фоне. От sm и шире
-              рядом уже фото и трасты в строку — там компактная версия
-              без карточки, без Telegram/WhatsApp (они в секции заявки). */}
+          {/* На мобильном форма в той же белой карточке с заголовком,
+              что и была: без обёртки поля выглядели голыми на тёмном
+              фоне. От sm рядом фото и трасты в строку — там компактная
+              версия без карточки, без Telegram/WhatsApp (они в секции
+              заявки). */}
           <div className="mt-9 rounded-2xl bg-white p-6 shadow-lift sm:hidden">
             <h2 className="text-xl font-bold text-ink-900">
               Вызвать мастера

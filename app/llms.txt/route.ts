@@ -43,6 +43,7 @@ ${masterLines}
 - Telegram: ${BUSINESS.telegramUrl}
 - WhatsApp: ${BUSINESS.whatsappUrl}
 - Режим работы: ${BUSINESS.hours}
+- Гарантия: ${BUSINESS.warranty.full}
 - Адрес мастерской: ${BUSINESS.address.full}
 - Карточка на Яндекс.Картах: ${BUSINESS.yandexMapsUrl}
 

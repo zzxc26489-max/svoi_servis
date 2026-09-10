@@ -90,8 +90,11 @@ h4 {
   @apply text-sm font-semibold uppercase tracking-[0.14em] text-brand-600;
 }
 
+/* text-balance — чтобы в заголовке из двух строк не висело одно
+   слово на второй: браузер сам выравнивает длину строк. На узком
+   экране это заметнее всего. */
 .section-title {
-  @apply mt-3 text-[1.75rem] font-extrabold leading-tight tracking-tight sm:text-4xl;
+  @apply mt-3 text-balance text-[1.75rem] font-extrabold leading-tight tracking-tight sm:text-4xl;
 }
 
 .section-subtitle {

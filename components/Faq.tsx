@@ -24,9 +24,8 @@ const faqItems = [
       "Оставьте заявку с описанием техники и поломки — свяжемся и скажем, сможем ли помочь и сколько это будет стоить.",
   },
   {
-    question: "Даёте ли вы гарантию?",
-    answer:
-      "Да, на все выполненные работы и установленные запчасти. Срок зависит от вида ремонта — мастер укажет его в документах.",
+    question: "Даёте ли вы гарантию и на какой срок?",
+    answer: `Да — ${BUSINESS.warranty.full.charAt(0).toLowerCase()}${BUSINESS.warranty.full.slice(1)}`,
   },
   {
     question: "Ремонт на дому или нужно везти технику?",
@@ -48,13 +47,16 @@ export default function Faq() {
         <p className="section-eyebrow">Вопросы</p>
         <h2 className="section-title">Что обычно спрашивают</h2>
 
+        {/* Отступы — на самом summary, а не на карточке: иначе нажатие
+            рядом с вопросом (по полю карточки) ничего не открывает,
+            реагирует только строка текста. */}
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {faqItems.map((item) => (
             <details
               key={item.question}
-              className="card group p-5 open:border-brand-300 sm:p-6"
+              className="card group open:border-brand-300"
             >
-              <summary className="flex cursor-pointer list-none items-start justify-between gap-4 font-semibold text-ink-900 [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-4 p-5 font-semibold text-ink-900 [&::-webkit-details-marker]:hidden sm:p-6">
                 {item.question}
                 <span
                   aria-hidden="true"
@@ -63,7 +65,7 @@ export default function Faq() {
                   +
                 </span>
               </summary>
-              <p className="mt-3 text-sm leading-relaxed text-ink-500">
+              <p className="px-5 pb-5 text-sm leading-relaxed text-ink-500 sm:px-6 sm:pb-6">
                 {item.answer}
               </p>
             </details>
@@ -72,7 +74,7 @@ export default function Faq() {
 
         <Link
           href="/vopros-otvet"
-          className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
+          className="mt-5 inline-flex min-h-[2.75rem] items-center gap-1.5 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
         >
           Не нашли ответ — задайте свой вопрос мастеру
           <ArrowRightIcon className="h-4 w-4" />

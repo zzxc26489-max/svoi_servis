@@ -67,7 +67,7 @@ export default function Header() {
           <Link
             href="/"
             onClick={handleLogoClick}
-            className="flex shrink-0 items-center gap-2.5 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+            className="flex min-h-[2.75rem] shrink-0 items-center gap-2.5 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
           >
             <Logo size={34} />
             <span className="font-display text-lg font-bold text-ink-900">

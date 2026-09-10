@@ -47,7 +47,7 @@ export default function OrderSection() {
                       href={BUSINESS.yandexMapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-1.5 inline-flex items-center gap-1.5 font-medium text-brand-600 hover:text-brand-700"
+                      className="inline-flex min-h-[2.75rem] items-center gap-1.5 font-medium text-brand-600 hover:text-brand-700"
                     >
                       <MapIcon className="h-4 w-4" />
                       Показать на карте
