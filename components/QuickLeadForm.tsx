@@ -1,9 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { TelegramIcon, WhatsAppIcon, CheckIcon } from "./icons";
 import { BUSINESS, MASTERS } from "@/lib/business";
+import {
+  clearSelectedAppliance,
+  getSelectedAppliance,
+  getSelectedApplianceOnServer,
+  subscribeToAppliance,
+} from "@/lib/appliance";
 
 // Через сколько мс тишины после ввода считаем номер «брошенным» и тихо
 // отправляем его сами — даже если клиент не нажал кнопку.
@@ -45,10 +57,10 @@ function digitsOf(phone: string): string {
 export default function QuickLeadForm({
   compact = false,
 }: {
-  // Сжатая версия для Hero: телефон и кнопка в один ряд, подпись поля
-  // и блок Telegram/WhatsApp скрыты — там своя кнопка на секцию с
-  // полной формой. Галочка согласия остаётся (без неё нельзя принять
-  // номер) и по-прежнему выше поля, просто мельче.
+  // Сжатая версия для первого экрана: телефон и кнопка в один ряд,
+  // подпись поля и блок Telegram/WhatsApp скрыты — мессенджеры есть
+  // ниже, в секции заявки. Галочка согласия остаётся (без неё нельзя
+  // принять номер) и по-прежнему выше поля, просто мельче.
   compact?: boolean;
 } = {}) {
   const [phone, setPhone] = useState("");
@@ -61,6 +73,15 @@ export default function QuickLeadForm({
   const [consent, setConsent] = useState(true);
   const [status, setStatus] = useState<Status>("idle");
   const [autoCaught, setAutoCaught] = useState(false);
+  // Техника из блока «Что сломалось?». Полем формы её не делаем —
+  // форма сознательно однополевая (см. PROJECT.md): приходит сама,
+  // если человек кликнул карточку, и её видно, чтобы он понимал, что
+  // уйдёт мастеру. Убрать можно крестиком.
+  const appliance = useSyncExternalStore(
+    subscribeToAppliance,
+    getSelectedAppliance,
+    getSelectedApplianceOnServer,
+  );
   const sentDigitsRef = useRef<string>("");
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -90,11 +111,20 @@ export default function QuickLeadForm({
 
     if (source === "click") setStatus("sending");
 
+    const selected = getSelectedAppliance();
+
     try {
       const response = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: digits, source, website: "" }),
+        body: JSON.stringify({
+          phone: digits,
+          source,
+          website: "",
+          // Читаем из стора, а не из замыкания: тихий автозахват
+          // стреляет из таймера и держал бы значение на момент ввода.
+          ...(selected ? { appliance: selected } : {}),
+        }),
       });
       const data = await response.json().catch(() => ({}));
 
@@ -104,6 +134,7 @@ export default function QuickLeadForm({
       }
 
       sentDigitsRef.current = digits;
+      clearSelectedAppliance();
       if (source === "click") {
         setStatus("sent");
       } else {
@@ -163,7 +194,9 @@ export default function QuickLeadForm({
         <div>
           <p className="font-semibold text-emerald-900">Заявка принята</p>
           <p className="mt-1 text-sm text-emerald-800">
-            Перезвоним в ближайшее время и уточним детали.
+            {appliance
+              ? `Передали мастеру: ${appliance.toLowerCase()}. Перезвоним в ближайшее время.`
+              : "Перезвоним в ближайшее время и уточним детали."}
           </p>
         </div>
       </div>
@@ -182,12 +215,34 @@ export default function QuickLeadForm({
         aria-hidden="true"
       />
 
+      {appliance && (
+        <div
+          className={`flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-sm ${
+            compact
+              ? "border border-line bg-mist-50 text-ink-700"
+              : "border border-brand-200 bg-brand-50 text-ink-700"
+          }`}
+        >
+          <span>
+            Техника: <span className="font-semibold text-ink-900">{appliance}</span>
+          </span>
+          <button
+            type="button"
+            onClick={clearSelectedAppliance}
+            aria-label="Убрать технику из заявки"
+            className="-my-2 -mr-1 inline-flex min-h-[2.75rem] shrink-0 items-center px-2 text-lg leading-none text-ink-400 transition-colors hover:text-ink-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       <div>
         <label
           htmlFor={consentId}
           className={
             compact
-              ? "flex cursor-pointer items-start gap-2 text-xs leading-relaxed text-white/75"
+              ? "flex cursor-pointer items-start gap-2 text-xs leading-relaxed text-ink-500"
               : "flex cursor-pointer items-start gap-2.5 text-xs leading-relaxed text-ink-500"
           }
         >
@@ -199,7 +254,7 @@ export default function QuickLeadForm({
             aria-describedby={status === "consent" ? consentErrorId : undefined}
             className={
               compact
-                ? "mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-white/40 bg-white/10 text-brand-500 accent-brand-500 focus:ring-2 focus:ring-white/40"
+                ? "mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-line text-brand-600 accent-brand-600 focus:ring-2 focus:ring-brand-500/40"
                 : "mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-line text-brand-600 accent-brand-600 focus:ring-2 focus:ring-brand-500/40"
             }
           />
@@ -209,7 +264,7 @@ export default function QuickLeadForm({
               href="/privacy"
               className={
                 compact
-                  ? "font-medium text-white underline underline-offset-2 hover:text-white/80"
+                  ? "font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700"
                   : "font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700"
               }
             >
@@ -221,11 +276,7 @@ export default function QuickLeadForm({
           <p
             id={consentErrorId}
             role="alert"
-            className={
-              compact
-                ? "mt-2 text-xs text-amber-300"
-                : "mt-2 text-xs text-red-600"
-            }
+            className="mt-2 text-xs text-red-600"
           >
             Отметьте согласие — без него мы не имеем права принять номер
           </p>
@@ -256,7 +307,7 @@ export default function QuickLeadForm({
             aria-describedby={status === "invalid" ? errorId : undefined}
             className={
               compact
-                ? "h-12 w-full rounded-xl border border-white/25 bg-white px-4 text-base text-ink-900 transition-colors placeholder:text-ink-400 focus:outline-none focus:ring-4 focus:ring-white/30"
+                ? "h-[52px] w-full rounded-[10px] border border-line bg-mist-50 px-4 text-base text-ink-900 transition-colors placeholder:text-ink-400 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/12"
                 : "h-12 w-full rounded-xl border border-line bg-mist-50 px-4 text-base text-ink-900 transition-colors placeholder:text-ink-400 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/12"
             }
           />
@@ -267,7 +318,7 @@ export default function QuickLeadForm({
           disabled={status === "sending"}
           className={
             compact
-              ? "btn-primary shadow-cta shrink-0 disabled:cursor-not-allowed disabled:opacity-60"
+              ? "btn-primary !min-h-[52px] !rounded-[10px] shrink-0 shadow-cta disabled:cursor-not-allowed disabled:opacity-60"
               : "btn-primary w-full shadow-cta disabled:cursor-not-allowed disabled:opacity-60"
           }
         >
@@ -279,7 +330,7 @@ export default function QuickLeadForm({
         <p
           id={errorId}
           role="alert"
-          className={compact ? "-mt-2 text-xs text-amber-300" : "-mt-2 text-xs text-red-600"}
+          className={"-mt-2 text-xs text-red-600"}
         >
           Введите номер полностью — 10 цифр после +7
         </p>
@@ -287,7 +338,7 @@ export default function QuickLeadForm({
       {autoCaught && status !== "invalid" && (
         <p
           className={
-            compact ? "-mt-2 text-xs text-emerald-300" : "-mt-2 text-xs text-emerald-700"
+            "-mt-2 text-xs text-emerald-700"
           }
         >
           ✓ Номер приняли, перезвоним

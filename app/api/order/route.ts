@@ -41,6 +41,12 @@ export async function POST(request: NextRequest) {
 
   const rawPhone = body.phone;
   const source = body.source === "auto" ? "auto" : "click";
+  // Техника приходит из блока «Что сломалось?» — необязательна.
+  // Длину режем: поле не пользовательский ввод, но приходит с клиента.
+  const appliance =
+    typeof body.appliance === "string" && body.appliance.trim().length > 0
+      ? body.appliance.trim().slice(0, 60)
+      : undefined;
 
   if (typeof rawPhone !== "string") {
     return NextResponse.json(
@@ -71,7 +77,7 @@ export async function POST(request: NextRequest) {
   lastSentByKey.set(key, now);
 
   try {
-    await sendTelegramMessage(buildOrderMessage({ phone, source }));
+    await sendTelegramMessage(buildOrderMessage({ phone, source, appliance }));
   } catch (error) {
     console.error("Ошибка отправки заявки в Telegram:", error);
     return NextResponse.json(

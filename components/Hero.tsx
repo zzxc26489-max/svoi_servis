@@ -1,15 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
 import {
-  ArrowRight,
   CurrencyRub,
   Phone,
   ShieldCheck,
   Star,
   Truck,
 } from "@phosphor-icons/react/dist/ssr";
-import { BUSINESS, MASTERS } from "@/lib/business";
+import { BUSINESS, MASTERS, pluralRu, RATING_FORMS } from "@/lib/business";
 import { withBasePath } from "@/lib/basePath";
+import QuickLeadForm from "./QuickLeadForm";
 
 const HERO_PHOTO = "/hero/dmitry-portrait.webp";
 const primaryPhone = MASTERS[0];
@@ -51,10 +50,15 @@ function RatingLine({ mobile = false }: { mobile?: boolean }) {
           />
         ))}
       </span>
-      <span className="font-bold text-ink-900">4,9</span>
+      <span className="font-bold text-ink-900">
+        {BUSINESS.rating.value.toString().replace(".", ",")}
+      </span>
       <span className="text-ink-500">на Яндекс Картах</span>
       <span className="h-4 w-px bg-line" />
-      <span className="text-ink-500">28 оценок</span>
+      <span className="text-ink-500">
+        {BUSINESS.rating.ratingsCount}{" "}
+        {pluralRu(BUSINESS.rating.ratingsCount, RATING_FORMS)}
+      </span>
     </a>
   );
 }
@@ -106,29 +110,28 @@ export default function Hero() {
             направлению — без колл-центра и ожидания на линии.
           </p>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <Link
-              href="/#order"
-              className="btn-primary !min-h-[58px] !rounded-[12px] !px-8 text-[17px]"
-            >
-              Вызвать мастера
-              <ArrowRight weight="bold" className="h-5 w-5" />
-            </Link>
-            <a
-              href={`tel:${primaryPhone.phoneHref}`}
-              className="inline-flex min-h-[58px] items-center gap-3 rounded-[12px] border border-line bg-white px-6 transition-colors hover:border-brand-300 hover:bg-brand-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-            >
-              <Phone weight="bold" className="h-5 w-5 text-brand-500" />
-              <span>
-                <span className="block text-[16px] font-bold tabular-nums leading-none text-ink-900">
-                  {primaryPhone.phoneDisplay}
-                </span>
-                <span className="mt-1.5 block text-[11px] text-ink-500">
-                  Звоните, поможем
-                </span>
-              </span>
-            </a>
+          {/* Форма прямо в первом экране, а не кнопка-переход к ней
+              ниже: заявка — единственное целевое действие страницы,
+              и лишний скролл до неё стоит части заявок. Телефон рядом
+              — для тех, кому проще позвонить. */}
+          <div className="mt-7 max-w-[560px]">
+            <QuickLeadForm compact />
           </div>
+
+          <a
+            href={`tel:${primaryPhone.phoneHref}`}
+            className="mt-4 inline-flex min-h-[52px] items-center gap-3 rounded-[12px] border border-line bg-white px-6 transition-colors hover:border-brand-300 hover:bg-brand-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+          >
+            <Phone weight="bold" className="h-5 w-5 text-brand-500" />
+            <span>
+              <span className="block text-[16px] font-bold tabular-nums leading-none text-ink-900">
+                {primaryPhone.phoneDisplay}
+              </span>
+              <span className="mt-1.5 block text-[11px] text-ink-500">
+                Или позвоните — ответим сразу
+              </span>
+            </span>
+          </a>
 
           <div className="mt-10 grid max-w-[620px] grid-cols-3 gap-5">
             {trustPoints.map((item) => (
@@ -177,14 +180,8 @@ export default function Hero() {
           />
         </div>
 
-        <div className="space-y-3 px-5 pb-8 pt-3 sm:px-7">
-          <Link
-            href="/#order"
-            className="btn-primary w-full !min-h-[54px] !rounded-[10px] text-[16px]"
-          >
-            Вызвать мастера
-            <ArrowRight weight="bold" className="h-5 w-5" />
-          </Link>
+        <div className="space-y-3 px-5 pb-8 pt-4 sm:px-7">
+          <QuickLeadForm compact />
           <a
             href={`tel:${primaryPhone.phoneHref}`}
             className="inline-flex min-h-[50px] w-full items-center justify-center gap-3 rounded-[10px] border border-line bg-white px-4 text-ink-900 transition-colors hover:bg-brand-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"

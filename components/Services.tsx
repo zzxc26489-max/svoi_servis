@@ -1,9 +1,17 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight } from "@phosphor-icons/react";
 import { withBasePath } from "@/lib/basePath";
+import { selectAppliance, type ApplianceName } from "@/lib/appliance";
 
-const services = [
+// title попадает в заявку как есть — см. lib/appliance.ts.
+const services: {
+  title: ApplianceName;
+  image: string;
+  alt: string;
+}[] = [
   {
     title: "Холодильник",
     image: "/services/fridge-premium.webp",
@@ -31,7 +39,7 @@ export default function Services() {
               Что сломалось?
             </h2>
             <p className="mt-1.5 text-[15px] text-ink-500 sm:text-[16px]">
-              Выберите технику — узнайте стоимость и вызовите мастера
+              Выберите технику — передадим мастеру вместе с заявкой
             </p>
           </div>
           <Link
@@ -43,7 +51,7 @@ export default function Services() {
           </Link>
         </div>
 
-        <ul className="-mx-5 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 scrollbar-none sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0 lg:mt-6 lg:gap-6">
+        <ul className="-mx-5 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0 lg:mt-6 lg:gap-6">
           {services.map((service) => (
             <li
               key={service.title}
@@ -51,6 +59,7 @@ export default function Services() {
             >
               <Link
                 href="/#order"
+                onClick={() => selectAppliance(service.title)}
                 className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-500"
               >
                 <div className="relative h-[160px] overflow-hidden bg-mist-50 sm:h-[180px] xl:h-[205px]">
