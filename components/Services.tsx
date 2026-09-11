@@ -1,142 +1,92 @@
-import type { ReactNode } from "react";
-import Carousel from "./Carousel";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { withBasePath } from "@/lib/basePath";
 
-// Простые line-иконки вместо эмодзи (эмодзи рендерятся по-разному на
-// разных ОС и не читаются скринридерами осмысленно — см. чек-лист
-// ui-ux-pro-max, категория "Style Selection").
-function FridgeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
-      <rect x="5" y="2" width="14" height="20" rx="2.5" stroke="currentColor" strokeWidth="1.75" />
-      <line x1="5" y1="9" x2="19" y2="9" stroke="currentColor" strokeWidth="1.75" />
-      <line x1="8" y1="5.5" x2="8" y2="7" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-      <line x1="8" y1="11.5" x2="8" y2="14" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function WashingMachineIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
-      <rect x="3" y="2" width="18" height="20" rx="2.5" stroke="currentColor" strokeWidth="1.75" />
-      <line x1="6" y1="5" x2="8" y2="5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-      <circle cx="12" cy="13.5" r="5.5" stroke="currentColor" strokeWidth="1.75" />
-      <path d="M9.5 13.5a2.5 2.5 0 0 1 5 -1.8" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function DishwasherIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
-      <rect x="3" y="2" width="18" height="20" rx="2.5" stroke="currentColor" strokeWidth="1.75" />
-      <line x1="3" y1="7" x2="21" y2="7" stroke="currentColor" strokeWidth="1.75" />
-      <circle cx="17.5" cy="4.5" r="0.9" fill="currentColor" />
-      <line x1="6" y1="11" x2="18" y2="11" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-      <line x1="6" y1="15" x2="18" y2="15" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-      <line x1="6" y1="19" x2="14" y2="19" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function AcUnitIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
-      <rect x="2" y="6" width="20" height="8" rx="2.5" stroke="currentColor" strokeWidth="1.75" />
-      <path d="M6 18l2.5 -4M12 18l1 -4M17 18l1.5 -4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function SmallApplianceIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
-      <path d="M6 10h12v5a4 4 0 0 1 -4 4H10a4 4 0 0 1 -4 -4v-5Z" stroke="currentColor" strokeWidth="1.75" />
-      <path d="M18 12h1.5a2 2 0 0 1 0 4H18" stroke="currentColor" strokeWidth="1.75" />
-      <path d="M9 3c0 1 -1 1 -1 2s1 1 1 2M13 3c0 1 -1 1 -1 2s1 1 1 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-type Service = {
-  icon: ReactNode;
-  title: string;
-  description: string;
-  highlight?: boolean;
-};
-
-const services: Service[] = [
+const services = [
   {
-    icon: <FridgeIcon />,
-    title: "Холодильники",
-    description:
-      "Не морозит, течёт, шумит, не выключается. Диагностика и ремонт компрессоров, термостатов, системы No Frost.",
-    highlight: true,
+    title: "Холодильник",
+    image: "/services/fridge-premium.webp",
+    alt: "Современный холодильник на светлой кухне",
   },
   {
-    icon: <WashingMachineIcon />,
-    title: "Стиральные машины",
-    description:
-      "Не сливает воду, не крутит барабан, течёт, выдаёт ошибку. Замена подшипников, насосов, электроники.",
-    highlight: true,
+    title: "Стиральная машина",
+    image: "/services/washer-premium.webp",
+    alt: "Современная стиральная машина в светлом интерьере",
   },
   {
-    icon: <DishwasherIcon />,
-    title: "Посудомоечные машины",
-    description:
-      "Не моет, не сушит, протекает, не набирает воду. Чистка, замена насосов и нагревательных элементов.",
-    highlight: true,
-  },
-  {
-    icon: <AcUnitIcon />,
-    title: "Кондиционеры",
-    description: "Заправка фреоном, чистка, ремонт сплит-систем.",
-  },
-  {
-    icon: <SmallApplianceIcon />,
-    title: "Кофемашины и мелкая техника",
-    description: "Кофемашины, микроволновки, пылесосы, водонагреватели и др.",
+    title: "Посудомоечная машина",
+    image: "/services/dishwasher-premium.webp",
+    alt: "Открытая посудомоечная машина с чистой посудой",
   },
 ];
 
 export default function Services() {
-  const items = services.map((service) => (
-    <li
-      key={service.title}
-      className={`w-[16rem] shrink-0 snap-start card-hover p-6 sm:w-[18rem] ${
-        service.highlight ? "border-brand-200 bg-brand-50" : ""
-      }`}
-    >
-      <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-100 to-brand-200 text-brand-700">
-        {service.icon}
-      </span>
-      <h3 className="mt-4 text-lg font-bold text-ink-900">
-        {service.title}
-      </h3>
-      <p className="mt-2 text-sm leading-relaxed text-ink-500">
-        {service.description}
-      </p>
-    </li>
-  ));
-
   return (
-    <section id="services" className="section bg-white">
+    <section id="services" className="border-t border-line bg-[#fbfbfc] py-8 sm:py-10 lg:py-9">
       <div className="container-x">
-        <p className="section-eyebrow">Услуги</p>
-        <h2 className="section-title">Какую технику мы ремонтируем</h2>
-        <p className="section-subtitle">
-          Основная специализация — холодильники, стиральные и посудомоечные
-          машины. Диагностика на месте, ремонт на дому или в мастерской.
-        </p>
-
-        <div className="mt-10">
-          <Carousel ariaLabel="Виды ремонтируемой техники" items={items} />
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <h2 className="font-display text-[2rem] font-extrabold leading-tight tracking-[-0.035em] text-ink-900 sm:text-[2.35rem]">
+              Что сломалось?
+            </h2>
+            <p className="mt-1.5 text-[15px] text-ink-500 sm:text-[16px]">
+              Выберите технику — узнайте стоимость и вызовите мастера
+            </p>
+          </div>
+          <Link
+            href="/#prices"
+            className="hidden shrink-0 items-center gap-2 rounded-lg text-sm font-semibold text-ink-700 transition-colors hover:text-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 sm:inline-flex"
+          >
+            Все услуги
+            <ArrowRight weight="bold" className="h-4 w-4" />
+          </Link>
         </div>
 
-        <p className="mt-6 text-sm text-ink-400">
-          Не нашли свою технику в списке? Оставьте заявку — подскажем, сможем
-          ли помочь.
-        </p>
+        <ul className="-mx-5 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 scrollbar-none sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0 lg:mt-6 lg:gap-6">
+          {services.map((service) => (
+            <li
+              key={service.title}
+              className="w-[84vw] max-w-[390px] shrink-0 snap-start overflow-hidden rounded-[12px] border border-line bg-white transition-all duration-200 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift sm:w-auto sm:max-w-none"
+            >
+              <Link
+                href="/#order"
+                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-500"
+              >
+                <div className="relative h-[160px] overflow-hidden bg-mist-50 sm:h-[180px] xl:h-[205px]">
+                  <Image
+                    src={withBasePath(service.image)}
+                    alt={service.alt}
+                    fill
+                    sizes="(max-width: 639px) 84vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                  />
+                </div>
+                <div className="flex min-h-[72px] items-center justify-between gap-4 px-5 py-3.5">
+                  <div>
+                    <h3 className="font-display text-[17px] font-bold leading-tight text-ink-900 sm:text-[18px]">
+                      {service.title}
+                    </h3>
+                    <p className="mt-1 text-[13px] text-ink-500">
+                      Диагностика от 500 ₽
+                    </p>
+                  </div>
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mist-100 text-ink-700 transition-colors group-hover:bg-brand-500 group-hover:text-white">
+                    <ArrowRight weight="bold" className="h-4 w-4" />
+                  </span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <Link
+          href="/#prices"
+          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ink-700 sm:hidden"
+        >
+          Все услуги
+          <ArrowRight weight="bold" className="h-4 w-4" />
+        </Link>
       </div>
     </section>
   );

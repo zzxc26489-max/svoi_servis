@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { buildLocalBusinessSchema } from "@/lib/structuredData";
-import PreviewBanner from "@/components/PreviewBanner";
 import BackToTopButton from "@/components/BackToTopButton";
 
 // next/font самостоятельно хостит шрифты — нет внешних запросов
@@ -68,7 +67,7 @@ export const metadata: Metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0f1f4d",
+  themeColor: "#ff5a0a",
 };
 
 export default function RootLayout({
@@ -85,7 +84,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
-        <PreviewBanner />
         {children}
         <BackToTopButton />
       </body>

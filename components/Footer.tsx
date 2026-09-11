@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BUSINESS, MASTERS, joinRu } from "@/lib/business";
-import Logo from "./Logo";
+import BrandMark from "./BrandMark";
 import { TelegramIcon, WhatsAppIcon, MapIcon, PhoneIcon } from "./icons";
 
 export default function Footer() {
@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2.5">
-              <Logo size={36} />
+              <BrandMark className="h-9 w-9" />
               <span className="font-display text-lg font-bold text-white">
                 Свой Сервис
               </span>

@@ -22,6 +22,7 @@ html {
 body {
   @apply bg-white text-ink-700 antialiased;
   font-feature-settings: "cv02", "cv03", "cv04";
+  overflow-x: hidden;
 }
 
 /* Заголовки — Manrope (геометричный, уверенный), текст — Inter. */
@@ -35,7 +36,8 @@ h4 {
 }
 
 .container-x {
-  @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+  @apply mx-auto w-full px-5 sm:px-6 lg:px-10;
+  max-width: 1440px;
 }
 
 /* Тонкое зерно на тёмных секциях (Hero, «Почему нам доверяют», CTA-полоса,
@@ -46,17 +48,6 @@ h4 {
   isolation: isolate;
 }
 
-.dark-texture::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 /* ---------- Кнопки ---------- */
 .btn {
   @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl px-6 text-base font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
@@ -65,12 +56,11 @@ h4 {
 }
 
 .btn-primary {
-  @apply btn text-white hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-accent;
-  background-image: linear-gradient(180deg, #f2740f, #ea580c 60%, #d24a06);
+  @apply btn bg-brand-500 text-white shadow-cta hover:-translate-y-0.5 hover:bg-brand-600 active:translate-y-0 focus-visible:ring-brand-500;
 }
 
 .btn-primary:hover {
-  background-image: linear-gradient(180deg, #f2740f, #d24a06);
+  background-image: none;
 }
 
 .btn-secondary {
