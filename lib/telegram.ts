@@ -2,10 +2,6 @@ export type LeadSource = "click" | "auto";
 
 export type OrderPayload = {
   phone: string;
-  /** Что сломалось — если человек выбрал технику в блоке «Что
-      сломалось?». Заполняется не всегда: форма однополевая, и заявка
-      с одним номером остаётся полноценной заявкой. */
-  appliance?: string;
   // "click" — клиент явно нажал кнопку «Жду звонка».
   // "auto" — клиент ввёл номер полностью, но кнопку не нажал (тихий
   // захват «брошенного» ввода — см. QuickLeadForm).
@@ -29,9 +25,6 @@ export function buildOrderMessage(order: OrderPayload): string {
     "🛠 <b>Новая заявка с сайта</b>",
     "",
     `📞 <b>Телефон:</b> ${escapeHtml(order.phone)}`,
-    ...(order.appliance
-      ? [`🔧 <b>Техника:</b> ${escapeHtml(order.appliance)}`]
-      : []),
     sourceLine,
   ].join("\n");
 }

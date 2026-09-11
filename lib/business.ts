@@ -540,6 +540,61 @@ export const PRICES: PriceGroup[] = [
   },
 ];
 
+export type ApplianceGroup = {
+  title: string;
+  /** Ключ иконки — сопоставляется в Services.tsx. */
+  icon: "fridge" | "washer" | "dishwasher" | "dryer" | "coffee" | "air";
+  brands: string[];
+  /** Своё направление или «уточним после заявки» — на сайте про
+      партнёров не пишем (см. PROJECT.md, «Бизнес-модель»). */
+  note?: string;
+};
+
+// Витрина «Что чиним»: техника + ходовые марки. Никаких переходов и
+// выбора — человек проверяет глазами, что его марку берут, а что
+// именно сломалось, спрашиваем по телефону: это 5 секунд разговора
+// против непонятной анкеты на незнакомом сайте.
+//
+// Марки Samsung, Bosch, Siemens и Liebherr подтверждены реальными
+// фото работ и отзывами (см. WORKS и REVIEWS ниже), LG назван
+// владельцем. Остальные — черновик, владельцу нужно вычитать.
+// Хвост «и другие марки» обязателен: список ходовых марок никогда не
+// полон, а отказывать пришедшему по нему клиенту нельзя.
+export const APPLIANCES: ApplianceGroup[] = [
+  {
+    title: "Холодильники",
+    icon: "fridge",
+    brands: ["Samsung", "LG", "Bosch", "Liebherr", "Atlant"],
+  },
+  {
+    title: "Стиральные машины",
+    icon: "washer",
+    brands: ["Samsung", "LG", "Bosch", "Siemens", "Indesit"],
+  },
+  {
+    title: "Посудомоечные машины",
+    icon: "dishwasher",
+    brands: ["Bosch", "Siemens", "Electrolux", "Hansa", "Beko"],
+  },
+  {
+    title: "Сушильные машины",
+    icon: "dryer",
+    brands: ["Bosch", "Samsung", "LG", "Electrolux", "Candy"],
+  },
+  {
+    title: "Кофемашины",
+    icon: "coffee",
+    brands: ["DeLonghi", "Philips", "Saeco", "Krups", "Bosch"],
+    note: "Уточним после заявки",
+  },
+  {
+    title: "Кондиционеры",
+    icon: "air",
+    brands: ["Samsung", "LG", "Ballu", "Electrolux", "Haier"],
+    note: "Уточним после заявки",
+  },
+];
+
 export type QaItem = {
   question: string;
   answer: string;

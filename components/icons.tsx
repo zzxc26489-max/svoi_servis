@@ -176,6 +176,72 @@ export function CloseIcon({ className }: IconProps) {
   );
 }
 
+// --- Техника, которую ремонтируем (секция «Что чиним») ---
+
+export function FridgeIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <rect x="5" y="2.5" width="14" height="19" rx="2.5" />
+      <path d="M5 9.5h14" />
+      <path d="M8.5 5.5v2M8.5 12.5v3" />
+    </Svg>
+  );
+}
+
+export function WasherIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <rect x="3.5" y="2.5" width="17" height="19" rx="2.5" />
+      <circle cx="12" cy="14" r="4.5" />
+      <path d="M9.5 14a2.5 2.5 0 0 1 5 0" />
+      <path d="M7 6h.01M10 6h.01" />
+    </Svg>
+  );
+}
+
+export function DishwasherIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <rect x="3.5" y="2.5" width="17" height="19" rx="2.5" />
+      <path d="M3.5 7h17" />
+      <path d="M12 10.5v2M9 12.5v2M15 12.5v2" />
+      <path d="M7.5 17.5h9" />
+    </Svg>
+  );
+}
+
+export function DryerIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <rect x="3.5" y="2.5" width="17" height="19" rx="2.5" />
+      <circle cx="12" cy="14" r="4.5" />
+      <path d="M10 12.5c1.5 1 2.5 2 2 3M13.5 12.5c.8 1.5.3 2.5-.5 3" />
+      <path d="M7 6h.01M10 6h.01" />
+    </Svg>
+  );
+}
+
+export function CoffeeMachineIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <rect x="4" y="2.5" width="16" height="19" rx="2.5" />
+      <path d="M4 8h16" />
+      <path d="M9 11.5h6" />
+      <path d="M10 14.5h4l-.6 3h-2.8z" />
+    </Svg>
+  );
+}
+
+export function AirConditionerIcon({ className }: IconProps) {
+  return (
+    <Svg className={className}>
+      <rect x="2.5" y="4" width="19" height="8" rx="2" />
+      <path d="M6 8.5h12" />
+      <path d="M8 15c0 1.5 1 1.5 1 3M12 15c0 1.5 1 1.5 1 3M16 15c0 1.5 1 1.5 1 3" />
+    </Svg>
+  );
+}
+
 export function CheckIcon({ className }: IconProps) {
   return (
     <Svg className={className}>

@@ -1,21 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import {
-  useEffect,
-  useId,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { TelegramIcon, WhatsAppIcon, CheckIcon } from "./icons";
 import { BUSINESS, MASTERS } from "@/lib/business";
-import {
-  clearSelectedAppliance,
-  getSelectedAppliance,
-  getSelectedApplianceOnServer,
-  subscribeToAppliance,
-} from "@/lib/appliance";
 
 // Через сколько мс тишины после ввода считаем номер «брошенным» и тихо
 // отправляем его сами — даже если клиент не нажал кнопку.
@@ -73,15 +61,6 @@ export default function QuickLeadForm({
   const [consent, setConsent] = useState(true);
   const [status, setStatus] = useState<Status>("idle");
   const [autoCaught, setAutoCaught] = useState(false);
-  // Техника из блока «Что сломалось?». Полем формы её не делаем —
-  // форма сознательно однополевая (см. PROJECT.md): приходит сама,
-  // если человек кликнул карточку, и её видно, чтобы он понимал, что
-  // уйдёт мастеру. Убрать можно крестиком.
-  const appliance = useSyncExternalStore(
-    subscribeToAppliance,
-    getSelectedAppliance,
-    getSelectedApplianceOnServer,
-  );
   const sentDigitsRef = useRef<string>("");
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -111,20 +90,11 @@ export default function QuickLeadForm({
 
     if (source === "click") setStatus("sending");
 
-    const selected = getSelectedAppliance();
-
     try {
       const response = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          phone: digits,
-          source,
-          website: "",
-          // Читаем из стора, а не из замыкания: тихий автозахват
-          // стреляет из таймера и держал бы значение на момент ввода.
-          ...(selected ? { appliance: selected } : {}),
-        }),
+        body: JSON.stringify({ phone: digits, source, website: "" }),
       });
       const data = await response.json().catch(() => ({}));
 
@@ -134,7 +104,6 @@ export default function QuickLeadForm({
       }
 
       sentDigitsRef.current = digits;
-      clearSelectedAppliance();
       if (source === "click") {
         setStatus("sent");
       } else {
@@ -194,9 +163,7 @@ export default function QuickLeadForm({
         <div>
           <p className="font-semibold text-emerald-900">Заявка принята</p>
           <p className="mt-1 text-sm text-emerald-800">
-            {appliance
-              ? `Передали мастеру: ${appliance.toLowerCase()}. Перезвоним в ближайшее время.`
-              : "Перезвоним в ближайшее время и уточним детали."}
+            Перезвоним в ближайшее время и уточним детали.
           </p>
         </div>
       </div>
@@ -215,27 +182,6 @@ export default function QuickLeadForm({
         aria-hidden="true"
       />
 
-      {appliance && (
-        <div
-          className={`flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-sm ${
-            compact
-              ? "border border-line bg-mist-50 text-ink-700"
-              : "border border-brand-200 bg-brand-50 text-ink-700"
-          }`}
-        >
-          <span>
-            Техника: <span className="font-semibold text-ink-900">{appliance}</span>
-          </span>
-          <button
-            type="button"
-            onClick={clearSelectedAppliance}
-            aria-label="Убрать технику из заявки"
-            className="-my-2 -mr-1 inline-flex min-h-[2.75rem] shrink-0 items-center px-2 text-lg leading-none text-ink-400 transition-colors hover:text-ink-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-          >
-            ×
-          </button>
-        </div>
-      )}
 
       <div>
         <label
