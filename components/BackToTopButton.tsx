@@ -9,10 +9,10 @@ const SHOW_AFTER_PX = 600;
 
 export default function BackToTopButton() {
   const [scrolled, setScrolled] = useState(false);
-  // Секции с формой заявки: пока одна из них на экране, кнопку
-  // убираем — она круглая и висит поверх, а перекрывала собой кнопки
-  // «Telegram»/«WhatsApp» прямо в форме. Тот же приём и по тем же
-  // секциям, что и в StickyCallBar.
+  // Секции, над которыми кнопку прячем: она круглая, висит поверх и
+  // садится на то, по чему человек как раз собирался нажать — кнопки
+  // «Telegram»/«WhatsApp» в форме, ссылку под вопросами. По формам
+  // тот же приём и те же секции, что и в StickyCallBar.
   const [overForm, setOverForm] = useState(false);
 
   useEffect(() => {
@@ -25,7 +25,9 @@ export default function BackToTopButton() {
   }, []);
 
   useEffect(() => {
-    const targets = ["top", "order"]
+    // faq — последняя секция перед подвалом, и в ней своя ссылка
+    // в правом нижнем углу: круглая кнопка садилась прямо на неё.
+    const targets = ["top", "order", "faq"]
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
     if (targets.length === 0) return;

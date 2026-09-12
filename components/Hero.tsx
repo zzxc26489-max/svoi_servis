@@ -9,6 +9,7 @@ import {
 import { BUSINESS, MASTERS, pluralRu, RATING_FORMS } from "@/lib/business";
 import { withBasePath } from "@/lib/basePath";
 import QuickLeadForm from "./QuickLeadForm";
+import WorkStatus from "./WorkStatus";
 
 const HERO_PHOTO = "/hero/dmitry-portrait.webp";
 const primaryPhone = MASTERS[0];
@@ -21,8 +22,8 @@ const trustPoints = [
   },
   {
     icon: CurrencyRub,
-    title: "Диагностика от 500 ₽",
-    text: "Цена ремонта — до начала работ",
+    title: "Выезд и диагностика — бесплатно",
+    text: "При ремонте. Откажетесь — от 500 ₽",
   },
   {
     icon: ShieldCheck,
@@ -94,7 +95,10 @@ export default function Hero() {
     <section id="top" className="bg-white">
       <div className="hidden min-h-[620px] grid-cols-[48%_52%] lg:grid">
         <div className="flex min-w-0 flex-col justify-center px-10 py-10 xl:px-[max(40px,calc((100vw-1440px)/2+40px))] xl:pr-12">
-          <RatingLine />
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <RatingLine />
+            <WorkStatus tone="light" />
+          </div>
 
           <h1 className="mt-7 max-w-[620px] font-display text-[clamp(3rem,4.2vw,4.25rem)] font-extrabold leading-[1.02] tracking-[-0.055em] text-ink-900">
             Ремонт техники
@@ -155,6 +159,9 @@ export default function Hero() {
       <div className="lg:hidden">
         <div className="px-5 pb-5 pt-4 sm:px-7">
           <RatingLine mobile />
+          <div className="mt-3">
+            <WorkStatus tone="light" />
+          </div>
           <h1 className="mt-5 font-display text-[clamp(2.05rem,9.5vw,3rem)] font-extrabold leading-[1.03] tracking-[-0.052em] text-ink-900">
             Ремонт техники
             <br />
