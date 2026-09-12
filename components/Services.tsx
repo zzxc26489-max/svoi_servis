@@ -1,6 +1,7 @@
-import { APPLIANCES } from "@/lib/business";
+import { APPLIANCES, getMastersByPerson } from "@/lib/business";
 import {
   AirConditionerIcon,
+  PhoneIcon,
   CoffeeMachineIcon,
   DishwasherIcon,
   DryerIcon,
@@ -74,6 +75,36 @@ export default function Services() {
             );
           })}
         </ul>
+
+        {/* Телефоны прямо здесь, а не только в контактах семью экранами
+            ниже: человек только что убедился, что его технику берут —
+            это и есть момент, когда он готов звонить. Двое мастеров,
+            у Андрея два номера по направлениям. */}
+        <div className="mt-6 rounded-[12px] border border-line bg-white p-5 sm:mt-7">
+          <p className="text-[15px] font-semibold text-ink-900">
+            Звоните мастеру напрямую — без колл-центра
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-x-8 gap-y-3">
+            {getMastersByPerson().flatMap((person) =>
+              person.lines.map((line) => (
+                <li key={line.phoneHref}>
+                  <a
+                    href={`tel:${line.phoneHref}`}
+                    className="group block rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                  >
+                    <span className="block text-[12px] text-ink-500">
+                      {person.name} · {line.specialty.toLowerCase()}
+                    </span>
+                    <span className="mt-0.5 flex items-center gap-1.5 whitespace-nowrap text-[15px] font-bold tabular-nums text-ink-900 transition-colors group-hover:text-brand-600">
+                      <PhoneIcon className="h-4 w-4 shrink-0 text-brand-500" />
+                      {line.phoneDisplay}
+                    </span>
+                  </a>
+                </li>
+              )),
+            )}
+          </ul>
+        </div>
       </div>
     </section>
   );

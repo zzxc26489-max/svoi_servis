@@ -84,6 +84,10 @@ export const BUSINESS = {
     // «От» — не кокетство: срок зависит от вида ремонта, точный
     // мастер называет в документах. Меньше 6 месяцев не бывает.
     full: "От 6 месяцев на работы и установленные запчасти. Точный срок зависит от вида ремонта — мастер укажет его в документах.",
+    // Подтверждено владельцем: если взялись и не починили — деньги
+    // возвращаем. Сильнее любой формулировки про качество, потому что
+    // переносит риск с клиента на сервис.
+    refund: "Не смогли починить — вернём деньги.",
   },
 } as const;
 
@@ -539,6 +543,27 @@ export const PRICES: PriceGroup[] = [
     ],
   },
 ];
+
+/** Мастера, сгруппированные по людям: MASTERS хранит записи по
+    направлениям (чтобы клиент звонил сразу нужному номеру), но людей
+    двое — у Андрея два номера, под стиральные и посудомоечные машины.
+    Три карточки подряд читались как три разных мастера, причём два из
+    них — «Андрей». Порядок людей и направлений сохраняем как в
+    MASTERS. */
+export type MasterPerson = {
+  name: string;
+  lines: Master[];
+};
+
+export function getMastersByPerson(): MasterPerson[] {
+  const people: MasterPerson[] = [];
+  for (const master of MASTERS) {
+    const existing = people.find((person) => person.name === master.name);
+    if (existing) existing.lines.push(master);
+    else people.push({ name: master.name, lines: [master] });
+  }
+  return people;
+}
 
 export type ApplianceGroup = {
   title: string;

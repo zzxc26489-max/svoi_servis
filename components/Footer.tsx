@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BUSINESS, MASTERS, joinRu } from "@/lib/business";
+import { BUSINESS, getMastersByPerson, joinRu } from "@/lib/business";
 import BrandMark from "./BrandMark";
 import { TelegramIcon, WhatsAppIcon, MapIcon, PhoneIcon } from "./icons";
 
@@ -31,21 +31,30 @@ export default function Footer() {
 
           <div>
             <h2 className="text-sm font-semibold text-white">Телефоны мастеров</h2>
-            <ul className="mt-2 space-y-1 text-sm">
-              {MASTERS.map((master) => (
-                <li key={`${master.name}-${master.specialty}`}>
-                  <a
-                    href={`tel:${master.phoneHref}`}
-                    className="group flex min-h-[2.75rem] items-center gap-2 transition-colors hover:text-white"
-                  >
-                    <PhoneIcon className="h-4 w-4 shrink-0 opacity-60" />
-                    <span className="whitespace-nowrap tabular-nums">
-                      {master.phoneDisplay}
-                    </span>
-                  </a>
-                  <span className="ml-6 text-xs text-brand-100/45">
-                    {master.specialty} · {master.name}
+            {/* Группируем по людям: мастеров двое, у Андрея два
+                номера. Списком по направлениям выходило три строки и
+                читалось как три мастера. */}
+            <ul className="mt-2 space-y-3 text-sm">
+              {getMastersByPerson().map((person) => (
+                <li key={person.name}>
+                  <span className="text-xs text-brand-100/45">
+                    {person.name}
                   </span>
+                  {person.lines.map((line) => (
+                    <a
+                      key={line.phoneHref}
+                      href={`tel:${line.phoneHref}`}
+                      className="group flex min-h-[2.75rem] items-center gap-2 transition-colors hover:text-white"
+                    >
+                      <PhoneIcon className="h-4 w-4 shrink-0 opacity-60" />
+                      <span className="whitespace-nowrap tabular-nums">
+                        {line.phoneDisplay}
+                      </span>
+                      <span className="text-xs text-brand-100/45">
+                        {line.specialty}
+                      </span>
+                    </a>
+                  ))}
                 </li>
               ))}
             </ul>
